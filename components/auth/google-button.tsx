@@ -1,18 +1,16 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
-
 import { Button } from "../ui/button"
-import { useRouter } from "next/navigation"
 import { useToast } from "../ui/use-toast"
 
 export const GoogleSignInButton = () => {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
-
 
   const handleGoogleSignIn = async () => {
     setLoading(true)

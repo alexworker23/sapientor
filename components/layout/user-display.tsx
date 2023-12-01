@@ -1,12 +1,12 @@
+// import { FeedbackModal } from "./feedback-modal"
+// import { HelpModal } from "./help-modal"
+import { LogOutButton } from "../auth/log-out-button"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
-// import { FeedbackModal } from "./feedback-modal"
-// import { HelpModal } from "./help-modal"
-import { LogOutButton } from "../auth/log-out-button"
 
 interface Props {
   user: any
@@ -25,7 +25,7 @@ export const UserDisplay = ({ user }: Props) => {
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer transition-opacity hover:opacity-60">
           <AvatarImage src={user.image ?? ""} />
-          <AvatarFallback>{fallback || 'U'}</AvatarFallback>
+          <AvatarFallback>{fallback || "U"}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

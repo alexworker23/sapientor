@@ -1,4 +1,3 @@
-// @ts-ignore
 import { cache } from "react"
 import { cookies } from "next/headers"
 import { NextResponse, type NextRequest } from "next/server"

@@ -1,14 +1,14 @@
 "use client"
 
 import { FormEventHandler, useState } from "react"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Loader2 } from "lucide-react"
 
-import { useToast } from "../ui/use-toast"
+import { Database } from "@/lib/database.types"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { Database } from "@/lib/database.types"
+import { useToast } from "../ui/use-toast"
 
 interface Props {
   setIsEmailSent: (value: boolean) => void
