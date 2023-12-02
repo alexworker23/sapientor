@@ -1,3 +1,10 @@
+"use client"
+
+import { useState } from "react"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { Loader2 } from "lucide-react"
+
+import type { Database } from "@/lib/database.types"
 import { urlRegex } from "@/lib/utils"
 
 import { Button } from "../ui/button"
@@ -7,25 +14,66 @@ interface Props {
   link: string
   estimate: string | null
   loading: boolean
+  onSuccess: () => void
 }
 
-export const ParseBlock = ({ link, estimate, loading }: Props) => {
+export const ParseBlock = ({ link, estimate, loading, onSuccess }: Props) => {
+  const [saving, setSaving] = useState(false)
+  const [errorText, setErrorText] = useState<string | null>(null)
+
   const isValid = urlRegex.test(link)
 
   if (loading) return <ComponentSkeleton />
 
   if (!link || !estimate) return null
 
+  const supabase = createClientComponentClient<Database>()
+
+  const handleSave = async () => {
+    try {
+      errorText && setErrorText(null)
+      setSaving(true)
+
+      const { data: createdEntity, error: creationError } = await supabase
+        .from("links")
+        .insert({
+          url: link,
+          estimate,
+          status: "parsing",
+        })
+        .select("*")
+        .single()
+
+      if (creationError) throw new Error(creationError.message)
+      if (!createdEntity) throw new Error("Error while saving link")
+
+      onSuccess()
+    } catch (error) {
+      console.error(error)
+      setErrorText((error as Error).message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
-    <div className="flex w-full justify-between">
-      <div>
-        <p className="text-xs">Time to parse:</p>
-        <p>{estimate}</p>
+    <>
+      <div className="flex w-full justify-between">
+        <div>
+          <p className="text-xs">Time to parse:</p>
+          <p>{estimate}</p>
+        </div>
+        <Button
+          onClick={handleSave}
+          disabled={!isValid || saving}
+          className="w-[140px] transition-all gap-1"
+        >
+          {saving && <Loader2 size={16} className="animate-spin" />}
+          {errorText ? "Retry" : "Parse & Save"}
+        </Button>
       </div>
-      <Button disabled={!isValid} className="w-[140px] transition-all">
-        Save link
-      </Button>
-    </div>
+      {errorText && <p className="text-red-500 text-xs">{errorText}</p>}
+    </>
   )
 }
 

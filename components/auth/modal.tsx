@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { MailCheck } from "lucide-react"
 import Balancer from "react-wrap-balancer"
 
 import { Button } from "../ui/button"
@@ -36,11 +37,16 @@ export const AuthModal = () => {
           </DialogDescription>
         </DialogHeader>
         {isEmailSent ? (
-          <div>
-            <p>
+          <div className="flex flex-col items-center">
+            <MailCheck
+              size={40}
+              className="text-green-600 mb-2"
+              strokeWidth={1.5}
+            />
+            <p className="text-center text-xl">
               <Balancer>
-                We sent you an email with a login link. Be sure to check your
-                spam too.
+                We have sent you an email with a login link. Be sure to check
+                your spam too.
               </Balancer>
             </p>
           </div>

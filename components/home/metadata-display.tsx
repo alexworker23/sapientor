@@ -1,13 +1,11 @@
+import type { LinkMetadata } from "@/lib/types"
+
 import { Avatar, AvatarImage } from "../ui/avatar"
 import { Card, CardDescription, CardTitle } from "../ui/card"
 import { Skeleton } from "../ui/skeleton"
 
 interface Props {
-  metadata: {
-    title: string
-    description: string
-    favicon: string
-  } | null
+  metadata: LinkMetadata | null
   loading: boolean
 }
 
@@ -18,7 +16,7 @@ export const MetadataDisplay = ({ metadata, loading }: Props) => {
 
   return (
     <Card className="flex p-4 items-start space-x-4 max-w-full overflow-hidden">
-      <div className="flex items-center space-x-2 flex-shrink-0">
+      <div className="flex items-center space-x-2 flex-shrink-0 mt-1">
         <Avatar className="w-6 h-6">
           <AvatarImage src={metadata.favicon} />
         </Avatar>

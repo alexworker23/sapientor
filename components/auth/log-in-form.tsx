@@ -73,13 +73,18 @@ export const LogInForm = ({ setIsEmailSent }: Props) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-start gap-2.5 sm:flex-row sm:px-10"
+      className="flex flex-col items-start sm:flex-row sm:px-10 relative"
     >
-      <Input name="email" placeholder="email@example.com" type="text" />
+      <Input
+        name="email"
+        placeholder="email@example.com"
+        type="text"
+        className="w-full"
+      />
       <Button
         disabled={isLoading}
         type="submit"
-        className="mx-auto w-40 gap-1 sm:mx-0 sm:w-32"
+        className="gap-1 rounded-l-none absolute right-10 w-24 top-0"
       >
         {isLoading && <Loader2 className="animate-spin" size={16} />}
         Log in
