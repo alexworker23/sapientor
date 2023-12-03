@@ -1,4 +1,5 @@
 import type { LinkMetadata } from "@/lib/types"
+import { decodeHtmlEntities } from "@/lib/utils"
 
 import { Avatar, AvatarImage } from "../ui/avatar"
 import { Card, CardDescription, CardTitle } from "../ui/card"
@@ -43,21 +44,4 @@ const MetadataDisplaySkeleton = () => {
       </div>
     </Card>
   )
-}
-
-function decodeHtmlEntities(text: string): string {
-  // Create an element to use as a decoder.
-  const textArea = document.createElement("textarea")
-
-  // Function to replace each entity with the actual character.
-  const decodeEntity = (match: string): string => {
-    textArea.innerHTML = match
-    return textArea.value
-  }
-
-  // Regular expression to match HTML entities.
-  const entityPattern = /&#(\d+);|&#[xX]([A-Fa-f0-9]+);|&(\w+);/g
-
-  // Replace all entities in the text.
-  return text.replace(entityPattern, decodeEntity)
 }

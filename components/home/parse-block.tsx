@@ -5,6 +5,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Loader2 } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
+import type { LinkMetadata } from "@/lib/types"
 import { urlRegex } from "@/lib/utils"
 
 import { Button } from "../ui/button"
@@ -13,11 +14,18 @@ import { Skeleton } from "../ui/skeleton"
 interface Props {
   link: string
   estimate: string | null
+  metadata: LinkMetadata | null
   loading: boolean
   onSuccess: () => void
 }
 
-export const ParseBlock = ({ link, estimate, loading, onSuccess }: Props) => {
+export const ParseBlock = ({
+  link,
+  estimate,
+  metadata,
+  loading,
+  onSuccess,
+}: Props) => {
   const [saving, setSaving] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
 
@@ -40,6 +48,9 @@ export const ParseBlock = ({ link, estimate, loading, onSuccess }: Props) => {
           url: link,
           estimate,
           status: "parsing",
+          title: metadata?.title,
+          description: metadata?.description,
+          favicon: metadata?.favicon,
         })
         .select("*")
         .single()

@@ -5,12 +5,12 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "@/lib/database.types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LinkForm } from "@/components/home/link-form"
-import { Header } from "@/components/layout/header"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
   return createServerComponentClient<Database>({ cookies: () => cookieStore })
 })
+
 export default async function Home() {
   const supabase = createServerSupabaseClient()
   const {
@@ -18,7 +18,6 @@ export default async function Home() {
   } = await supabase.auth.getUser()
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-16">
-      <Header />
       {!user && (
         <h1 className="text-3xl">Welcome to your Personal Assistant!</h1>
       )}

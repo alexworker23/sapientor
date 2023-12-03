@@ -115,6 +115,7 @@ export const LinkForm = () => {
       <ParseBlock
         link={link}
         estimate={estimate}
+        metadata={linkMetadata}
         loading={estimateLoading}
         onSuccess={handleSuccess}
       />

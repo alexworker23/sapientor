@@ -12,30 +12,39 @@ export interface Database {
       links: {
         Row: {
           created_at: string
+          description: string | null
           estimate: string
-          id: number
+          favicon: string | null
+          id: string
           reason: string | null
           status: string
+          title: string | null
           updated_at: string | null
           url: string
           user_id: string
         }
         Insert: {
           created_at?: string
+          description?: string | null
           estimate: string
-          id?: number
+          favicon?: string | null
+          id?: string
           reason?: string | null
           status: string
+          title?: string | null
           updated_at?: string | null
           url: string
           user_id?: string
         }
         Update: {
           created_at?: string
+          description?: string | null
           estimate?: string
-          id?: number
+          favicon?: string | null
+          id?: string
           reason?: string | null
           status?: string
+          title?: string | null
           updated_at?: string | null
           url?: string
           user_id?: string

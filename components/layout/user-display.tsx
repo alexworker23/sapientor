@@ -1,10 +1,14 @@
 // import { FeedbackModal } from "./feedback-modal"
 // import { HelpModal } from "./help-modal"
+import Link from "next/link"
+import { LinkIcon } from "lucide-react"
+
 import { LogOutButton } from "../auth/log-out-button"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 
@@ -29,6 +33,12 @@ export const UserDisplay = ({ user }: Props) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <Link href="/links">
+          <DropdownMenuItem className="flex justify-between">
+            <span>Links</span>
+            <LinkIcon size={16} className="ml-2" />
+          </DropdownMenuItem>
+        </Link>
         {/* <HelpModal /> */}
         {/* <FeedbackModal /> */}
         <LogOutButton />
