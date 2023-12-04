@@ -4,6 +4,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import { Database } from "@/lib/database.types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Chat from "@/components/home/chat"
 import { LinkForm } from "@/components/home/link-form"
 
 const createServerSupabaseClient = cache(() => {
@@ -41,8 +42,7 @@ export default async function Home() {
               Here at the top should be an ability to select a bot user will be communicating with.
               These should be round avatars with images. 
             */}
-            {/* Below should be the chat window */}
-            Chat here.
+            <Chat />
           </TabsContent>
         </Tabs>
       )}
