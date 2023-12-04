@@ -61,48 +61,30 @@ export interface Database {
       }
       summaries: {
         Row: {
-          content: string | null
+          content: string
           created_at: string | null
-          embedding: string | null
+          embedding: string
           id: string
-          link_id: string | null
+          metadata: Json
           updated_at: string | null
-          user_id: string
         }
         Insert: {
-          content?: string | null
+          content: string
           created_at?: string | null
-          embedding?: string | null
+          embedding: string
           id?: string
-          link_id?: string | null
+          metadata: Json
           updated_at?: string | null
-          user_id: string
         }
         Update: {
-          content?: string | null
+          content?: string
           created_at?: string | null
-          embedding?: string | null
+          embedding?: string
           id?: string
-          link_id?: string | null
+          metadata?: Json
           updated_at?: string | null
-          user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "summaries_link_id_fkey"
-            columns: ["link_id"]
-            isOneToOne: false
-            referencedRelation: "links"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "summaries_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {

@@ -24,7 +24,11 @@ export const columns: ColumnDef<LinkEntity>[] = [
     cell: ({ row }) => (
       <div className="flex gap-2 items-center">
         {row.original.favicon && (
-          <img src={row.original.favicon} className="max-h-6" />
+          <img
+            src={row.original.favicon}
+            className="max-h-6"
+            alt="website favicon"
+          />
         )}
         <p className="max-w-[240px] truncate">
           {decodeHtmlEntities(row.getValue("title"))}
@@ -63,7 +67,11 @@ export const columns: ColumnDef<LinkEntity>[] = [
             <a href={link.url} target="_blank" rel="noreferrer, noopener">
               <DropdownMenuItem>View link</DropdownMenuItem>
             </a>
-            {isLinkPending && <DropdownMenuItem>Add summary</DropdownMenuItem>}
+            {isLinkPending && (
+              <Link href={`/admin/links/${link.id}/add-summary`}>
+                <DropdownMenuItem>Add summary</DropdownMenuItem>
+              </Link>
+            )}
             {isLinkPending && (
               <Link href={`?linkId=${link.id}&action=reject`}>
                 <DropdownMenuItem>Reject link</DropdownMenuItem>

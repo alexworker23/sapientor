@@ -1,15 +1,11 @@
 import { cache, Suspense } from "react"
 import { cookies } from "next/headers"
-import { notFound } from "next/navigation"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
 import { columns } from "@/components/links/columns"
 import { DataTable } from "@/components/links/data-table"
 import { RejectModal } from "@/components/links/reject-modal"
-
-const admin_list =
-  process.env.ADMIN_USERS?.split(",").map((user) => user.trim()) ?? []
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
@@ -30,13 +26,6 @@ interface Props {
 
 const Page = async ({ searchParams }: Props) => {
   const supabase = createServerSupabaseClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user?.email || !admin_list.includes(user?.email)) {
-    return notFound()
-  }
 
   const { data, error } = await supabase
     .from("links")

@@ -47,7 +47,6 @@ export const ParseBlock = ({
         .insert({
           url: link,
           estimate,
-          status: "parsing",
           title: metadata?.title,
           description: metadata?.description,
           favicon: metadata?.favicon,
