@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { StatusBadge } from "@/components/common/status-badge"
 
-export const columns: ColumnDef<LinkEntity>[] = [
+export const admin_columns: ColumnDef<LinkEntity>[] = [
   {
     accessorKey: "title",
     header: "Title",
@@ -46,6 +46,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
     id: "actions",
     cell: ({ row }) => {
       const link = row.original
+      const isLinkPending = link.status === "PENDING"
 
       return (
         <DropdownMenu>
@@ -57,12 +58,6 @@ export const columns: ColumnDef<LinkEntity>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[160px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            {link.status === 'REJECTED' && link.reason &&
-            <Link href={`?linkId=${link.id}&action=reason`}>
-            <DropdownMenuItem>
-              View rejection reason
-            </DropdownMenuItem>
-            </Link>}
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(link.url)}
             >
@@ -72,9 +67,16 @@ export const columns: ColumnDef<LinkEntity>[] = [
             <a href={link.url} target="_blank" rel="noreferrer, noopener">
               <DropdownMenuItem>Open link</DropdownMenuItem>
             </a>
-            <Link href={`?linkId=${link.id}&action=delete`}>
-              <DropdownMenuItem>Delete link</DropdownMenuItem>
-            </Link>
+            {isLinkPending && (
+              <Link href={`/admin/links/${link.id}/add-summary`}>
+                <DropdownMenuItem>Add summary</DropdownMenuItem>
+              </Link>
+            )}
+            {isLinkPending && (
+              <Link href={`?linkId=${link.id}&action=reject`}>
+                <DropdownMenuItem>Reject link</DropdownMenuItem>
+              </Link>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       )

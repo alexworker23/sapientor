@@ -73,6 +73,7 @@ export const SummaryForm = ({ link }: Props) => {
             type="button"
             variant="outline"
             className="w-24"
+            onClick={() => router.back()}
           >
             Back
           </Button>

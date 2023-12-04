@@ -10,6 +10,7 @@ import { urlRegex } from "@/lib/utils"
 
 import { Button } from "../ui/button"
 import { Skeleton } from "../ui/skeleton"
+import { useRouter } from "next/navigation"
 
 interface Props {
   link: string
@@ -35,6 +36,7 @@ export const ParseBlock = ({
 
   if (!link || !estimate) return null
 
+  const router = useRouter()
   const supabase = createClientComponentClient<Database>()
 
   const handleSave = async () => {
@@ -56,7 +58,7 @@ export const ParseBlock = ({
 
       if (creationError) throw new Error(creationError.message)
       if (!createdEntity) throw new Error("Error while saving link")
-
+      router.refresh()
       onSuccess()
     } catch (error) {
       console.error(error)

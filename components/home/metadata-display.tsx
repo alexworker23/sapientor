@@ -1,3 +1,5 @@
+"use client"
+
 import type { LinkMetadata } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
 
