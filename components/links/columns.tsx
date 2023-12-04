@@ -21,6 +21,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
       </div>
     ),
   },
+  // this should be an action in the dropdown, not a separate field
   {
     accessorKey: "url",
     header: "URL",
@@ -30,6 +31,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
       </Link>
     ),
   },
+  // this should be a colored badge
   {
     accessorKey: "status",
     header: "Status",

@@ -8,3 +8,5 @@ export type LinkMetadata = {
 }
 
 export type LinkEntity = Database["public"]["Tables"]["links"]["Row"]
+
+export type Status = Database["public"]["Enums"]["status"]

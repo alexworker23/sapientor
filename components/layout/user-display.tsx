@@ -1,6 +1,7 @@
 // import { FeedbackModal } from "./feedback-modal"
 // import { HelpModal } from "./help-modal"
 import Link from "next/link"
+import type { User } from "@supabase/auth-helpers-nextjs"
 import { LinkIcon } from "lucide-react"
 
 import { LogOutButton } from "../auth/log-out-button"
@@ -13,22 +14,22 @@ import {
 } from "../ui/dropdown-menu"
 
 interface Props {
-  user: any
+  user: User
 }
 
 export const UserDisplay = ({ user }: Props) => {
-  const fallback = user.name
-    ? user.name
+  const fallback = user.email
+    ? user.email
         .split(" ")
         .map((n: string) => n[0])
         .join("")
         .slice(0, 2)
-    : user.name?.slice(0, 2).toUpperCase()
+    : user.email?.slice(0, 2).toUpperCase()
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer transition-opacity hover:opacity-60">
-          <AvatarImage src={user.image ?? ""} />
+          <AvatarImage src={user.user_metadata.image ?? ""} />
           <AvatarFallback>{fallback || "U"}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

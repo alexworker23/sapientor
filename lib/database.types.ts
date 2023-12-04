@@ -17,7 +17,7 @@ export interface Database {
           favicon: string | null
           id: string
           reason: string | null
-          status: string
+          status: Database["public"]["Enums"]["status"]
           title: string | null
           updated_at: string | null
           url: string
@@ -30,7 +30,7 @@ export interface Database {
           favicon?: string | null
           id?: string
           reason?: string | null
-          status: string
+          status?: Database["public"]["Enums"]["status"]
           title?: string | null
           updated_at?: string | null
           url: string
@@ -43,23 +43,100 @@ export interface Database {
           favicon?: string | null
           id?: string
           reason?: string | null
-          status?: string
+          status?: Database["public"]["Enums"]["status"]
           title?: string | null
           updated_at?: string | null
           url?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "links_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      summaries: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          embedding: string | null
+          id: string
+          link_id: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          embedding?: string | null
+          id?: string
+          link_id?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          embedding?: string | null
+          id?: string
+          link_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "summaries_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "summaries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      match_summaries: {
+        Args: {
+          query_embedding: string
+          match_threshold: number
+          match_count: number
+        }
+        Returns: {
+          id: string
+          content: string
+          similarity: number
+        }[]
+      }
+      match_summaries_for_user: {
+        Args: {
+          user_id: string
+          query_embedding: string
+          match_threshold: number
+          match_count: number
+        }
+        Returns: {
+          id: string
+          content: string
+          similarity: number
+        }[]
+      }
     }
     Enums: {
-      [_ in never]: never
+      status: "PENDING" | "REJECTED" | "COMPLETED"
     }
     CompositeTypes: {
       [_ in never]: never
