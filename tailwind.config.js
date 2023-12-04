@@ -18,6 +18,7 @@ module.exports = {
       },
     },
     extend: {
+      
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
@@ -75,6 +76,10 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      spacing: {
+        '22': '5.5rem',
+        '23': '5.75rem',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

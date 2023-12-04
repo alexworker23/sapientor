@@ -7,6 +7,9 @@ import type { Database } from "@/lib/database.types"
 import { columns } from "@/components/links/columns"
 import { DataTable } from "@/components/links/data-table"
 
+const admin_list =
+  process.env.ADMIN_USERS?.split(",").map((user) => user.trim()) ?? []
+
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
   return createServerComponentClient<Database>({ cookies: () => cookieStore })
@@ -19,6 +22,8 @@ const Page = async () => {
   } = await supabase.auth.getUser()
 
   if (!user) return redirect("/")
+  if (user.email && admin_list.includes(user.email))
+    return redirect("/admin/links")
 
   const { data, error } = await supabase
     .from("links")

@@ -2,9 +2,20 @@
 
 import Link from "next/link"
 import type { ColumnDef } from "@tanstack/react-table"
+import { MoreHorizontal } from "lucide-react"
 
 import type { LinkEntity } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { StatusBadge } from "@/components/common/status-badge"
 
 export const columns: ColumnDef<LinkEntity>[] = [
   {
@@ -21,26 +32,46 @@ export const columns: ColumnDef<LinkEntity>[] = [
       </div>
     ),
   },
-  // this should be an action in the dropdown, not a separate field
-  {
-    accessorKey: "url",
-    header: "URL",
-    cell: ({ row }) => (
-      <Link href={row.getValue("url")} className="hover:underline">
-        View link
-      </Link>
-    ),
-  },
-  // this should be a colored badge
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) =>
-      row.getValue("status") && typeof row.getValue("status") === "string" ? (
-        <div className="text-sm">
-          {(row.getValue("status") as string).charAt(0).toUpperCase() +
-            (row.getValue("status") as string).slice(1)}
-        </div>
-      ) : null,
+      row.original.status ? <StatusBadge status={row.original.status} /> : null,
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const link = row.original
+      const isLinkPending = link.status === "PENDING"
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="min-w-[160px]">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(link.url)}
+            >
+              Copy link
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <a href={link.url} target="_blank" rel="noreferrer, noopener">
+              <DropdownMenuItem>View link</DropdownMenuItem>
+            </a>
+            {isLinkPending && <DropdownMenuItem>Add summary</DropdownMenuItem>}
+            {isLinkPending && (
+              <Link href={`?linkId=${link.id}&action=reject`}>
+                <DropdownMenuItem>Reject link</DropdownMenuItem>
+              </Link>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    },
   },
 ]

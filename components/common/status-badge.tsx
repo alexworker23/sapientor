@@ -1,12 +1,12 @@
-import type { Status } from "@/lib/types"
+import type { StatusEnumType } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
-export const StatusBadge = ({ status }: { status: Status }) => {
+export const StatusBadge = ({ status }: { status: StatusEnumType }) => {
   const text = status.charAt(0) + status.slice(1).toLowerCase()
   return (
     <div
       className={cn(
-        "py-1.5 px-6 rounded-full bg-slate-50 text-xs",
+        "h-7 w-23 rounded-full bg-slate-50 text-xs flex justify-center items-center",
         getColor(status)
       )}
     >
@@ -15,7 +15,7 @@ export const StatusBadge = ({ status }: { status: Status }) => {
   )
 }
 
-const getColor = (status: Status) => {
+const getColor = (status: StatusEnumType) => {
   switch (status) {
     case "COMPLETED":
       return "bg-green-50 text-green-600"
