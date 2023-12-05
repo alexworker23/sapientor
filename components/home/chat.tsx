@@ -16,7 +16,7 @@ export function Chat() {
     }
   }
   return (
-    <div>
+    <div className="mb-44">
       <div className="mb-2.5 flex flex-col gap-1">
         {messages.map((m) =>
           m.role === "user" ? (
@@ -36,16 +36,19 @@ export function Chat() {
           />
         )}
       </div>
+    <div className="fixed bottom-0 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 bg-white/95 py-2.5 backdrop-blur supports-[backdrop-filter]:bg-white/60 sm:py-5">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <Textarea
           onKeyDown={handleKeyDown}
           value={input}
           onChange={handleInputChange}
+          className="resize-none"
         />
         <Button type="submit" className="mx-auto w-24">
           Send
         </Button>
       </form>
+    </div>
     </div>
   )
 }

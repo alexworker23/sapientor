@@ -74,7 +74,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-[160px]">
+          <DropdownMenuContent align="end" className="min-w-[140px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             {link.status === "REJECTED" && link.reason && (
               <Link href={`?linkId=${link.id}&action=reason`}>
@@ -84,14 +84,14 @@ export const columns: ColumnDef<LinkEntity>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(link.url)}
             >
-              Copy link
+              Copy
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <a href={link.url} target="_blank" rel="noreferrer, noopener">
-              <DropdownMenuItem>Open link</DropdownMenuItem>
+              <DropdownMenuItem>Open</DropdownMenuItem>
             </a>
+            <DropdownMenuSeparator />
             <Link href={`?linkId=${link.id}&action=delete`}>
-              <DropdownMenuItem>Delete link</DropdownMenuItem>
+              <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>

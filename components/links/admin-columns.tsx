@@ -54,25 +54,25 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-[160px]">
+          <DropdownMenuContent align="end" className="min-w-[140px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(link.url)}
             >
-              Copy link
+              Copy
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <a href={link.url} target="_blank" rel="noreferrer, noopener">
-              <DropdownMenuItem>Open link</DropdownMenuItem>
+              <DropdownMenuItem>Open</DropdownMenuItem>
             </a>
+            <DropdownMenuSeparator />
             {isLinkPending && (
               <Link href={`/admin/links/${link.id}/add-summary`}>
-                <DropdownMenuItem>Add summary</DropdownMenuItem>
+                <DropdownMenuItem className="text-green-600">Add summary</DropdownMenuItem>
               </Link>
             )}
             {isLinkPending && (
               <Link href={`?linkId=${link.id}&action=reject`}>
-                <DropdownMenuItem>Reject link</DropdownMenuItem>
+                <DropdownMenuItem className="text-red-600">Reject</DropdownMenuItem>
               </Link>
             )}
           </DropdownMenuContent>
