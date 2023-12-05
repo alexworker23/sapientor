@@ -7,6 +7,7 @@ import { MoreHorizontal } from "lucide-react"
 import type { LinkEntity } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { StatusBadge } from "@/components/common/status-badge"
-import { Checkbox } from "@/components/ui/checkbox"
 
 export const columns: ColumnDef<LinkEntity>[] = [
   {

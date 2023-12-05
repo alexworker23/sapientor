@@ -30,7 +30,10 @@ export function Chat() {
           )
         )}
         {messages.length === 0 && (
-          <UserMessage content="Write your questions in the input below..." />
+          <UserMessage
+            content="Write your questions in the input below..."
+            className="min-h-[44px]"
+          />
         )}
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">

@@ -6,7 +6,11 @@ import { Check, Copy } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Markdown = dynamic(() => import("react-markdown"))
+import { Skeleton } from "../ui/skeleton"
+
+const Markdown = dynamic(() => import("react-markdown"), {
+  loading: () => <Skeleton className="w-full h-6" />,
+})
 
 const common_class = "rounded-md p-2.5 w-full"
 

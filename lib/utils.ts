@@ -15,7 +15,23 @@ export const urlRegex = new RegExp(
   "i"
 )
 
+// function that will convert ms into a human readable format e.g. 1000ms => 1s, 1000000ms => 16m 40s, 1000000000ms => 16h 40m 40s. Display only if the unit is greater than 0.
+export function msToHumanReadable(ms: number): string {
+  const seconds = Math.floor((ms / 1000) % 60)
+  const minutes = Math.floor((ms / (1000 * 60)) % 60)
+  const hours = Math.floor((ms / (1000 * 60 * 60)) % 24)
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24))
+
+  const daysStr = days ? `${days}d` : ""
+  const hoursStr = hours ? `${hours}h` : ""
+  const minutesStr = minutes ? `${minutes}m` : ""
+  const secondsStr = seconds ? `${seconds}s` : ""
+
+  return `${daysStr} ${hoursStr} ${minutesStr} ${secondsStr}`.trim()
+}
+
 export function decodeHtmlEntities(text: string): string {
+  if (!document) return text
   // Create an element to use as a decoder.
   const textArea = document.createElement("textarea")
 
@@ -30,19 +46,4 @@ export function decodeHtmlEntities(text: string): string {
 
   // Replace all entities in the text.
   return text.replace(entityPattern, decodeEntity)
-}
-
-// function that will convert ms into a human readable format e.g. 1000ms => 1s, 1000000ms => 16m 40s, 1000000000ms => 16h 40m 40s. Display only if the unit is greater than 0.
-export function msToHumanReadable(ms: number): string {
-  const seconds = Math.floor((ms / 1000) % 60)
-  const minutes = Math.floor((ms / (1000 * 60)) % 60)
-  const hours = Math.floor((ms / (1000 * 60 * 60)) % 24)
-  const days = Math.floor(ms / (1000 * 60 * 60 * 24))
-
-  const daysStr = days ? `${days}d` : ""
-  const hoursStr = hours ? `${hours}h` : ""
-  const minutesStr = minutes ? `${minutes}m` : ""
-  const secondsStr = seconds ? `${seconds}s` : ""
-
-  return `${daysStr} ${hoursStr} ${minutesStr} ${secondsStr}`.trim()
 }
