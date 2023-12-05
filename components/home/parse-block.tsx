@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Loader2 } from "lucide-react"
 
@@ -10,7 +11,6 @@ import { urlRegex } from "@/lib/utils"
 
 import { Button } from "../ui/button"
 import { Skeleton } from "../ui/skeleton"
-import { useRouter } from "next/navigation"
 
 interface Props {
   link: string
@@ -72,16 +72,16 @@ export const ParseBlock = ({
     <>
       <div className="flex w-full justify-between">
         <div>
-          <p className="text-xs">Time to parse:</p>
-          <p>{estimate}</p>
+          <p className="text-xs">Time to process:</p>
+          <p>~{estimate}</p>
         </div>
         <Button
           onClick={handleSave}
           disabled={!isValid || saving}
-          className="w-[140px] transition-all gap-1"
+          className="w-24 transition-all gap-1"
         >
           {saving && <Loader2 size={16} className="animate-spin" />}
-          {errorText ? "Retry" : "Parse & Save"}
+          {errorText ? "Retry" : "Submit"}
         </Button>
       </div>
       {errorText && <p className="text-red-500 text-xs">{errorText}</p>}
@@ -96,7 +96,7 @@ const ComponentSkeleton = () => {
         <Skeleton className="h-4 w-20" />
         <Skeleton className="h-4 w-14" />
       </div>
-      <Skeleton className="h-full w-[140px]" />
+      <Skeleton className="h-full w-24" />
     </div>
   )
 }

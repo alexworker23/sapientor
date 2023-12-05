@@ -20,7 +20,7 @@ export const DownloadSummaries = async () => {
   if (!summaries?.length) return null
 
   return (
-    <div className="flex justify-end w-full mt-2.5">
+    <div className="flex justify-end w-full mt-4">
       <DownloadButton summaries={summaries ?? []} />
     </div>
   )

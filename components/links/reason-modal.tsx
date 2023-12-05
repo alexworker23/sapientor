@@ -29,22 +29,17 @@ export const ReasonModal = ({ isOpen, link }: Props) => {
       <DialogContent>
         <DialogHeader>Link rejection reason</DialogHeader>
         <DialogDescription>
-          You link has been rejected and will not be processed. Below you can find the reason for rejection:
+          You link has been rejected and will not be processed. Below you can
+          find the reason for rejection:
         </DialogDescription>
         <div>
-          <p className="text-xl">
-            "{link?.reason}"
-          </p>
+          <p className="text-xl">"{link?.reason}"</p>
         </div>
-          <DialogFooter className="mt-5">
-            <Button
-              type="button"
-              onClick={handleClose}
-              className="w-28"
-            >
-              Close
-            </Button>
-          </DialogFooter>
+        <DialogFooter className="mt-5">
+          <Button type="button" onClick={handleClose} className="w-28">
+            Close
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

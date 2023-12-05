@@ -23,13 +23,11 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
     header: "Title",
     cell: ({ row }) => (
       <div className="flex gap-2 items-center">
-        {row.original.favicon && (
-          <img
-            src={row.original.favicon}
-            className="max-h-6"
-            alt="website favicon"
-          />
-        )}
+        <img
+          src={row.original.favicon || "/favicon.ico"}
+          className="max-h-6"
+          alt="website favicon"
+        />
         <p className="max-w-[240px] truncate">
           {decodeHtmlEntities(row.getValue("title"))}
         </p>

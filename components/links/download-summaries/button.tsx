@@ -15,14 +15,19 @@ export const DownloadButton = ({ summaries }: Props) => {
     const url = URL.createObjectURL(blob)
     const link = document.createElement("a")
     link.href = url
-    link.download = "data.json"
+    link.download = "knowledge-hub.json"
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
   }
   return (
-    <Button type="button" onClick={handleDownload}>
-      Download All Summaries
+    <Button
+      type="button"
+      onClick={handleDownload}
+      className="text-sm"
+      size="sm"
+    >
+      Download Knowledge Hub
     </Button>
   )
 }

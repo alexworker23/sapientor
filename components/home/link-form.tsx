@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, type ChangeEventHandler } from "react"
+import dayjs from "dayjs"
 import { CheckCircle, ClipboardCheckIcon } from "lucide-react"
 
 import type { LinkMetadata } from "@/lib/types"
-import { urlRegex } from "@/lib/utils"
+import { msToHumanReadable, urlRegex } from "@/lib/utils"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
@@ -39,23 +40,34 @@ export const LinkForm = () => {
       setLinkMetadataLoading(true)
       setEstimateLoading(true)
 
-      const res = await fetch(`/api/metadata`, {
+      const metadataResponse = await fetch(`/api/metadata`, {
         method: "POST",
         body: JSON.stringify({ url }),
         headers: {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json())
-      setLinkMetadata(res)
+      setLinkMetadata(metadataResponse)
 
-      setTimeout(() => {
-        setEstimate("1hr")
-        setEstimateLoading(false)
-      }, 1000)
+      const estimateResponse = await fetch(`/api/estimate`, {
+        method: "POST",
+        body: JSON.stringify({
+          url,
+          title: metadataResponse.title,
+          userTime: dayjs().toISOString(),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json())
+
+      const estimateTime = msToHumanReadable(estimateResponse.time)
+      setEstimate(estimateTime)
     } catch (error) {
       console.error(error)
     } finally {
       setLinkMetadataLoading(false)
+      setEstimateLoading(false)
     }
   }
 
@@ -77,7 +89,7 @@ export const LinkForm = () => {
 
   if (saveSuccess) {
     return (
-      <div className="animate-in slide-in-from-top-2">
+      <div className="animate-in slide-in-from-top-2 w-full">
         <div className="flex justify-center mb-1">
           <CheckCircle className="text-green-600" size={32} />
         </div>

@@ -69,7 +69,7 @@ const Page = async ({ searchParams }: Props) => {
         />
       </Suspense>
       <Suspense>
-        <ReasonModal 
+        <ReasonModal
           isOpen={searchParams.action === "reason" && !!targetLink}
           link={targetLink}
         />
