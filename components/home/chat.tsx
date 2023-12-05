@@ -6,7 +6,7 @@ import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
 import { AiMessage, UserMessage } from "./messages"
 
-export default function Chat() {
+export function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat()
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -17,12 +17,16 @@ export default function Chat() {
   }
   return (
     <div>
-      <div className="mb-2.5 grid gap-1">
+      <div className="mb-2.5 flex flex-col gap-1">
         {messages.map((m) =>
           m.role === "user" ? (
-            <UserMessage key={m.id} content={m.content} />
+            <UserMessage key={m.id} content={m.content} className="w-4/5" />
           ) : (
-            <AiMessage key={m.id} content={m.content} />
+            <AiMessage
+              key={m.id}
+              content={m.content}
+              className="w-4/5 self-end"
+            />
           )
         )}
         {messages.length === 0 && (

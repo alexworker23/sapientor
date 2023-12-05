@@ -54,7 +54,7 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-16">
-      <div className="container mx-auto py-10 max-w-xl">
+      <div className="container mx-auto py-10 max-w-3xl">
         <Suspense fallback={<Skeleton className="w-full h-44" />}>
           <DataTable columns={columns} data={data} />
         </Suspense>

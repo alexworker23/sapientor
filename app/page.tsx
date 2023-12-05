@@ -2,9 +2,9 @@ import { cache } from "react"
 import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
-import { Database } from "@/lib/database.types"
+import type { Database } from "@/lib/database.types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Chat from "@/components/home/chat"
+import { Chat } from "@/components/home/chat"
 import { LinkForm } from "@/components/home/link-form"
 
 const createServerSupabaseClient = cache(() => {
@@ -23,21 +23,21 @@ export default async function Home() {
         <h1 className="text-3xl">Welcome to your Personal Assistant!</h1>
       )}
       {user && (
-        <Tabs defaultValue="links" className="w-[400px]">
+        <Tabs defaultValue="add">
           <div className="flex justify-center mb-4">
             <TabsList className="w-[180px]">
-              <TabsTrigger value="links" className="w-full">
-                Links
+              <TabsTrigger value="add" className="w-full">
+                Add
               </TabsTrigger>
               <TabsTrigger value="chat" className="w-full">
                 Chat
               </TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="links">
+          <TabsContent value="add" className="w-[400px]">
             <LinkForm />
           </TabsContent>
-          <TabsContent value="chat">
+          <TabsContent value="chat" className="w-[600px]">
             {/* 
               Here at the top should be an ability to select a bot user will be communicating with.
               These should be round avatars with images. 

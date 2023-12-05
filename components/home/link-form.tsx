@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, type ChangeEventHandler } from "react"
+import { useEffect, useState, type ChangeEventHandler } from "react"
 import dayjs from "dayjs"
 import { CheckCircle, ClipboardCheckIcon } from "lucide-react"
 
+import { useDebounce } from "@/lib/client-utils"
 import type { LinkMetadata } from "@/lib/types"
 import { msToHumanReadable, urlRegex } from "@/lib/utils"
 
@@ -29,7 +30,49 @@ export const LinkForm = () => {
     estimate && setEstimate(null)
   }
 
-  const handleBlur = async (url: string) => {
+  const getMetadata = async (url: string) => {
+    try {
+      setLinkMetadataLoading(true)
+      const response = await fetch(`/api/metadata`, {
+        method: "POST",
+        body: JSON.stringify({ url }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json())
+      setLinkMetadata(response)
+      return response
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLinkMetadataLoading(false)
+    }
+  }
+
+  const getEstimate = async (url: string, title: string) => {
+    try {
+      setEstimateLoading(true)
+      const response = await fetch(`/api/estimate`, {
+        method: "POST",
+        body: JSON.stringify({
+          url,
+          title,
+          userTime: dayjs().toISOString(),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json())
+      const estimateTime = msToHumanReadable(response.time)
+      setEstimate(estimateTime)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setEstimateLoading(false)
+    }
+  }
+
+  const fetchLinkData = async (url: string) => {
     const isValid = urlRegex.test(url)
     if (!isValid) return
 
@@ -37,46 +80,24 @@ export const LinkForm = () => {
     if (isSame) return
 
     try {
-      setLinkMetadataLoading(true)
-      setEstimateLoading(true)
-
-      const metadataResponse = await fetch(`/api/metadata`, {
-        method: "POST",
-        body: JSON.stringify({ url }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json())
-      setLinkMetadata(metadataResponse)
-
-      const estimateResponse = await fetch(`/api/estimate`, {
-        method: "POST",
-        body: JSON.stringify({
-          url,
-          title: metadataResponse.title,
-          userTime: dayjs().toISOString(),
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json())
-
-      const estimateTime = msToHumanReadable(estimateResponse.time)
-      setEstimate(estimateTime)
+      const metadataResponse = await getMetadata(url)
+      getEstimate(url, metadataResponse.title)
     } catch (error) {
       console.error(error)
-    } finally {
-      setLinkMetadataLoading(false)
-      setEstimateLoading(false)
     }
   }
+
+  const debouncedLink = useDebounce(link, 1000)
+  useEffect(() => {
+    fetchLinkData(debouncedLink)
+  }, [debouncedLink])
 
   const handlePaste = async () => {
     await navigator.clipboard.readText().then((text) => {
       setLink(text)
       linkMetadata && setLinkMetadata(null)
       estimate && setEstimate(null)
-      handleBlur(text)
+      fetchLinkData(text)
     })
   }
 
@@ -106,6 +127,8 @@ export const LinkForm = () => {
     )
   }
 
+  const isValidLink = urlRegex.test(link)
+
   return (
     <div className="grid gap-3">
       <div className="relative">
@@ -114,7 +137,7 @@ export const LinkForm = () => {
           className="w-full"
           value={link}
           onChange={handleChange}
-          onBlur={(event) => handleBlur(event.target.value)}
+          onBlur={(event) => fetchLinkData(event.target.value)}
         />
         <div
           onClick={handlePaste}
@@ -123,6 +146,11 @@ export const LinkForm = () => {
           <ClipboardCheckIcon size={18} />
         </div>
       </div>
+      {link && !isValidLink && (
+        <p className="text-xs text-slate-600 -mt-1.5">
+          Please enter a valid link
+        </p>
+      )}
       <MetadataDisplay metadata={linkMetadata} loading={linkMetadataLoading} />
       <ParseBlock
         link={link}

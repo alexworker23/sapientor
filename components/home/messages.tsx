@@ -24,7 +24,13 @@ export const UserMessage = ({
   )
 }
 
-export const AiMessage = ({ content }: { content: string }) => {
+export const AiMessage = ({
+  content,
+  className,
+}: {
+  content: string
+  className?: string
+}) => {
   const [copied, setCopied] = useState(false)
   const handleCopy = async () => {
     try {
@@ -36,7 +42,7 @@ export const AiMessage = ({ content }: { content: string }) => {
     }
   }
   return (
-    <div className={cn(common_class, "group relative bg-blue-200")}>
+    <div className={cn(common_class, "group relative bg-blue-200", className)}>
       <Markdown>{content}</Markdown>
       <div
         onClick={handleCopy}
