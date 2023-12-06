@@ -29,7 +29,7 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
           className="max-h-6"
           alt="website favicon"
         />
-        <p className="max-w-[240px] truncate">
+        <p className="max-w-[300px] truncate">
           {decodeHtmlEntities(row.getValue("title"))}
         </p>
       </div>
@@ -90,7 +90,7 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
             <a href={link.url} target="_blank" rel="noreferrer, noopener">
               <DropdownMenuItem>Open</DropdownMenuItem>
             </a>
-            <DropdownMenuSeparator />
+            {isLinkPending && <DropdownMenuSeparator />}
             {isLinkPending && (
               <Link href={`/admin/links/${link.id}/add-summary`}>
                 <DropdownMenuItem className="text-green-600">

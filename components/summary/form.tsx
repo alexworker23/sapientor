@@ -52,8 +52,8 @@ export const SummaryForm = ({ link }: Props) => {
     }
   }
   return (
-    <div className="max-w-xl">
-      <h1 className="text-2xl mb-2.5">You are adding summary for</h1>
+    <div className="max-w-xl w-full">
+      <h1 className="text-2xl mb-5">You are adding summary for</h1>
       <p className="text-sm whitespace-normal font-semibold">
         {link.favicon && (
           <img
@@ -66,7 +66,7 @@ export const SummaryForm = ({ link }: Props) => {
           {decodeHtmlEntities(link.title ?? "")}
         </a>
       </p>
-      <form className="mt-10" onSubmit={handleSubmit}>
+      <form className="mt-5" onSubmit={handleSubmit}>
         <Textarea placeholder="Summary content" name="content" id="content" />
         <div className="flex gap-2 mt-2.5 justify-end">
           <Button

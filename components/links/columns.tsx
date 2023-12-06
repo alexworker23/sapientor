@@ -49,7 +49,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
           className="max-h-6"
           alt="website favicon"
         />
-        <p className="max-w-[240px] truncate">
+        <p className="max-w-[300px] truncate">
           {decodeHtmlEntities(row.getValue("title"))}
         </p>
       </div>

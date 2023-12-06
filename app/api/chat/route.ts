@@ -3,9 +3,9 @@ import { cookies } from "next/headers"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { OpenAIStream, StreamingTextResponse } from "ai"
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
+import { SupabaseHybridSearch } from "langchain/retrievers/supabase"
 import OpenAI from "openai"
 import type { ChatCompletionMessageParam } from "openai/resources/index.mjs"
-import { SupabaseHybridSearch } from "langchain/retrievers/supabase";
 
 import type { Database } from "@/lib/database.types"
 
@@ -29,8 +29,8 @@ export async function POST(req: Request) {
   const userMessages = messages
     .filter((m) => m.role === "user")
     .map((m) => m.content)
-  const threeLastUserMessages = userMessages.slice(-3).reverse().join('\n ')
-  
+  const threeLastUserMessages = userMessages.slice(-3).reverse().join("\n ")
+
   const supabase = createServerSupabaseClient()
   const retriever = new SupabaseHybridSearch(embeddings, {
     client: supabase,
@@ -39,8 +39,8 @@ export async function POST(req: Request) {
     tableName: "summaries",
     similarityQueryName: "match_summaries",
     keywordQueryName: "kw_match_summaries",
-  });
-  const results = await retriever.getRelevantDocuments(threeLastUserMessages);
+  })
+  const results = await retriever.getRelevantDocuments(threeLastUserMessages)
 
   const messagesWithContext = messages.map((m, idx) => {
     if (idx !== messages.length - 1) return m

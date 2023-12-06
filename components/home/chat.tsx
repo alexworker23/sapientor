@@ -47,7 +47,7 @@ export function Chat() {
         )}
         {messages.length === 0 && (
           <UserMessage
-            content="Ask our assistant questions based on the links you have previously added in the input below:"
+            content="Our assistant has your Knowledge Hub connected, so you can ask him questions based on the already processed links.."
             className="min-h-[44px]"
           />
         )}

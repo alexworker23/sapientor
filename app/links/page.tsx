@@ -2,8 +2,14 @@ import { cache, Suspense } from "react"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { InfoIcon } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { Skeleton } from "@/components/ui/skeleton"
 import { columns } from "@/components/links/columns"
 import { DataTable } from "@/components/links/data-table"
@@ -53,13 +59,31 @@ const Page = async ({ searchParams }: Props) => {
     : { data: null }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-16">
-      <div className="container mx-auto py-10 max-w-3xl">
-        <Suspense fallback={<Skeleton className="w-full h-44" />}>
-          <DataTable columns={columns} data={data} />
-        </Suspense>
+    <main className="flex min-h-screen flex-col px-16 pb-10 pt-20">
+      <div className="flex items-start justify-between mb-5">
+        <div className="flex items-center gap-2">
+          <h1 className="text-3xl w-max">Your inventory</h1>
+          <Popover>
+            <PopoverTrigger>
+              <InfoIcon className="text-slate-500 transition-opacity hover:opacity-50" />
+            </PopoverTrigger>
+            <PopoverContent className="p-2.5">
+              <p className="text-sm font-medium">
+                Below you can see the inventory of your links and their
+                statuses. You can download all processed links as a single file
+                called Knowledge Hub and insert into any of your assistants or
+                chat interfaces.
+              </p>
+            </PopoverContent>
+          </Popover>
+        </div>
         <Suspense fallback={<DownloadSummariesSkeleton />}>
           <DownloadSummaries />
+        </Suspense>
+      </div>
+      <div className="mx-auto w-full">
+        <Suspense fallback={<Skeleton className="w-full h-44" />}>
+          <DataTable columns={columns} data={data} />
         </Suspense>
       </div>
       <Suspense>

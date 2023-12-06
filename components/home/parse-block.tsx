@@ -72,13 +72,15 @@ export const ParseBlock = ({
       <div className="flex w-full justify-between">
         {loading || !estimate ? (
           <div className="grid gap-1">
-          <Skeleton className="h-4 w-20" />
-          <Skeleton className="h-4 w-14" />
-        </div>
-        ) : <div>
-          <p className="text-xs">Time to process:</p>
-          <p>~{estimate?.humanReadable}</p>
-        </div>}
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-14" />
+          </div>
+        ) : (
+          <div>
+            <p className="text-xs">Time to process:</p>
+            <p>~{estimate?.humanReadable}</p>
+          </div>
+        )}
         <Button
           onClick={handleSave}
           disabled={!isValid || saving}
