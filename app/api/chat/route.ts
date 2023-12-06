@@ -33,12 +33,14 @@ export async function POST(req: Request) {
     queryName: "match_summaries",
   })
 
-  const userMessages = messages.filter((m) => m.role === "user").map((m) => m.content)
-  const searchQuery = userMessages?.join("\n") ?? ''
+  const userMessages = messages
+    .filter((m) => m.role === "user")
+    .map((m) => m.content)
+  const searchQuery = userMessages?.join("\n") ?? ""
   const results = await store.similaritySearch(searchQuery, 3)
 
   const messagesWithContext = messages.map((m, idx) => {
-    if (idx !== messages.length-1) return m
+    if (idx !== messages.length - 1) return m
     const context = results[0].pageContent
     return {
       ...m,

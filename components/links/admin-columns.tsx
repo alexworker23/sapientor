@@ -67,12 +67,16 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
             <DropdownMenuSeparator />
             {isLinkPending && (
               <Link href={`/admin/links/${link.id}/add-summary`}>
-                <DropdownMenuItem className="text-green-600">Add summary</DropdownMenuItem>
+                <DropdownMenuItem className="text-green-600">
+                  Add summary
+                </DropdownMenuItem>
               </Link>
             )}
             {isLinkPending && (
               <Link href={`?linkId=${link.id}&action=reject`}>
-                <DropdownMenuItem className="text-red-600">Reject</DropdownMenuItem>
+                <DropdownMenuItem className="text-red-600">
+                  Reject
+                </DropdownMenuItem>
               </Link>
             )}
           </DropdownMenuContent>

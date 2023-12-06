@@ -91,7 +91,9 @@ export const columns: ColumnDef<LinkEntity>[] = [
             </a>
             <DropdownMenuSeparator />
             <Link href={`?linkId=${link.id}&action=delete`}>
-              <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+              <DropdownMenuItem className="text-red-600">
+                Delete
+              </DropdownMenuItem>
             </Link>
           </DropdownMenuContent>
         </DropdownMenu>

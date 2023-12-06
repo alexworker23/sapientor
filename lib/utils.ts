@@ -47,3 +47,5 @@ export function decodeHtmlEntities(text: string): string {
   // Replace all entities in the text.
   return text.replace(entityPattern, decodeEntity)
 }
+
+export const home_tab_cookie_name = "home-tab"

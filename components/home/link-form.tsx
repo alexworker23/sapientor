@@ -1,11 +1,11 @@
 "use client"
 
-import { useEffect, useState, type ChangeEventHandler } from "react"
+import { useEffect, type ChangeEventHandler } from "react"
 import dayjs from "dayjs"
 import { CheckCircle, ClipboardCheckIcon } from "lucide-react"
 
 import { useDebounce } from "@/lib/client-utils"
-import type { LinkMetadata } from "@/lib/types"
+import { useLinkStore } from "@/lib/store"
 import { msToHumanReadable, urlRegex } from "@/lib/utils"
 
 import { Button } from "../ui/button"
@@ -14,15 +14,20 @@ import { MetadataDisplay } from "./metadata-display"
 import { ParseBlock } from "./parse-block"
 
 export const LinkForm = () => {
-  const [link, setLink] = useState("")
-
-  const [linkMetadata, setLinkMetadata] = useState<LinkMetadata | null>(null)
-  const [linkMetadataLoading, setLinkMetadataLoading] = useState(false)
-
-  const [estimate, setEstimate] = useState<string | null>(null)
-  const [estimateLoading, setEstimateLoading] = useState(false)
-
-  const [saveSuccess, setSaveSuccess] = useState(false)
+  const {
+    link,
+    setLink,
+    linkMetadata,
+    setLinkMetadata,
+    estimate,
+    setEstimate,
+    linkMetadataLoading,
+    setLinkMetadataLoading,
+    estimateLoading,
+    setEstimateLoading,
+    saveSuccess,
+    setSaveSuccess,
+  } = useLinkStore()
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setLink(event.target.value)
