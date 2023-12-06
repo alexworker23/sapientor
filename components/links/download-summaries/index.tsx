@@ -19,7 +19,7 @@ export const DownloadSummaries = async () => {
     .order("created_at", { ascending: false })
   if (!summaries?.length) return null
 
-    return (
+  return (
     <div className="flex justify-end w-full mt-4">
       <DownloadButton summaries={summaries ?? []} />
     </div>

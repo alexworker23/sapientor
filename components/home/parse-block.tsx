@@ -34,9 +34,7 @@ export const ParseBlock = ({
 
   const router = useRouter()
 
-  if (loading) return <ComponentSkeleton />
-
-  if (!link || !estimate) return null
+  if (!link || !metadata) return null
 
   const supabase = createClientComponentClient<Database>()
 
@@ -72,10 +70,15 @@ export const ParseBlock = ({
   return (
     <>
       <div className="flex w-full justify-between">
-        <div>
-          <p className="text-xs">Time to process:</p>
-          <p>~{estimate.humanReadable}</p>
+        {loading || !estimate ? (
+          <div className="grid gap-1">
+          <Skeleton className="h-4 w-20" />
+          <Skeleton className="h-4 w-14" />
         </div>
+        ) : <div>
+          <p className="text-xs">Time to process:</p>
+          <p>~{estimate?.humanReadable}</p>
+        </div>}
         <Button
           onClick={handleSave}
           disabled={!isValid || saving}
@@ -87,17 +90,5 @@ export const ParseBlock = ({
       </div>
       {errorText && <p className="text-red-500 text-xs">{errorText}</p>}
     </>
-  )
-}
-
-const ComponentSkeleton = () => {
-  return (
-    <div className="flex w-full justify-between">
-      <div className="grid gap-1">
-        <Skeleton className="h-4 w-20" />
-        <Skeleton className="h-4 w-14" />
-      </div>
-      <Skeleton className="h-full w-24" />
-    </div>
   )
 }

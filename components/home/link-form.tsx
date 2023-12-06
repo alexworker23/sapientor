@@ -105,6 +105,7 @@ export const LinkForm = () => {
 
   const handlePaste = async () => {
     await navigator.clipboard.readText().then((text) => {
+      if (!text.trim()) return
       setLink(text)
       linkMetadata && setLinkMetadata(null)
       estimate && setEstimate(null)
