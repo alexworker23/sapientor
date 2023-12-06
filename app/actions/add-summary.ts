@@ -41,12 +41,13 @@ export const addSummary = async (data: FormData) => {
     }
   }
 
+  const url = data.get("url") as string
   const title = data.get("title") as string
   const description = data.get("description") as string
   const content = data.get("content") as string
   const linkId = data.get("linkId") as string
   const userId = data.get("userId") as string
-  if (!content || !linkId || !title || !userId) {
+  if (!content || !linkId || !title || !userId || !url) {
     return {
       code: 400,
       message: "Bad Request",
@@ -68,7 +69,7 @@ export const addSummary = async (data: FormData) => {
   const docs: Document[] = [
     {
       pageContent: contentToSave,
-      metadata: { user_id: userId, link_id: linkId },
+      metadata: { user_id: userId, link_id: linkId, url, title },
     },
   ]
 

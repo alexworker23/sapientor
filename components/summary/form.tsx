@@ -27,6 +27,7 @@ export const SummaryForm = ({ link }: Props) => {
     const formData = new FormData(event.currentTarget)
     formData.append("linkId", link.id)
     formData.append("userId", link.user_id)
+    formData.append("url", link.url)
     formData.append("title", link.title ?? "")
     formData.append("description", link.description ?? "")
     try {
