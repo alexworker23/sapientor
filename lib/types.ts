@@ -7,6 +7,12 @@ export type LinkMetadata = {
   url: string
 }
 
+export type LinkEstimate = {
+  time: number
+  deadline: string
+  humanReadable: string
+}
+
 export type LinkEntity = Database["public"]["Tables"]["links"]["Row"]
 
 export type StatusEnumType = Database["public"]["Enums"]["status"]

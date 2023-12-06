@@ -31,21 +31,21 @@ export function msToHumanReadable(ms: number): string {
 }
 
 export function decodeHtmlEntities(text: string): string {
-  if (!document) return text
-  // Create an element to use as a decoder.
-  const textArea = document.createElement("textarea")
-
-  // Function to replace each entity with the actual character.
-  const decodeEntity = (match: string): string => {
-    textArea.innerHTML = match
-    return textArea.value
+  const entities: { [key: string]: string } = {
+    quot: '"',
+    amp: "&",
+    apos: "'",
+    lt: "<",
+    gt: ">",
+    // Add other entities here if needed
   }
 
-  // Regular expression to match HTML entities.
-  const entityPattern = /&#(\d+);|&#[xX]([A-Fa-f0-9]+);|&(\w+);/g
-
-  // Replace all entities in the text.
-  return text.replace(entityPattern, decodeEntity)
+  return text
+    .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
+    .replace(/&#[xX]([A-Fa-f0-9]+);/g, (match, hex) =>
+      String.fromCharCode(parseInt(hex, 16))
+    )
+    .replace(/&(\w+);/g, (match, entity) => entities[entity] || match)
 }
 
 export const home_tab_cookie_name = "home-tab"

@@ -2,10 +2,11 @@
 
 import Link from "next/link"
 import type { ColumnDef } from "@tanstack/react-table"
+import dayjs from "dayjs"
 import { MoreHorizontal } from "lucide-react"
 
-import type { LinkEntity } from "@/lib/types"
-import { decodeHtmlEntities } from "@/lib/utils"
+import type { LinkEntity, LinkEstimate } from "@/lib/types"
+import { cn, decodeHtmlEntities } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -39,6 +40,31 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
     header: "Status",
     cell: ({ row }) =>
       row.original.status ? <StatusBadge status={row.original.status} /> : null,
+  },
+  {
+    accessorKey: "deadline",
+    header: "Deadline",
+    cell: ({ row }) => {
+      const formatted = dayjs(
+        (row.original.estimate as LinkEstimate).deadline
+      ).format("DD MMM YYYY HH:mm")
+      const isOverdue = dayjs().isAfter(formatted)
+      const isComplete = row.original.status !== "PENDING"
+
+      return (
+        <div
+          className={cn(
+            isComplete
+              ? "text-green-600"
+              : isOverdue
+                ? "text-red-600 font-medium"
+                : "font-semibold"
+          )}
+        >
+          {formatted}
+        </div>
+      )
+    },
   },
   {
     id: "actions",

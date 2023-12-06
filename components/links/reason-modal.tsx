@@ -33,7 +33,7 @@ export const ReasonModal = ({ isOpen, link }: Props) => {
           find the reason for rejection:
         </DialogDescription>
         <div>
-          <p className="text-xl">"{link?.reason}"</p>
+          <p className="text-xl">&quot;{link?.reason}&quot;</p>
         </div>
         <DialogFooter className="mt-5">
           <Button type="button" onClick={handleClose} className="w-28">

@@ -65,6 +65,12 @@ export async function POST(req: Request) {
 
   const estimateResult = response.choices[0].message.content
 
+  if (!estimateResult) {
+    return new Response(JSON.stringify({ error: "Did not receive estimate" }), {
+      status: 500,
+    })
+  }
+
   return new Response(estimateResult, {
     status: 200,
   })

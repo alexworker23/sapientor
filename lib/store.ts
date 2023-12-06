@@ -1,7 +1,7 @@
 import type { Message } from "ai/react"
 import { create } from "zustand"
 
-import type { LinkMetadata } from "./types"
+import type { LinkEstimate, LinkMetadata } from "./types"
 
 interface LinkStoreState {
   link: string
@@ -12,8 +12,8 @@ interface LinkStoreState {
   linkMetadataLoading: boolean
   setLinkMetadataLoading: (isLoading: boolean) => void
 
-  estimate: string | null
-  setEstimate: (newEstimate: string | null) => void
+  estimate: LinkEstimate | null
+  setEstimate: (newEstimate: LinkEstimate | null) => void
   estimateLoading: boolean
   setEstimateLoading: (isLoading: boolean) => void
 
@@ -33,7 +33,8 @@ export const useLinkStore = create<LinkStoreState>((set) => ({
     set({ linkMetadataLoading: isLoading }),
 
   estimate: null,
-  setEstimate: (newEstimate: string | null) => set({ estimate: newEstimate }),
+  setEstimate: (newEstimate: LinkEstimate | null) =>
+    set({ estimate: newEstimate }),
   estimateLoading: false,
   setEstimateLoading: (isLoading: boolean) =>
     set({ estimateLoading: isLoading }),

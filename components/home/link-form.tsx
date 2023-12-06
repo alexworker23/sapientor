@@ -6,6 +6,7 @@ import { CheckCircle, ClipboardCheckIcon } from "lucide-react"
 
 import { useDebounce } from "@/lib/client-utils"
 import { useLinkStore } from "@/lib/store"
+import { LinkEstimate } from "@/lib/types"
 import { msToHumanReadable, urlRegex } from "@/lib/utils"
 
 import { Button } from "../ui/button"
@@ -57,7 +58,8 @@ export const LinkForm = () => {
   const getEstimate = async (url: string, title: string) => {
     try {
       setEstimateLoading(true)
-      const response = await fetch(`/api/estimate`, {
+
+      const response = (await fetch(`/api/estimate`, {
         method: "POST",
         body: JSON.stringify({
           url,
@@ -67,9 +69,13 @@ export const LinkForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-      }).then((res) => res.json())
-      const estimateTime = msToHumanReadable(response.time)
-      setEstimate(estimateTime)
+      }).then((res) => res.json())) as
+        | Omit<LinkEstimate, "humanReadable">
+        | undefined
+      if (!response) return
+
+      const humanReadable = msToHumanReadable(response.time)
+      setEstimate({ ...response, humanReadable })
     } catch (error) {
       console.error(error)
     } finally {

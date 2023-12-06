@@ -13,11 +13,12 @@ export interface Database {
         Row: {
           created_at: string
           description: string | null
-          estimate: string
+          estimate: Json
           favicon: string | null
           id: string
           reason: string | null
           status: Database["public"]["Enums"]["status"]
+          summary_id: string | null
           title: string | null
           updated_at: string | null
           url: string
@@ -26,11 +27,12 @@ export interface Database {
         Insert: {
           created_at?: string
           description?: string | null
-          estimate: string
+          estimate: Json
           favicon?: string | null
           id?: string
           reason?: string | null
           status?: Database["public"]["Enums"]["status"]
+          summary_id?: string | null
           title?: string | null
           updated_at?: string | null
           url: string
@@ -39,17 +41,25 @@ export interface Database {
         Update: {
           created_at?: string
           description?: string | null
-          estimate?: string
+          estimate?: Json
           favicon?: string | null
           id?: string
           reason?: string | null
           status?: Database["public"]["Enums"]["status"]
+          summary_id?: string | null
           title?: string | null
           updated_at?: string | null
           url?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "links_summary_id_fkey"
+            columns: ["summary_id"]
+            isOneToOne: false
+            referencedRelation: "summaries"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "links_user_id_fkey"
             columns: ["user_id"]
@@ -94,25 +104,14 @@ export interface Database {
       match_summaries: {
         Args: {
           query_embedding: string
-          match_threshold: number
-          match_count: number
+          match_count?: number
+          filter?: Json
         }
         Returns: {
           id: string
           content: string
-          similarity: number
-        }[]
-      }
-      match_summaries_for_user: {
-        Args: {
-          user_id: string
-          query_embedding: string
-          match_threshold: number
-          match_count: number
-        }
-        Returns: {
-          id: string
-          content: string
+          metadata: Json
+          embedding: Json
           similarity: number
         }[]
       }

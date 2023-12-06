@@ -6,7 +6,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Loader2 } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
-import type { LinkMetadata } from "@/lib/types"
+import type { LinkEstimate, LinkMetadata } from "@/lib/types"
 import { urlRegex } from "@/lib/utils"
 
 import { Button } from "../ui/button"
@@ -14,7 +14,7 @@ import { Skeleton } from "../ui/skeleton"
 
 interface Props {
   link: string
-  estimate: string | null
+  estimate: LinkEstimate | null
   metadata: LinkMetadata | null
   loading: boolean
   onSuccess: () => void
@@ -32,11 +32,12 @@ export const ParseBlock = ({
 
   const isValid = urlRegex.test(link)
 
+  const router = useRouter()
+
   if (loading) return <ComponentSkeleton />
 
   if (!link || !estimate) return null
 
-  const router = useRouter()
   const supabase = createClientComponentClient<Database>()
 
   const handleSave = async () => {
@@ -73,7 +74,7 @@ export const ParseBlock = ({
       <div className="flex w-full justify-between">
         <div>
           <p className="text-xs">Time to process:</p>
-          <p>~{estimate}</p>
+          <p>~{estimate.humanReadable}</p>
         </div>
         <Button
           onClick={handleSave}
