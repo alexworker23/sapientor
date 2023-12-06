@@ -3,9 +3,9 @@ import { cookies } from "next/headers"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { OpenAIStream, StreamingTextResponse } from "ai"
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
-import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 import OpenAI from "openai"
 import type { ChatCompletionMessageParam } from "openai/resources/index.mjs"
+import { SupabaseHybridSearch } from "langchain/retrievers/supabase";
 
 import type { Database } from "@/lib/database.types"
 
@@ -26,22 +26,25 @@ export async function POST(req: Request) {
     messages: { content: string; role: string }[]
   }
 
-  const supabase = createServerSupabaseClient()
-  const store = new SupabaseVectorStore(embeddings, {
-    client: supabase,
-    tableName: "summaries",
-    queryName: "match_summaries",
-  })
-
   const userMessages = messages
     .filter((m) => m.role === "user")
     .map((m) => m.content)
-  const searchQuery = userMessages?.join("\n") ?? ""
-  const results = await store.similaritySearch(searchQuery, 3)
+  const threeLastUserMessages = userMessages.slice(-3).reverse().join('\n ')
+  
+  const supabase = createServerSupabaseClient()
+  const retriever = new SupabaseHybridSearch(embeddings, {
+    client: supabase,
+    similarityK: 2,
+    keywordK: 2,
+    tableName: "summaries",
+    similarityQueryName: "match_summaries",
+    keywordQueryName: "kw_match_summaries",
+  });
+  const results = await retriever.getRelevantDocuments(threeLastUserMessages);
 
   const messagesWithContext = messages.map((m, idx) => {
     if (idx !== messages.length - 1) return m
-    const context = results[0].pageContent
+    const context = results.map((r) => r.pageContent).join("\n\n ")
     return {
       ...m,
       content: `${m.content}\n\nContext: ${context}`,
