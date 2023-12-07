@@ -10,8 +10,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
+import { FeedbackModal } from "./feedback-modal"
+import { HelpModal } from "./help-modal"
 
 interface Props {
   user: User
@@ -40,8 +43,10 @@ export const UserDisplay = ({ user }: Props) => {
             <LinkIcon size={16} className="ml-2" />
           </DropdownMenuItem>
         </Link>
-        {/* <HelpModal /> */}
-        {/* <FeedbackModal /> */}
+        <DropdownMenuSeparator /> 
+        <HelpModal />
+        <FeedbackModal />
+        <DropdownMenuSeparator /> 
         <LogOutButton />
       </DropdownMenuContent>
     </DropdownMenu>

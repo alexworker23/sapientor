@@ -21,6 +21,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@react-email/components": "^0.0.12",
     "@supabase/auth-helpers-nextjs": "^0.8.7",
     "@supabase/supabase-js": "^2.39.0",
     "@tanstack/react-table": "^8.10.7",
@@ -36,6 +37,7 @@
     "react-dom": "^18",
     "react-markdown": "^9.0.1",
     "react-wrap-balancer": "^1.1.0",
+    "resend": "^2.0.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.4.7"
