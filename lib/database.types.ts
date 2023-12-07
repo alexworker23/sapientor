@@ -96,11 +96,44 @@ export interface Database {
         }
         Relationships: []
       }
+      "test-gpt": {
+        Row: {
+          created_at: string
+          email: string
+          id: number
+          summary: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: number
+          summary: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: number
+          summary?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      kw_match_summaries: {
+        Args: {
+          query_text: string
+          match_count: number
+        }
+        Returns: {
+          id: string
+          content: string
+          metadata: Json
+          similarity: number
+        }[]
+      }
       match_summaries: {
         Args: {
           query_embedding: string

@@ -72,8 +72,8 @@ export const HelpModal = () => {
           <DialogTitle>Submit Help Request</DialogTitle>
           <DialogDescription>
             <Balancer>
-              Describe your issue or question below and click &quot;Send&quot;. Our
-              support team will get back to you shortly.
+              Describe your issue or question below and click &quot;Send&quot;.
+              Our support team will get back to you shortly.
             </Balancer>
           </DialogDescription>
         </DialogHeader>
