@@ -15,7 +15,10 @@ const createServerSupabaseClient = cache(() => {
   )
 })
 
-export async function GET(request: NextRequest, { params: { user_id }}: { params: { user_id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params: { user_id } }: { params: { user_id: string } }
+) {
   if (!user_id) {
     return new Response(JSON.stringify({ error: "user_id is required" }), {
       status: 400,
