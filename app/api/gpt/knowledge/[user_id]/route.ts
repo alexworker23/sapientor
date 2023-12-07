@@ -24,11 +24,17 @@ export async function GET(request: NextRequest, { params: { user_id }}: { params
 
   const supabase = createServerSupabaseClient()
 
-  const { data: summaries } = await supabase
+  const { data: summaries, error } = await supabase
     .from("summaries")
     .select(`content, metadata->url, metadata->title`)
-    .eq("metadata->user_id", user_id)
+    .eq("metadata->>user_id", user_id)
     .order("created_at", { ascending: false })
+
+  if (error) {
+    return new Response(JSON.stringify({ error }), {
+      status: 500,
+    })
+  }
 
   return new Response(JSON.stringify(summaries), {
     status: 200,
