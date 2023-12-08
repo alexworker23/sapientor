@@ -47,11 +47,7 @@ export async function GET(request: NextRequest) {
   }
 
   const supabase = createServerSupabaseClient()
-  const { data: user, error } = await supabase
-    .from("users")
-    .select("id, email")
-    .eq("id", userId)
-    .single()
+  const { data: user, error } = await supabase.auth.admin.getUserById(userId)
 
   if (error) {
     return new Response(JSON.stringify({ error }), {
