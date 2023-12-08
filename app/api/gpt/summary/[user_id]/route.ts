@@ -18,22 +18,24 @@ const createServerSupabaseClient = cache(() => {
   )
 })
 
-export async function POST(request: Request) {
-  const header = request.headers.get('x-api-key')
-  if (header !== process.env.GPT_API_KEY) {
+export async function POST(
+  request: Request,
+  { params: { user_id } }: { params: { user_id: string } }
+) {
+  const apiKey = request.headers.get("x-api-key")
+  if (apiKey !== process.env.GPT_API_KEY) {
     return new Response(JSON.stringify({ error: "Unauthorized access" }), {
       status: 401,
     })
   }
-  
-  const { url, title, content, user_id, description } =
-    (await request.json()) as {
-      url: string | undefined
-      title: string | undefined
-      description: string | undefined
-      content: string | undefined
-      user_id: string | undefined
-    }
+
+  const { url, title, content, description } = (await request.json()) as {
+    url: string | undefined
+    title: string | undefined
+    description: string | undefined
+    content: string | undefined
+    user_id: string | undefined
+  }
 
   if (!content || !user_id || !title || !url) {
     return new Response(JSON.stringify({ error: "Bad Request" }), {

@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
+import jwt from "jsonwebtoken"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -49,3 +50,26 @@ export function decodeHtmlEntities(text: string): string {
 }
 
 export const home_tab_cookie_name = "home-tab"
+
+const SECRET_KEY = process.env.JWT_SECRET_KEY || ""
+
+export function generateUserToken(userId: string): string {
+  const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" })
+  return token
+}
+
+export function decodeUserToken(token: string): {
+  userId: string | null
+  expired: boolean
+} {
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY) as jwt.JwtPayload
+    return { userId: decoded.userId, expired: false }
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      return { userId: null, expired: true }
+    }
+    console.error("Token verification failed:", error)
+    return { userId: null, expired: false }
+  }
+}

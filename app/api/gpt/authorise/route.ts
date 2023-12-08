@@ -4,6 +4,7 @@ import type { NextRequest } from "next/server"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
+import { decodeUserToken } from "@/lib/utils"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
@@ -15,10 +16,7 @@ const createServerSupabaseClient = cache(() => {
   )
 })
 
-export async function GET(
-  request: NextRequest,
-  { params: { user_id } }: { params: { user_id: string } }
-) {
+export async function GET(request: NextRequest) {
   const header = request.headers.get("x-api-key")
   if (header !== process.env.GPT_API_KEY) {
     return new Response(JSON.stringify({ error: "Unauthorized access" }), {
@@ -26,19 +24,34 @@ export async function GET(
     })
   }
 
-  if (!user_id) {
-    return new Response(JSON.stringify({ error: "user_id is required" }), {
+  const searchParams = request.nextUrl.searchParams
+  const token = searchParams.get("token")
+
+  if (!token) {
+    return new Response(JSON.stringify({ error: "Token is required" }), {
+      status: 400,
+    })
+  }
+
+  const { userId, expired } = decodeUserToken(token)
+  if (expired) {
+    return new Response(JSON.stringify({ error: "Token has expired" }), {
+      status: 400,
+    })
+  }
+
+  if (!userId) {
+    return new Response(JSON.stringify({ error: "Invalid token" }), {
       status: 400,
     })
   }
 
   const supabase = createServerSupabaseClient()
-
-  const { data: summaries, error } = await supabase
-    .from("summaries")
-    .select(`content, metadata->url, metadata->title`)
-    .eq("metadata->>user_id", user_id)
-    .order("created_at", { ascending: false })
+  const { data: user, error } = await supabase
+    .from("users")
+    .select("id, email")
+    .eq("id", userId)
+    .single()
 
   if (error) {
     return new Response(JSON.stringify({ error }), {
@@ -46,7 +59,7 @@ export async function GET(
     })
   }
 
-  return new Response(JSON.stringify(summaries), {
+  return new Response(JSON.stringify(user), {
     status: 200,
   })
 }

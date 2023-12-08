@@ -4,7 +4,7 @@ import { useEffect, type ChangeEventHandler } from "react"
 import dayjs from "dayjs"
 import { CheckCircle, ClipboardCheckIcon } from "lucide-react"
 
-import { useDebounce } from "@/lib/client-utils"
+import { useDebounce } from "@/lib/hooks"
 import { useLinkStore } from "@/lib/store"
 import { LinkEstimate } from "@/lib/types"
 import { msToHumanReadable, urlRegex } from "@/lib/utils"
