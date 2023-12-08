@@ -19,6 +19,13 @@ export async function GET(
   request: NextRequest,
   { params: { user_id } }: { params: { user_id: string } }
 ) {
+  const header = request.headers.get('x-api-key')
+  if (header !== process.env.GPT_API_KEY) {
+    return new Response(JSON.stringify({ error: "Unauthorized access" }), {
+      status: 401,
+    })
+  }
+
   if (!user_id) {
     return new Response(JSON.stringify({ error: "user_id is required" }), {
       status: 400,
