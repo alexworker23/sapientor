@@ -55,7 +55,10 @@ export async function GET(request: NextRequest) {
     })
   }
 
-  return new Response(JSON.stringify(user), {
+  return new Response(JSON.stringify({
+    id: user.user.id,
+    email: user.user.email,
+  }), {
     status: 200,
   })
 }
