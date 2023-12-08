@@ -4,7 +4,9 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
 import { home_tab_cookie_name } from "@/lib/utils"
+import { Landing } from "@/components/home/landing"
 import { HomeUserTabs } from "@/components/home/tabs"
+import { Footer } from "@/components/layout/footer"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
@@ -18,11 +20,12 @@ export default async function Home() {
   } = await supabase.auth.getUser()
   const defaultTab = cookies().get(home_tab_cookie_name)?.value
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-16">
-      {!user && (
-        <h1 className="text-3xl">Welcome to your Personal Assistant!</h1>
-      )}
-      {user && <HomeUserTabs defaultTab={defaultTab} />}
-    </main>
+    <>
+      <main className="flex min-h-screen flex-col items-center justify-between p-16">
+        {!user && <Landing />}
+        {user && <HomeUserTabs defaultTab={defaultTab} />}
+      </main>
+      {!user && <Footer />}
+    </>
   )
 }

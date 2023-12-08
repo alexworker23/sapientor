@@ -51,7 +51,7 @@ const Page = async () => {
         In order to use the Knowledge Hub Assistant with ChatGPT do the
         following steps:
       </p>
-      <div className="mt-5 grid gap-5">
+      <div className="mt-5 grid gap-5 max-w-lg mx-auto">
         <div>
           <h2 className="text-xl mb-2.5">1. Copy the code</h2>
           <div className="flex gap-2 items-center">

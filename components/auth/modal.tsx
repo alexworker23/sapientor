@@ -4,7 +4,7 @@ import { useState } from "react"
 import { MailCheck } from "lucide-react"
 import Balancer from "react-wrap-balancer"
 
-import { Button } from "../ui/button"
+import { Button, ButtonProps } from "../ui/button"
 import {
   Dialog,
   DialogContent,
@@ -17,13 +17,18 @@ import { GoogleSignInButton } from "./google-button"
 import { LogInForm } from "./log-in-form"
 import { OrDivider } from "./or-divider"
 
-export const AuthModal = () => {
+interface Props extends ButtonProps {
+  buttonLabel?: string
+}
+
+export const AuthModal = ({ buttonLabel = 'Log in', ...props }: Props) => {
   const [isEmailSent, setIsEmailSent] = useState(false)
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="secondary" className="text-sm" size="sm">
-          Log in
+        <Button variant="secondary" className="text-sm" size="sm" {...props}>
+          {buttonLabel}
         </Button>
       </DialogTrigger>
       <DialogContent className="gap-5">
