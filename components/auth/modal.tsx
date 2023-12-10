@@ -21,7 +21,7 @@ interface Props extends ButtonProps {
   buttonLabel?: string
 }
 
-export const AuthModal = ({ buttonLabel = 'Log in', ...props }: Props) => {
+export const AuthModal = ({ buttonLabel = "Log in", ...props }: Props) => {
   const [isEmailSent, setIsEmailSent] = useState(false)
 
   return (

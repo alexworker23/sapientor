@@ -1,6 +1,7 @@
 import { SVGProps } from "react"
 import Link from "next/link"
 
+import { AuthModal } from "../auth/modal"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Button } from "../ui/button"
 import {
@@ -10,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card"
-import { AuthModal } from "../auth/modal"
 
 export const Landing = () => {
   return (
@@ -33,7 +33,12 @@ export const Landing = () => {
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Button variant="outline">Watch Now</Button>
-                <AuthModal buttonLabel="Get Started" variant="default" className="text-base" size="default" />
+                <AuthModal
+                  buttonLabel="Get Started"
+                  variant="default"
+                  className="text-base"
+                  size="default"
+                />
               </div>
             </div>
           </div>
@@ -217,7 +222,9 @@ export const Landing = () => {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" disabled>Default</Button>
+                <Button className="w-full" disabled>
+                  Default
+                </Button>
               </CardFooter>
             </Card>
             <Card>

@@ -7,9 +7,9 @@ export const Footer = () => {
         <div>
           <h2 className="text-lg font-medium mb-2">Follow Us</h2>
           <div className="flex space-x-4">
-          <Link className="text-sm block mb-1 hover:underline" href="#">
-            Twitter
-          </Link>
+            <Link className="text-sm block mb-1 hover:underline" href="#">
+              Twitter
+            </Link>
           </div>
         </div>
         <div className="mt-6 md:mt-0">
@@ -23,7 +23,9 @@ export const Footer = () => {
         </div>
       </div>
       <div className="container mx-auto p-6 text-center">
-        <p className="text-sm">© {new Date().getFullYear()} sapientor. All rights reserved.</p>
+        <p className="text-sm">
+          © {new Date().getFullYear()} sapientor. All rights reserved.
+        </p>
         <div className="flex justify-center space-x-4 mt-2">
           <Link className="text-sm hover:underline" href="#">
             Terms of Service

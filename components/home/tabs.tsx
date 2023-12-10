@@ -4,7 +4,6 @@ import { home_tab_cookie_name } from "@/lib/utils"
 import { storeTabChoice } from "@/app/actions/store-tab-choice"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
-import { Chat } from "./chat"
 import { LinkForm } from "./link-form"
 
 interface Props {
@@ -24,22 +23,24 @@ export const HomeUserTabs = ({ defaultTab = "add" }: Props) => {
       <div className="flex justify-center mb-4">
         <TabsList className="w-[180px]">
           <TabsTrigger value="add" className="w-full">
-            Add
+            Link
           </TabsTrigger>
-          <TabsTrigger value="chat" className="w-full">
-            Chat
+          <TabsTrigger value="file" className="w-full">
+            File
+          </TabsTrigger>
+          <TabsTrigger value="text" className="w-full">
+            Text
           </TabsTrigger>
         </TabsList>
       </div>
       <TabsContent value="add" className="w-[400px]">
         <LinkForm />
       </TabsContent>
-      <TabsContent value="chat" className="w-[600px]">
-        {/* 
-              Here at the top should be an ability to select a bot user will be communicating with.
-              These should be round avatars with images. 
-            */}
-        <Chat />
+      <TabsContent value="file" className="w-[400px]">
+        File upload
+      </TabsContent>
+      <TabsContent value="text" className="w-[400px]">
+        Text window
       </TabsContent>
     </Tabs>
   )
