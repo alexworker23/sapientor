@@ -5,7 +5,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import dayjs from "dayjs"
 import { MoreHorizontal } from "lucide-react"
 
-import type { LinkEntity, LinkEstimate } from "@/lib/types"
+import type { LinkEntity, ParsingEstimate } from "@/lib/types"
 import { cn, decodeHtmlEntities } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -46,7 +46,7 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
     header: "Deadline",
     cell: ({ row }) => {
       const formatted = dayjs(
-        (row.original.estimate as LinkEstimate).deadline
+        (row.original.estimate as ParsingEstimate).deadline
       ).format("DD MMM YYYY HH:mm")
       const isOverdue = dayjs().isAfter(formatted)
       const isComplete = row.original.status !== "PENDING"

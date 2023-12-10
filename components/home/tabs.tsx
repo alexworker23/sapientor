@@ -4,7 +4,8 @@ import { home_tab_cookie_name } from "@/lib/utils"
 import { storeTabChoice } from "@/app/actions/store-tab-choice"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
-import { LinkForm } from "./link-form"
+import { FileForm } from "./file/form"
+import { LinkForm } from "./link/form"
 
 interface Props {
   defaultTab: string | undefined
@@ -37,7 +38,7 @@ export const HomeUserTabs = ({ defaultTab = "add" }: Props) => {
         <LinkForm />
       </TabsContent>
       <TabsContent value="file" className="w-[400px]">
-        File upload
+        <FileForm />
       </TabsContent>
       <TabsContent value="text" className="w-[400px]">
         Text window

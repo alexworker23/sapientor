@@ -4,7 +4,7 @@ import { redirect } from "next/navigation"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
-import { Chat } from "@/components/home/chat"
+import { Chat } from "@/components/chat/chat"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
@@ -19,11 +19,11 @@ const Page = async () => {
   if (!user) return redirect("/")
   return (
     <main className="flex min-h-screen flex-col pb-10 pt-20 px-16">
-        <div className="max-w-xl mx-auto">
-            <Chat />
-        </div>
+      <div className="max-w-xl mx-auto">
+        <Chat />
+      </div>
     </main>
-)
+  )
 }
 
 export default Page

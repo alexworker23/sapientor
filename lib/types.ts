@@ -7,7 +7,7 @@ export type LinkMetadata = {
   url: string
 }
 
-export type LinkEstimate = {
+export type ParsingEstimate = {
   time: number
   deadline: string
   humanReadable: string

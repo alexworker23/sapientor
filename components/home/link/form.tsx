@@ -2,15 +2,15 @@
 
 import { useEffect, type ChangeEventHandler } from "react"
 import dayjs from "dayjs"
-import { CheckCircle, ClipboardCheckIcon } from "lucide-react"
+import { ClipboardCheckIcon } from "lucide-react"
 
 import { useDebounce } from "@/lib/hooks"
 import { useLinkStore } from "@/lib/store"
-import { LinkEstimate } from "@/lib/types"
+import { ParsingEstimate } from "@/lib/types"
 import { msToHumanReadable, urlRegex } from "@/lib/utils"
 
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
+import { Input } from "../../ui/input"
+import { SuccessMessage } from "../success-message"
 import { MetadataDisplay } from "./metadata-display"
 import { ParseBlock } from "./parse-block"
 
@@ -18,12 +18,12 @@ export const LinkForm = () => {
   const {
     link,
     setLink,
-    linkMetadata,
-    setLinkMetadata,
+    metadata,
+    setMetadata,
+    metadataLoading,
+    setMetadataLoading,
     estimate,
     setEstimate,
-    linkMetadataLoading,
-    setLinkMetadataLoading,
     estimateLoading,
     setEstimateLoading,
     saveSuccess,
@@ -32,13 +32,13 @@ export const LinkForm = () => {
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setLink(event.target.value)
-    linkMetadata && setLinkMetadata(null)
+    metadata && setMetadata(null)
     estimate && setEstimate(null)
   }
 
   const getMetadata = async (url: string) => {
     try {
-      setLinkMetadataLoading(true)
+      setMetadataLoading(true)
       const response = await fetch(`/api/metadata`, {
         method: "POST",
         body: JSON.stringify({ url }),
@@ -46,12 +46,12 @@ export const LinkForm = () => {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json())
-      setLinkMetadata(response)
+      setMetadata(response)
       return response
     } catch (error) {
       console.error(error)
     } finally {
-      setLinkMetadataLoading(false)
+      setMetadataLoading(false)
     }
   }
 
@@ -70,7 +70,7 @@ export const LinkForm = () => {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json())) as
-        | Omit<LinkEstimate, "humanReadable">
+        | Omit<ParsingEstimate, "humanReadable">
         | undefined
       if (!response) return
 
@@ -87,7 +87,7 @@ export const LinkForm = () => {
     const isValid = urlRegex.test(url)
     if (!isValid) return
 
-    const isSame = url === linkMetadata?.url
+    const isSame = url === metadata?.url
     if (isSame) return
 
     try {
@@ -107,7 +107,7 @@ export const LinkForm = () => {
     await navigator.clipboard.readText().then((text) => {
       if (!text.trim()) return
       setLink(text)
-      linkMetadata && setLinkMetadata(null)
+      metadata && setMetadata(null)
       estimate && setEstimate(null)
       fetchLinkData(text)
     })
@@ -116,26 +116,13 @@ export const LinkForm = () => {
   const handleSuccess = () => {
     setSaveSuccess(true)
     setLink("")
-    setLinkMetadata(null)
+    setMetadata(null)
     setEstimate(null)
   }
 
   if (saveSuccess) {
     return (
-      <div className="animate-in slide-in-from-top-2 w-full">
-        <div className="flex justify-center mb-1">
-          <CheckCircle className="text-green-600" size={32} />
-        </div>
-        <p className="text-center mb-4">
-          Link been send to the processing queue. You can check the status of
-          the link in your links page.
-        </p>
-        <div className="flex justify-center">
-          <Button type="button" onClick={() => setSaveSuccess(false)}>
-            Add another link
-          </Button>
-        </div>
-      </div>
+      <SuccessMessage type="link" handleClose={() => setSaveSuccess(false)} />
     )
   }
 
@@ -163,11 +150,16 @@ export const LinkForm = () => {
           Please enter a valid link
         </p>
       )}
-      <MetadataDisplay metadata={linkMetadata} loading={linkMetadataLoading} />
+      {!link && (
+        <p className="text-xs text-slate-600 -mt-1.5">
+          Type in the link to a data you want to add to your Knowledge Hub.
+        </p>
+      )}
+      <MetadataDisplay metadata={metadata} loading={metadataLoading} />
       <ParseBlock
         link={link}
         estimate={estimate}
-        metadata={linkMetadata}
+        metadata={metadata}
         loading={estimateLoading}
         onSuccess={handleSuccess}
       />

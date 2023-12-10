@@ -130,7 +130,7 @@ export const Landing = () => {
                   </div>
                   <div className="text-sm leading-loose text-gray-500 dark:text-gray-400">
                     <p>
-                      I've been using this product for a while now, and it's
+                      I&apos;ve been using this product for a while now, and it&apos;s
                       been a great addition to my routine. The quality is
                       exceptional and the customer service is top-notch. I would
                       highly recommend it!
@@ -167,10 +167,10 @@ export const Landing = () => {
                   <div className="text-sm leading-loose text-gray-500 dark:text-gray-400">
                     <p>
                       I recently purchased the product, and it has been a
-                      game-changer in my life. It's incredibly efficient and
-                      easy to use. The only reason I didn't give it a perfect
+                      game-changer in my life. It&apos;s incredibly efficient and
+                      easy to use. The only reason I didn&apos;t give it a perfect
                       5-star rating is because it took a while to arrive. But
-                      overall, it's been a great experience.
+                      overall, it&apos;s been a great experience.
                     </p>
                   </div>
                 </div>

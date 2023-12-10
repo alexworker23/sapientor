@@ -3,15 +3,15 @@
 import type { LinkMetadata } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
 
-import { Avatar, AvatarImage } from "../ui/avatar"
-import { Card, CardDescription, CardTitle } from "../ui/card"
-import { Skeleton } from "../ui/skeleton"
+import { Avatar, AvatarImage } from "../../ui/avatar"
+import { Card, CardDescription, CardTitle } from "../../ui/card"
+import { Skeleton } from "../../ui/skeleton"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip"
+} from "../../ui/tooltip"
 
 interface Props {
   metadata: LinkMetadata | null
@@ -20,9 +20,7 @@ interface Props {
 
 export const MetadataDisplay = ({ metadata, loading }: Props) => {
   if (loading) return <MetadataDisplaySkeleton />
-
   if (!metadata) return null
-
   return (
     <TooltipProvider>
       <Tooltip delayDuration={100}>

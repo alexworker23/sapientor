@@ -32,8 +32,8 @@ export function Chat() {
   }, [messages, isLoading])
 
   return (
-    <div className="mb-44">
-      <div className="mb-2.5 flex flex-col gap-1">
+    <div className="mb-44 -">
+      <div className="mb-2.5 flex flex-col gap-1 w-full">
         {messages.map((m) =>
           m.role === "user" ? (
             <UserMessage key={m.id} content={m.content} className="w-4/5" />
@@ -48,7 +48,7 @@ export function Chat() {
         {messages.length === 0 && (
           <UserMessage
             content="This chat is connected to your Knowledge Hub, so you can ask questions based on the already processed links.."
-            className="min-h-[44px]"
+            className="min-h-[44px] w-full"
           />
         )}
       </div>

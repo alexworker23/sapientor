@@ -3,18 +3,19 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { Loader2 } from "lucide-react"
+import { InfoIcon, Loader2 } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
-import type { LinkEstimate, LinkMetadata } from "@/lib/types"
+import type { LinkMetadata, ParsingEstimate } from "@/lib/types"
 import { urlRegex } from "@/lib/utils"
 
-import { Button } from "../ui/button"
-import { Skeleton } from "../ui/skeleton"
+import { Button } from "../../ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover"
+import { Skeleton } from "../../ui/skeleton"
 
 interface Props {
   link: string
-  estimate: LinkEstimate | null
+  estimate: ParsingEstimate | null
   metadata: LinkMetadata | null
   loading: boolean
   onSuccess: () => void
@@ -77,7 +78,23 @@ export const ParseBlock = ({
           </div>
         ) : (
           <div>
-            <p className="text-xs">Time to process:</p>
+            <p className="text-xs">
+              Time to process
+              <Popover>
+                <PopoverTrigger asChild>
+                  <InfoIcon
+                    size={14}
+                    className="inline ml-1 hover:opacity-50 cursor-pointer"
+                  />
+                </PopoverTrigger>
+                <PopoverContent className="text-xs font-medium p-2.5">
+                  Typically, parsing of an article takes ~10 seconds. But here
+                  we display the maximum time required to parse the article, in
+                  case there are some blockers on the website, or the content is
+                  not a plain text, but a video for example.
+                </PopoverContent>
+              </Popover>
+            </p>
             <p>~{estimate?.humanReadable}</p>
           </div>
         )}
