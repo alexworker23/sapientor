@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { StatusBadge } from "@/components/common/status-badge"
+import dayjs from "dayjs"
 
 export const columns: ColumnDef<LinkEntity>[] = [
   {
@@ -60,6 +61,13 @@ export const columns: ColumnDef<LinkEntity>[] = [
     header: "Status",
     cell: ({ row }) =>
       row.original.status ? <StatusBadge status={row.original.status} /> : null,
+  },
+  {
+    accessorKey: 'created',
+    header: 'Created',
+    cell: ({ row }) => {
+      return dayjs(row.original.created_at).format('MMM DD, YYYY HH:mm')
+    }
   },
   {
     id: "actions",

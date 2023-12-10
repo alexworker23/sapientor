@@ -6,6 +6,7 @@ import { storeTabChoice } from "@/app/actions/store-tab-choice"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { FileForm } from "./file/form"
 import { LinkForm } from "./link/form"
+import { TextForm } from "./text/form"
 
 interface Props {
   defaultTab: string | undefined
@@ -21,7 +22,7 @@ export const HomeUserTabs = ({ defaultTab = "add" }: Props) => {
 
   return (
     <Tabs defaultValue={defaultTab} onValueChange={handleChange}>
-      <div className="flex justify-center mb-4">
+      <div className="flex justify-center my-4">
         <TabsList className="w-[180px]">
           <TabsTrigger value="add" className="w-full">
             Link
@@ -41,7 +42,7 @@ export const HomeUserTabs = ({ defaultTab = "add" }: Props) => {
         <FileForm />
       </TabsContent>
       <TabsContent value="text" className="w-[400px]">
-        Text window
+        <TextForm />
       </TabsContent>
     </Tabs>
   )

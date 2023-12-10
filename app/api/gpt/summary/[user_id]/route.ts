@@ -78,7 +78,7 @@ export async function POST(
   const docs: Document[] = [
     {
       pageContent: contentToSave,
-      metadata: { user_id, link_id: link.id, url, title },
+      metadata: { user_id, link_id: link.id, url, title, author: 'gpt' },
     },
   ]
 

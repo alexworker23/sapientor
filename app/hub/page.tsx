@@ -62,10 +62,10 @@ const Page = async ({ searchParams }: Props) => {
     <main className="flex min-h-screen flex-col px-16 pb-10 pt-20">
       <div className="flex items-start justify-between mb-5">
         <div className="flex items-center gap-2">
-          <h1 className="text-3xl w-max">Your inventory</h1>
+          <h1 className="text-3xl w-max">Your Knowledge Hub</h1>
           <Popover>
             <PopoverTrigger>
-              <InfoIcon className="text-slate-500 transition-opacity hover:opacity-50" />
+              <InfoIcon className="text-slate-500 transition-opacity hover:opacity-50 mt-0.5" />
             </PopoverTrigger>
             <PopoverContent className="p-2.5">
               <p className="text-sm font-medium">

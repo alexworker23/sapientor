@@ -1,7 +1,7 @@
 "use client"
 
 import { FormEventHandler, useState } from "react"
-import { Loader2, MessageSquare } from "lucide-react"
+import { Loader2, MessageCircle } from "lucide-react"
 import Balancer from "react-wrap-balancer"
 
 import { sendFeedbackEmail } from "@/app/actions/send-feedback-email"
@@ -64,7 +64,7 @@ export const FeedbackModal = () => {
           className="flex justify-between"
         >
           <span>Feedback</span>
-          <MessageSquare size={16} className="ml-2" />
+          <MessageCircle size={16} className="ml-2" />
         </DropdownMenuItem>
       </DialogTrigger>
       <DialogContent>

@@ -1,6 +1,6 @@
 import Link from "next/link"
 import type { User } from "@supabase/auth-helpers-nextjs"
-import { LinkIcon, MessagesSquare } from "lucide-react"
+import { BookMarked, MessagesSquare } from "lucide-react"
 
 import { LogOutButton } from "../auth/log-out-button"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
@@ -38,7 +38,7 @@ export const UserDisplay = ({ user }: Props) => {
         <Link href="/hub">
           <DropdownMenuItem className="flex justify-between">
             <span>Knowledge Hub</span>
-            <LinkIcon size={16} className="ml-4" />
+            <BookMarked size={16} className="ml-4" />
           </DropdownMenuItem>
         </Link>
         <Link href="/connect-gpt">

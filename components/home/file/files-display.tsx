@@ -26,7 +26,10 @@ export const FilesDisplay = ({ files }: Props) => {
       </div>
       <div className="grid grid-cols-2 gap-x-4 gap-y-2">
         {files.map((file) => (
-          <div key={`file-${file.name}-${file.size}`} className="flex items-center gap-2 w-full">
+          <div
+            key={`file-${file.name}-${file.size}`}
+            className="flex items-center gap-2 w-full"
+          >
             {getFileLogo(file.name)}
             <div>
               <p className="text-sm font-medium">{getFileName(file.name)}</p>
