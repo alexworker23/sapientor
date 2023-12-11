@@ -30,21 +30,22 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
     try {
       errorText && setErrorText(null)
       setSaving(true)
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) throw new Error("User is not authenticated")
 
       const uploadedFiles = await Promise.all(
         files.map(async (file) => {
-          const filePath = generateUniqueFilePath(file)
+          const filePath = generateUniqueFilePath(file, user.id)
           const { error: uploadError } = await supabase.storage
             .from("files")
             .upload(filePath, file)
 
           if (uploadError) throw new Error(uploadError.message)
 
-          const {
-            data: { publicUrl: fileUrl },
-          } = await supabase.storage.from("files").getPublicUrl(filePath)
           return {
-            url: fileUrl,
+            url: filePath,
             title: file.name,
           }
         })
@@ -62,6 +63,7 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
 
       if (creationError) throw new Error(creationError.message)
       if (!createdEntities) throw new Error("Error while saving link")
+
       router.refresh()
       onSuccess()
     } catch (error) {
@@ -116,9 +118,12 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
   )
 }
 
-const generateUniqueFilePath = (file: File) => {
+const generateUniqueFilePath = (file: File, user_id: string) => {
   const fileExt = file.name.split(".").pop()
+
   const timestamp = Date.now()
+
   const randomString = Math.random().toString(36).substring(2, 15) // Random string for uniqueness
-  return `${timestamp}-${randomString}.${fileExt}`
+
+  return `${user_id}/${timestamp}-${randomString}.${fileExt}`
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import type { ColumnDef } from "@tanstack/react-table"
+import dayjs from "dayjs"
 import { MoreHorizontal } from "lucide-react"
 
 import type { LinkEntity } from "@/lib/types"
@@ -17,7 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { StatusBadge } from "@/components/common/status-badge"
-import dayjs from "dayjs"
 
 export const columns: ColumnDef<LinkEntity>[] = [
   {
@@ -63,11 +63,11 @@ export const columns: ColumnDef<LinkEntity>[] = [
       row.original.status ? <StatusBadge status={row.original.status} /> : null,
   },
   {
-    accessorKey: 'created',
-    header: 'Created',
+    accessorKey: "created",
+    header: "Created",
     cell: ({ row }) => {
-      return dayjs(row.original.created_at).format('MMM DD, YYYY HH:mm')
-    }
+      return dayjs(row.original.created_at).format("MMM DD, YYYY HH:mm")
+    },
   },
   {
     id: "actions",

@@ -69,7 +69,13 @@ export const addSummary = async (data: FormData) => {
   const docs: Document[] = [
     {
       pageContent: contentToSave,
-      metadata: { user_id: userId, link_id: linkId, url, title, author: 'admin' },
+      metadata: {
+        user_id: userId,
+        link_id: linkId,
+        url,
+        title,
+        author: "admin",
+      },
     },
   ]
 

@@ -23,7 +23,7 @@ export const HomeUserTabs = ({ defaultTab = "add" }: Props) => {
   return (
     <Tabs defaultValue={defaultTab} onValueChange={handleChange}>
       <div className="flex justify-center my-4">
-        <TabsList className="w-[180px]">
+        <TabsList className="w-[280px]">
           <TabsTrigger value="add" className="w-full">
             Link
           </TabsTrigger>
