@@ -19,6 +19,7 @@ export const TextForm = () => {
 
   const handleSuccess = () => {
     setSaveSuccess(true)
+    setText("")
   }
 
   return (

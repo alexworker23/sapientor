@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react"
 import type { Database } from "@/lib/database.types"
 
 import { Button } from "../../ui/button"
+import { addOwnSummary } from "@/app/actions/add-own-summary"
 
 // import { addSummary } from "@/app/actions/add-summary"
 
@@ -46,15 +47,16 @@ export const ParseBlock = ({ text, onSuccess }: Props) => {
       if (creationError) throw new Error(creationError.message)
       if (!createdEntity) throw new Error("Error while saving link")
 
-      // @will end up in 403
-      // const formData = new FormData()
-      // formData.append("title", createdEntity.title ?? '')
-      // formData.append("description", createdEntity.description ?? '')
-      // formData.append("content", text)
-      // formData.append("linkId", createdEntity.id)
-      // formData.append("userId", createdEntity.user_id)
-      // const { code, message } = await addSummary(formData)
-      // if (code !== 200) throw new Error(message)
+      const formData = new FormData()
+      formData.append('url', '#user-text')
+      formData.append("title", createdEntity.title ?? '')
+      formData.append("description", createdEntity.description ?? '')
+      formData.append("content", text)
+      formData.append("linkId", createdEntity.id)
+      formData.append("userId", createdEntity.user_id)
+
+      const { code, message } = await addOwnSummary(formData)
+      if (code !== 200) throw new Error(message)
 
       router.refresh()
       onSuccess()

@@ -45,7 +45,7 @@ export const FileForm = () => {
         time: ms,
         deadline: dayjs()
           .add(3 * arr.length, "hour")
-          .format("HH:mm"),
+          .toISOString(),
         humanReadable: msToHumanReadable(ms),
       })
     } else {
