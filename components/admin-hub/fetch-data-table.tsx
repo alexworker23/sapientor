@@ -4,7 +4,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
 
-import { admin_columns } from "./admin-columns"
+import { admin_columns } from "./columns"
 import { DataTable } from "../hub/data-table"
 
 const createServerSupabaseClient = cache(() => {

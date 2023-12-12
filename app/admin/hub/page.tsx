@@ -3,7 +3,7 @@ import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
-import { RejectModal } from "@/components/hub/reject-modal"
+import { RejectModal } from "@/components/admin-hub/reject-modal"
 import { Skeleton } from "@/components/ui/skeleton"
 import { FetchAdminDataTable } from "@/components/admin-hub/fetch-data-table"
 
