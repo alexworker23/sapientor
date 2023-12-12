@@ -14,6 +14,7 @@ const createServerSupabaseClient = cache(() => {
   return createServerComponentClient<Database>({ cookies: () => cookieStore })
 })
 
+// @ts-ignore
 export default async function Layout({
   children,
 }: {
