@@ -26,7 +26,7 @@ export default async function Layout({
 
   if (!user) return redirect("/")
   if (user.email && admin_list.includes(user.email))
-    return redirect("/admin/links")
+    return redirect("/admin/hub")
 
   return children
 }

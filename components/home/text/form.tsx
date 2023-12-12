@@ -30,11 +30,6 @@ export const TextForm = () => {
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      {!text && (
-        <p className="text-xs text-slate-600 -mt-1.5">
-          Type in the text you want to add to your Knowledge Hub.
-        </p>
-      )}
       <ParseBlock text={text} onSuccess={handleSuccess} />
     </div>
   )

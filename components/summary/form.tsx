@@ -39,7 +39,7 @@ export const SummaryForm = ({ link }: Props) => {
         description: "Summary added successfully!",
       })
       router.refresh()
-      router.push("/admin/links")
+      router.push("/admin/hub")
     } catch (error) {
       console.error(error)
       toast({

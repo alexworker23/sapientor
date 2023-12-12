@@ -92,11 +92,16 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
             </a>
             {isLinkPending && <DropdownMenuSeparator />}
             {isLinkPending && (
-              <Link href={`/admin/links/${link.id}/add-summary`}>
+              <Link href={`/admin/hub/${link.id}/add-summary`}>
                 <DropdownMenuItem className="text-green-600">
                   Add summary
                 </DropdownMenuItem>
               </Link>
+            )}
+            {isLinkPending && (
+              <DropdownMenuItem className="text-green-600" onClick={() => parseLink(row.original.id)}>
+                Auto-parse
+              </DropdownMenuItem>
             )}
             {isLinkPending && (
               <Link href={`?linkId=${link.id}&action=reject`}>
@@ -111,3 +116,14 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
     },
   },
 ]
+
+const parseLink = async (link_id: string) => {
+  try {
+    fetch('/api/parse/link', {
+      method: 'POST',
+      body: JSON.stringify({ link_id }),
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}

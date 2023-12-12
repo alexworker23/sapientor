@@ -19,7 +19,7 @@ export const FilesDisplay = ({ files }: Props) => {
   return (
     <Card className="flex flex-col p-2.5 items-start space-x-0 max-w-full overflow-hidden">
       <div className="flex justify-between items-center w-full mb-5">
-        <h2 className="text-base font-bold">Uploaded Files</h2>
+        <h2 className="text-base font-bold">Files to Upload</h2>
         <Badge>
           {files.length} File{files.length > 1 ? "s" : ""}
         </Badge>

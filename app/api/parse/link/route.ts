@@ -96,10 +96,6 @@ export async function POST(req: Request) {
     ${summary}
   `
 
-  console.log({
-    contentToSave,
-  })
-
   const embeddings = new OpenAIEmbeddings()
   const store = new SupabaseVectorStore(embeddings, {
     client: supabase,
@@ -120,10 +116,6 @@ export async function POST(req: Request) {
   ]
 
   const storedIds = await store.addDocuments(docs)
-
-  console.log({
-    storedIds,
-  })
 
   return new Response(JSON.stringify({ ids: storedIds }), {
     status: 200,

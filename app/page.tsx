@@ -18,7 +18,9 @@ export default async function Home() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
   const defaultTab = cookies().get(home_tab_cookie_name)?.value
+  
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-16">
