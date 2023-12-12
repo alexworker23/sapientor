@@ -7,9 +7,9 @@ import dayjs from "dayjs"
 import { Loader2 } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
+import { addOwnSummary } from "@/app/actions/add-own-summary"
 
 import { Button } from "../../ui/button"
-import { addOwnSummary } from "@/app/actions/add-own-summary"
 
 // import { addSummary } from "@/app/actions/add-summary"
 
@@ -48,9 +48,9 @@ export const ParseBlock = ({ text, onSuccess }: Props) => {
       if (!createdEntity) throw new Error("Error while saving link")
 
       const formData = new FormData()
-      formData.append('url', '#user-text')
-      formData.append("title", createdEntity.title ?? '')
-      formData.append("description", createdEntity.description ?? '')
+      formData.append("url", "#user-text")
+      formData.append("title", createdEntity.title ?? "")
+      formData.append("description", createdEntity.description ?? "")
       formData.append("content", text)
       formData.append("linkId", createdEntity.id)
       formData.append("userId", createdEntity.user_id)

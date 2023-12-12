@@ -11,9 +11,7 @@ import type { Database } from "@/lib/database.types"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
-  return createServerActionClient<Database>(
-    { cookies: () => cookieStore },
-  )
+  return createServerActionClient<Database>({ cookies: () => cookieStore })
 })
 
 export const addOwnSummary = async (data: FormData) => {
@@ -35,7 +33,7 @@ export const addOwnSummary = async (data: FormData) => {
   const content = data.get("content") as string
   const linkId = data.get("linkId") as string
   const userId = data.get("userId") as string
-  
+
   if (!content || !linkId || !title || !userId || !url) {
     return {
       code: 400,

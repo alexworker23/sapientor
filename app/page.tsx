@@ -4,8 +4,8 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
 import { home_tab_cookie_name } from "@/lib/utils"
-import { Landing } from "@/components/home/landing"
 import { HomeUserTabs } from "@/components/home/tabs"
+import { Landing } from "@/components/landing"
 import { Footer } from "@/components/layout/footer"
 
 const createServerSupabaseClient = cache(() => {

@@ -30,8 +30,8 @@ export const HomeUserTabs = ({ defaultTab = "add" }: Props) => {
           <TabsTrigger value="file" className="w-full">
             File
           </TabsTrigger>
-          <TabsTrigger value="text" className="w-full">
-            Text
+          <TabsTrigger value="note" className="w-full">
+            Note
           </TabsTrigger>
         </TabsList>
       </div>
@@ -41,7 +41,7 @@ export const HomeUserTabs = ({ defaultTab = "add" }: Props) => {
       <TabsContent value="file" className="w-[400px]">
         <FileForm />
       </TabsContent>
-      <TabsContent value="text" className="w-[400px]">
+      <TabsContent value="note" className="w-[400px]">
         <TextForm />
       </TabsContent>
     </Tabs>

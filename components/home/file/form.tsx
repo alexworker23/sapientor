@@ -28,11 +28,21 @@ export const FileForm = () => {
     const files = event.target.files
     const arr = files ? Array.from(files) : null
     const maxFiles = 4
+    const maxSize = 25 * 1024 * 1024
 
     if (arr && arr.length > maxFiles) {
       toast({
         title: "Too many files",
         description: `You can upload max ${maxFiles} files`,
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (arr && arr.some((file) => file.size > maxSize)) {
+      toast({
+        title: "File too big",
+        description: `Max file size is 25 MB`,
         variant: "destructive",
       })
       return

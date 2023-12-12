@@ -30,9 +30,7 @@ const systemMessage: ChatCompletionSystemMessageParam = {
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
-  return createRouteHandlerClient<Database>(
-    { cookies: () => cookieStore },
-  )
+  return createRouteHandlerClient<Database>({ cookies: () => cookieStore })
 })
 
 export async function POST(req: Request) {
@@ -58,9 +56,12 @@ export async function POST(req: Request) {
     typeof (data?.estimate as ParsingEstimate)?.time === "number" &&
     (data?.estimate as ParsingEstimate)?.time > 3600000
   ) {
-    return new Response(JSON.stringify({ message: 'Parsing is not possible for this link' }), {
-      status: 200,
-    })
+    return new Response(
+      JSON.stringify({ message: "Parsing is not possible for this link" }),
+      {
+        status: 200,
+      }
+    )
   }
 
   if (error) {
