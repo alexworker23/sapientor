@@ -21,7 +21,7 @@ export const HeroBanner = () => {
               <AuthModal
                 buttonLabel="Get Started"
                 variant="default"
-                className="text-base"
+                className="text-sm"
                 size="default"
               />
             </div>
