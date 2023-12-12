@@ -5,7 +5,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
 
-import { AuthModal } from "../auth/modal"
+import { AuthModal } from "../auth/dynamic-modal"
 import { UserDisplay } from "./user-display"
 
 const createServerSupabaseClient = cache(() => {
