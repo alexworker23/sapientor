@@ -21,7 +21,7 @@ import { useToast } from "../ui/use-toast"
 
 interface Props {
   isOpen: boolean
-  link: LinkEntity | null
+  link: Pick<LinkEntity, "id" | "title" | "favicon"> | null
 }
 
 export const DeleteModal = ({ isOpen, link }: Props) => {

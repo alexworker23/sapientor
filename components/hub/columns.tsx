@@ -85,7 +85,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
           <DropdownMenuContent align="end" className="min-w-[140px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             {link.status === "REJECTED" && link.reason && (
-              <Link href={`?linkId=${link.id}&action=reason`}>
+              <Link href={`?linkId=${link.id}&action=reason`} scroll={false}>
                 <DropdownMenuItem>View rejection reason</DropdownMenuItem>
               </Link>
             )}
@@ -98,7 +98,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
               <DropdownMenuItem>Open</DropdownMenuItem>
             </a>
             <DropdownMenuSeparator />
-            <Link href={`?linkId=${link.id}&action=delete`}>
+            <Link href={`?linkId=${link.id}&action=delete`} scroll={false}>
               <DropdownMenuItem className="text-red-600">
                 Delete
               </DropdownMenuItem>

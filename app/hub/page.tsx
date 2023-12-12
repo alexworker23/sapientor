@@ -1,30 +1,16 @@
-import { cache, Suspense } from "react"
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { Suspense } from "react"
 import { InfoIcon } from "lucide-react"
 
-import type { Database } from "@/lib/database.types"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Skeleton } from "@/components/ui/skeleton"
-import { columns } from "@/components/links/columns"
-import { DataTable } from "@/components/links/data-table"
-import { DeleteModal } from "@/components/links/delete-modal"
-import { DownloadSummaries } from "@/components/links/download-summaries"
-import { DownloadSummariesSkeleton } from "@/components/links/download-summaries/skeleton"
-import { ReasonModal } from "@/components/links/reason-modal"
-
-const admin_list =
-  process.env.ADMIN_USERS?.split(",").map((user) => user.trim()) ?? []
-
-const createServerSupabaseClient = cache(() => {
-  const cookieStore = cookies()
-  return createServerComponentClient<Database>({ cookies: () => cookieStore })
-})
+import { DownloadSummaries } from "@/components/hub/download-summaries"
+import { DownloadSummariesSkeleton } from "@/components/hub/download-summaries/skeleton"
+import { FetchDataTable } from "@/components/hub/fetch-data-table"
+import { HubModals } from "@/components/hub/modals"
 
 interface Props {
   searchParams: {
@@ -34,30 +20,6 @@ interface Props {
 }
 
 const Page = async ({ searchParams }: Props) => {
-  const supabase = createServerSupabaseClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) return redirect("/")
-  if (user.email && admin_list.includes(user.email))
-    return redirect("/admin/links")
-
-  const { data, error } = await supabase
-    .from("links")
-    .select("*")
-    .order("created_at", { ascending: false })
-
-  if (error) throw error
-
-  const { data: targetLink } = searchParams.linkId
-    ? await supabase
-        .from("links")
-        .select("*")
-        .eq("id", searchParams.linkId)
-        .single()
-    : { data: null }
-
   return (
     <main className="flex min-h-screen flex-col px-16 pb-10 pt-20">
       <div className="flex items-start justify-between mb-5">
@@ -82,28 +44,20 @@ const Page = async ({ searchParams }: Props) => {
         </Suspense>
       </div>
       <div className="mx-auto w-full">
-        <Suspense fallback={<Skeleton className="w-full h-44" />}>
-          <DataTable columns={columns} data={data} />
+        <Suspense
+          fallback={<Skeleton className="w-full h-96 rounded-md border" />}
+        >
+          <FetchDataTable />
         </Suspense>
       </div>
-      <Suspense>
-        <DeleteModal
-          isOpen={searchParams.action === "delete" && !!targetLink}
-          link={targetLink}
-        />
-      </Suspense>
-      <Suspense>
-        <ReasonModal
-          isOpen={searchParams.action === "reason" && !!targetLink}
-          link={targetLink}
-        />
+      <Suspense
+        key={`${searchParams.action}-${searchParams.linkId}`}
+        fallback={<></>}
+      >
+        <HubModals linkId={searchParams.linkId} action={searchParams.action} />
       </Suspense>
     </main>
   )
 }
 
 export default Page
-
-export const metadata = {
-  title: "Your Links",
-}

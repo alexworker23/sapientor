@@ -15,7 +15,7 @@ import {
 
 interface Props {
   isOpen: boolean
-  link: LinkEntity | null
+  link: Pick<LinkEntity, "reason"> | null
 }
 
 export const ReasonModal = ({ isOpen, link }: Props) => {

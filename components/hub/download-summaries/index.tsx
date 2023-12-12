@@ -17,6 +17,7 @@ export const DownloadSummaries = async () => {
     .from("summaries")
     .select(`content, metadata->url, metadata->title`)
     .order("created_at", { ascending: false })
+
   if (!summaries?.length) return null
 
   return (

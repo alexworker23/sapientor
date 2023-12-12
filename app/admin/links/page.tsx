@@ -3,9 +3,9 @@ import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
-import { admin_columns } from "@/components/links/admin-columns"
-import { DataTable } from "@/components/links/data-table"
-import { RejectModal } from "@/components/links/reject-modal"
+import { admin_columns } from "@/components/hub/admin-columns"
+import { DataTable } from "@/components/hub/data-table"
+import { RejectModal } from "@/components/hub/reject-modal"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()

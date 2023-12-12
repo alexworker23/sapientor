@@ -106,7 +106,7 @@ export const ParseBlock = ({
         )}
         <Button
           onClick={handleSave}
-          disabled={!isValid || saving}
+          disabled={!isValid || saving || loading}
           className="w-24 transition-all gap-1"
         >
           {saving && <Loader2 size={16} className="animate-spin" />}

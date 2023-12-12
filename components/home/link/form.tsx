@@ -92,13 +92,13 @@ export const LinkForm = () => {
 
     try {
       const metadataResponse = await getMetadata(url)
-      getEstimate(url, metadataResponse.title)
+      await getEstimate(url, metadataResponse.title)
     } catch (error) {
       console.error(error)
     }
   }
 
-  const debouncedLink = useDebounce(link, 1000)
+  const debouncedLink = useDebounce(link, 250)
   useEffect(() => {
     fetchLinkData(debouncedLink)
   }, [debouncedLink])
