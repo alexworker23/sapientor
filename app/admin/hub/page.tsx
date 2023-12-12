@@ -3,9 +3,9 @@ import { cookies } from "next/headers"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
-import { RejectModal } from "@/components/admin-hub/reject-modal"
 import { Skeleton } from "@/components/ui/skeleton"
 import { FetchAdminDataTable } from "@/components/admin-hub/fetch-data-table"
+import { RejectModal } from "@/components/admin-hub/reject-modal"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
@@ -38,7 +38,7 @@ const Page = async ({ searchParams }: Props) => {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-16">
       <div className="mx-auto py-10 w-full">
-      <Suspense
+        <Suspense
           fallback={<Skeleton className="w-full h-96 rounded-md border" />}
         >
           <FetchAdminDataTable />

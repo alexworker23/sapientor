@@ -71,11 +71,11 @@ export const ParseBlock = ({ text, onSuccess }: Props) => {
   return (
     <>
       <div className="flex w-full justify-between gap-1">
-      {!text && (
-        <p className="text-xs text-slate-600 -mt-1.5">
-          Input text you want to add to Knowledge Hub.
-        </p>
-      )}
+        {!text && (
+          <p className="text-xs text-slate-600 -mt-1.5">
+            Input text you want to add to Knowledge Hub.
+          </p>
+        )}
         <Button
           onClick={handleSave}
           disabled={saving || !text}

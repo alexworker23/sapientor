@@ -31,10 +31,7 @@ const Page = async () => {
     <main className="flex min-h-screen flex-col pb-10 pt-20">
       <div className="px-16">
         <h1 className="text-3xl w-max mb-2">Connect to ChatGPT</h1>
-        <p>
-          To use your Knowledge Hub with ChatGPT do the
-          following:
-        </p>
+        <p>To use your Knowledge Hub with ChatGPT do the following:</p>
       </div>
       <div className="mt-5 grid gap-6 bg-slate-50 py-6 px-16 rounded-md">
         <div>
@@ -47,7 +44,9 @@ const Page = async () => {
           </div>
         </div>
         <div>
-          <h2 className="text-lg mb-2.5">2. Click on Open GPT button and paste code</h2>
+          <h2 className="text-lg mb-2.5">
+            2. Click on Open GPT button and paste code
+          </h2>
           <a href={gpt_link} target="_blank" rel="noopener">
             <Button type="button" className="gap-1 ml-5">
               Open GPT
