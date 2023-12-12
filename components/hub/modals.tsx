@@ -4,8 +4,8 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
 
-import { DeleteModal } from "./delete-modal"
-import { ReasonModal } from "./reason-modal"
+import { DeleteModal } from "../modals/delete-link/dynamic"
+import { ReasonModal } from "../modals/link-reason/dynamic"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()

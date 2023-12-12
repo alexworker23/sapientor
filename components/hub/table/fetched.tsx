@@ -4,15 +4,14 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
 
-import { columns } from "./columns"
-import { DataTable } from "./data-table"
+import { HubTable } from "./dynamic"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
   return createServerComponentClient<Database>({ cookies: () => cookieStore })
 })
 
-export const FetchDataTable = async () => {
+export const FetchedHubTable = async () => {
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
     .from("links")
@@ -21,5 +20,5 @@ export const FetchDataTable = async () => {
 
   if (error) throw error
 
-  return <DataTable columns={columns} data={data} />
+  return <HubTable data={data} />
 }

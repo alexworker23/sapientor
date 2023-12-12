@@ -6,7 +6,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import type { Database } from "@/lib/database.types"
 import { generateUserToken } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { CopyButton } from "@/components/common/copy-button"
+import { CopyButton } from "@/components/common/copy-button/dynamic"
 
 const gpt_link =
   process.env.GPT_URL ??

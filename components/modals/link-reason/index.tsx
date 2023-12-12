@@ -4,21 +4,21 @@ import { usePathname, useRouter } from "next/navigation"
 
 import type { LinkEntity } from "@/lib/types"
 
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-} from "../ui/dialog"
+} from "../../ui/dialog"
 
-interface Props {
+export interface ReasonModalProps {
   isOpen: boolean
   link: Pick<LinkEntity, "reason"> | null
 }
 
-export const ReasonModal = ({ isOpen, link }: Props) => {
+export const ReasonModal = ({ isOpen, link }: ReasonModalProps) => {
   const router = useRouter()
   const pathname = usePathname()
 

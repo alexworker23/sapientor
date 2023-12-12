@@ -8,11 +8,11 @@ import { FileForm } from "./file/form"
 import { LinkForm } from "./link/form"
 import { TextForm } from "./text/form"
 
-interface Props {
+export interface HomeUserTabsProps {
   defaultTab: string | undefined
 }
 
-export const HomeUserTabs = ({ defaultTab = "add" }: Props) => {
+export const HomeUserTabs = ({ defaultTab = "add" }: HomeUserTabsProps) => {
   const handleChange = (value: string) => {
     const formData = new FormData()
     formData.append("name", home_tab_cookie_name)

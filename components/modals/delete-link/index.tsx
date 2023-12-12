@@ -9,22 +9,22 @@ import { Database } from "@/lib/database.types"
 import type { LinkEntity } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
 
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-} from "../ui/dialog"
-import { useToast } from "../ui/use-toast"
+} from "../../ui/dialog"
+import { useToast } from "../../ui/use-toast"
 
-interface Props {
+export interface DeleteModalProps {
   isOpen: boolean
   link: Pick<LinkEntity, "id" | "title" | "favicon"> | null
 }
 
-export const DeleteModal = ({ isOpen, link }: Props) => {
+export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
   const [submitting, setSubmitting] = useState(false)
 
   const router = useRouter()

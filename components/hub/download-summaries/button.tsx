@@ -1,7 +1,17 @@
 "use client"
 
+import dynamic from "next/dynamic"
+
 import type { SummaryEntity } from "@/lib/types"
-import { Button } from "@/components/ui/button"
+
+const Button = dynamic(
+  () => import("@/components/ui/button").then((c) => c.Button),
+  {
+    loading: () => (
+      <div className="h-9 w-40 rounded-md bg-primary animate-pulse" />
+    ),
+  }
+)
 
 interface Props {
   summaries: Partial<SummaryEntity>[]

@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import { MailCheck } from "lucide-react"
-import Balancer from "react-wrap-balancer"
+import { Balancer } from "react-wrap-balancer"
 
-import { Button, ButtonProps } from "../ui/button"
+import { Button, type ButtonProps } from "../ui/button"
 import {
   Dialog,
   DialogContent,
@@ -17,13 +17,15 @@ import { GoogleSignInButton } from "./google-button"
 import { LogInForm } from "./log-in-form"
 import { OrDivider } from "./or-divider"
 
-interface Props extends ButtonProps {
+export interface AuthModalProps extends ButtonProps {
   buttonLabel?: string
 }
 
-export const AuthModal = ({ buttonLabel = "Log in", ...props }: Props) => {
+export const AuthModal = ({
+  buttonLabel = "Log in",
+  ...props
+}: AuthModalProps) => {
   const [isEmailSent, setIsEmailSent] = useState(false)
-
   return (
     <Dialog>
       <DialogTrigger asChild>

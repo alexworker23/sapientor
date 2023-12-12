@@ -3,10 +3,14 @@
 import { useState } from "react"
 import { Check, Copy } from "lucide-react"
 
-import { Button } from "../ui/button"
-import { useToast } from "../ui/use-toast"
+import { Button } from "../../ui/button"
+import { useToast } from "../../ui/use-toast"
 
-export const CopyButton = ({ text }: { text: string }) => {
+export interface CopyButtonProps {
+  text: string
+}
+
+export const CopyButton = ({ text }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false)
   const { toast } = useToast()
 

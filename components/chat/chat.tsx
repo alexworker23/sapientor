@@ -32,7 +32,7 @@ export function Chat() {
   }, [messages, isLoading])
 
   return (
-    <div className="mb-44 -">
+    <div className="mb-44">
       <div className="mb-2.5 flex flex-col gap-1 w-full">
         {messages.map((m) =>
           m.role === "user" ? (

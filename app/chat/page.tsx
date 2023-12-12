@@ -4,7 +4,7 @@ import { redirect } from "next/navigation"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
-import { Chat } from "@/components/chat/chat"
+import { Chat } from "@/components/chat/dynamic"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()

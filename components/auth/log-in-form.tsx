@@ -4,7 +4,7 @@ import { FormEventHandler, useState } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Loader2 } from "lucide-react"
 
-import { Database } from "@/lib/database.types"
+import type { Database } from "@/lib/database.types"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"

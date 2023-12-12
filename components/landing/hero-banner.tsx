@@ -1,4 +1,4 @@
-import { AuthModal } from "../auth/modal"
+import { AuthModal } from "../auth/dynamic-modal"
 import { Button } from "../ui/button"
 
 export const HeroBanner = () => {

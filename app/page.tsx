@@ -4,7 +4,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 import type { Database } from "@/lib/database.types"
 import { home_tab_cookie_name } from "@/lib/utils"
-import { HomeUserTabs } from "@/components/home/tabs"
+import { HomeUserTabs } from "@/components/home/dynamic-tabs"
 import { Landing } from "@/components/landing"
 import { Footer } from "@/components/layout/footer"
 
