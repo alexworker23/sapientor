@@ -18,7 +18,7 @@ import type { ParsingEstimate } from "@/lib/types"
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
-export const runtime = "edge"
+export const maxDuration = 60
 
 const systemMessage: ChatCompletionSystemMessageParam = {
   role: "system",
