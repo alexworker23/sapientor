@@ -1,6 +1,11 @@
 import Link from "next/link"
 import type { User } from "@supabase/auth-helpers-nextjs"
-import { BookMarked, InfoIcon, MessagesSquare, MonitorPlay } from "lucide-react"
+import {
+  BookMarked,
+  GraduationCap,
+  InfoIcon,
+  MessagesSquare,
+} from "lucide-react"
 
 import { LogOutButton } from "../auth/log-out-button"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
@@ -72,7 +77,7 @@ export const UserDisplay = ({ user }: Props) => {
         <Link href="/tutorial">
           <DropdownMenuItem className="flex justify-between">
             <span>Tutorial</span>
-            <MonitorPlay size={16} className="ml-4" />
+            <GraduationCap size={16} className="ml-4" />
           </DropdownMenuItem>
         </Link>
         <HelpModal />
