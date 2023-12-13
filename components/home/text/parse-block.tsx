@@ -10,8 +10,7 @@ import type { Database } from "@/lib/database.types"
 import { addOwnSummary } from "@/app/actions/add-own-summary"
 
 import { Button } from "../../ui/button"
-
-// import { addSummary } from "@/app/actions/add-summary"
+import { cn } from "@/lib/utils"
 
 interface Props {
   text: string
@@ -70,7 +69,7 @@ export const ParseBlock = ({ text, onSuccess }: Props) => {
 
   return (
     <>
-      <div className="flex w-full justify-between gap-1">
+      <div className={cn("flex w-full gap-1", !text ? 'justify-between' : 'justify-end')}>
         {!text && (
           <p className="text-xs text-slate-600 -mt-1.5">
             Input text you want to add to Knowledge Hub.

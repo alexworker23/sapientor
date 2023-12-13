@@ -6,10 +6,12 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import type { Database } from "@/lib/database.types"
 
 import { useToast } from "../ui/use-toast"
+import { useRouter } from "next/navigation"
 
 export const NotificationsListener = () => {
   const supabase = createClientComponentClient<Database>()
   const { toast } = useToast()
+  const router = useRouter()
 
   useEffect(() => {
     const channel = supabase
@@ -28,6 +30,7 @@ export const NotificationsListener = () => {
             variant: payload.new.variant || undefined,
           })
           await supabase.from('notifications').update({ seen: true }).eq('id', payload.new.id)
+          router.refresh()
         }
       )
       .subscribe()
