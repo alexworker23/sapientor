@@ -60,6 +60,14 @@ export const rejectLink = async (data: FormData) => {
     }
   }
 
+  await supabase.from("notifications").insert({
+    title: "Your link has been rejected.",
+    description: `Your link "${updatedEntity.title?.slice(0, 50)}${
+      updatedEntity.title && updatedEntity.title?.length > 50 ? "..." : ""
+    }" has been rejected because ${reason}.`,
+    user_id: updatedEntity.user_id,
+  })
+
   return {
     code: 200,
     data: updatedEntity,

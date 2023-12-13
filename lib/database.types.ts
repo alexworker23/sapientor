@@ -69,6 +69,47 @@ export interface Database {
           },
         ]
       }
+      notifications: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          read: boolean
+          seen: boolean
+          title: string
+          user_id: string
+          variant: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          read?: boolean
+          seen?: boolean
+          title: string
+          user_id: string
+          variant?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          read?: boolean
+          seen?: boolean
+          title?: string
+          user_id?: string
+          variant?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       summaries: {
         Row: {
           content: string
@@ -93,27 +134,6 @@ export interface Database {
           id?: string
           metadata?: Json
           updated_at?: string | null
-        }
-        Relationships: []
-      }
-      "test-gpt": {
-        Row: {
-          created_at: string
-          email: string
-          id: number
-          summary: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: number
-          summary: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: number
-          summary?: string
         }
         Relationships: []
       }

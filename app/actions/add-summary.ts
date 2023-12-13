@@ -88,6 +88,14 @@ export const addSummary = async (data: FormData) => {
     }
   }
 
+  await supabase.from("notifications").insert({
+    title: "Your summary is ready!",
+    description: `Your summary for "${title.slice(0, 50)}${
+      title.length > 50 ? "..." : ""
+    }" is done and is already added to your Knowledge Hub`,
+    user_id: userId,
+  })
+
   return {
     code: 200,
     ids: storedIds,

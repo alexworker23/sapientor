@@ -117,6 +117,14 @@ export async function POST(req: Request) {
 
   const storedIds = await store.addDocuments(docs)
 
+  await supabase.from("notifications").insert({
+    title: "Your summary is ready!",
+    description: `Your summary for "${data.title.slice(0, 50)}${
+      data.title.length > 50 ? "..." : ""
+    }" is done and is already added to your Knowledge Hub`,
+    user_id: data.user_id,
+  })
+
   return new Response(JSON.stringify({ ids: storedIds }), {
     status: 200,
   })

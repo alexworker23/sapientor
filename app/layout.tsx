@@ -8,6 +8,7 @@ import "./globals.css"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Header } from "@/components/layout/header"
+import { NotificationsListener } from "@/components/notifications/listener"
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Toaster />
+        <NotificationsListener />
 
         <Analytics />
         <SpeedInsights />
