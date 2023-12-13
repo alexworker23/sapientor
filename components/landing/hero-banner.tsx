@@ -2,6 +2,7 @@ import Image from "next/image"
 
 import { AuthModal } from "../auth/dynamic-modal"
 import { Button } from "../ui/button"
+import Link from "next/link"
 
 export const HeroBanner = () => {
   return (
@@ -25,7 +26,9 @@ export const HeroBanner = () => {
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Button variant="outline">Watch Now</Button>
+              <Link href="/tutorial">
+                <Button variant="outline">See Tutorial</Button>
+              </Link>
               <AuthModal
                 buttonLabel="Get Started"
                 variant="default"
