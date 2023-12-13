@@ -68,8 +68,6 @@ export const metadata: Metadata = {
   keywords:
     "data organization, Knowledge Hub, AI chatbot enhancement, easy upload, interactive chats, information management, secure data storage, sapientor, knowledge base, knowledge hub",
   metadataBase: new URL("https://sapientor.net"),
-  viewport:
-    "width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover",
   alternates: {
     canonical: "/about",
   },

@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter as FontSans } from "next/font/google"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -40,6 +40,13 @@ export default function RootLayout({
   )
 }
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+}
+
 export const metadata: Metadata = {
   title: "sapientor",
   description:
@@ -47,8 +54,6 @@ export const metadata: Metadata = {
   keywords:
     "data organization, Knowledge Hub, AI chatbot enhancement, easy upload, interactive chats, information management, secure data storage, sapientor, knowledge base, knowledge hub",
   metadataBase: new URL("https://sapientor.net"),
-  viewport:
-    "width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover",
   alternates: {
     canonical: "/",
   },
