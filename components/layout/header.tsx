@@ -27,8 +27,8 @@ export const Header = async () => {
           </Link>
         </div>
         <div className="flex items-center gap-5">
-          {/* Should be a nav item to knowledge hubs where users can view and download PDFs */}
-          {/* Nav item for Bots - to go check each one bot (image, purpose, knowledge hub connected) */}
+          {!user && <Link href="/about" className="hover:underline text-sm font-medium">About</Link>}
+          {!user && <Link href="/tutorial" className="hover:underline text-sm font-medium">Tutorial</Link>}
           {user ? <UserDisplay user={user} /> : <AuthModal />}
         </div>
       </div>
