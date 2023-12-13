@@ -27,12 +27,12 @@ const Page = async () => {
   const displayableCode = code.slice(0, 10) + "..." + code.slice(-10)
 
   return (
-    <main className="flex min-h-screen flex-col pb-10 pt-20">
+    <main className="flex min-h-screen flex-col pt-20">
       <div className="px-4 sm:px-16">
         <h1 className="text-2xl sm:text-3xl w-max mb-2">Connect to ChatGPT</h1>
         <p>To use your Knowledge Hub with ChatGPT do the following:</p>
       </div>
-      <div className="mt-5 grid gap-6 bg-slate-50 py-6 px-4 sm:px-16 rounded-md">
+      <div className="mt-5 flex-1 flex flex-col gap-6 bg-slate-50 py-6 px-4 sm:px-16 h-full">
         <div>
           <h2 className="sm:text-lg mb-2.5">1. Click on copy button</h2>
           <div className="flex gap-2 sm:items-center sm:ml-5 flex-wrap">
