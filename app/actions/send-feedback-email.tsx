@@ -32,7 +32,7 @@ export const sendFeedbackEmail = async (data: FormData) => {
     return { success: false, isError: true, error: "Unauthorized", status: 401 }
 
   const emailResponse = await resend.emails.send({
-    from: `sapientor. <feedback@askfutureself.co>`,
+    from: `sapientor. <feedback@sapientor.net>`,
     to: process.env.SUPPORT_EMAIL || "valoiscene@gmail.com",
     subject: "User feedback",
     react: (

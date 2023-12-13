@@ -46,7 +46,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
     cell: ({ row }) => (
       <div className="flex gap-2 items-center">
         <img
-          src={row.original.favicon || "/favicon.ico"}
+          src={row.original.favicon || "/icon.png"}
           className="max-h-6"
           alt="website favicon"
         />
