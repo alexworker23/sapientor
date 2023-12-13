@@ -7,7 +7,10 @@ export const Footer = () => {
         <div>
           <h2 className="text-lg font-medium mb-2">Follow Us</h2>
           <div className="flex space-x-4">
-            <a className="text-sm block mb-1 hover:underline" href="https://twitter.com/valoiscene">
+            <a
+              className="text-sm block mb-1 hover:underline"
+              href="https://twitter.com/valoiscene"
+            >
               Twitter
             </a>
           </div>
