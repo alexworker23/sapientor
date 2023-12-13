@@ -10,7 +10,7 @@ import { CopyButton } from "@/components/common/copy-button/dynamic"
 
 const gpt_link =
   process.env.GPT_URL ??
-  "https://chat.openai.com/g/g-rGJvqSptw-knowledge-hub-assistant"
+  "https://chat.openai.com/g/g-rGJvqSptw-sapientor"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()

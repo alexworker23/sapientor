@@ -44,7 +44,7 @@ export const LogInForm = ({ setIsEmailSent }: Props) => {
         },
       })
 
-      if (!error) {
+      if (error) {
         setIsLoading(false)
         return toast({
           title: "Something went wrong.",

@@ -2,6 +2,7 @@ import Link from "next/link"
 import { GaugeIcon, LightbulbIcon, ShieldIcon } from "lucide-react"
 
 import { Card, CardContent } from "../ui/card"
+import { Button } from "../ui/button"
 
 export const Benefits = () => {
   return (
@@ -50,10 +51,11 @@ export const Benefits = () => {
         </div>
         <div className="flex justify-center">
           <Link
-            className="inline-flex items-center justify-center rounded-md bg-gray-900 px-8 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
             href="/about"
           >
-            Learn More
+            <Button type="button" className="w-32">
+              Learn More
+            </Button>
           </Link>
         </div>
       </div>
