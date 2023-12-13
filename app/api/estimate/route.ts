@@ -28,7 +28,6 @@ const systemMessage: ChatCompletionSystemMessageParam = {
     You reply in a JSON format following the schema:
     { 
         "time": "3600000", // time in ms
-        "deadline": "2023-12-31T12:00:00.301Z" // date time in ISO format
     }
     `,
 }

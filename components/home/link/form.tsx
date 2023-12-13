@@ -70,12 +70,14 @@ export const LinkForm = () => {
           "Content-Type": "application/json",
         },
       }).then((res) => res.json())) as
-        | Omit<ParsingEstimate, "humanReadable">
+        | Omit<ParsingEstimate, "humanReadable" | "deadline">
         | undefined
       if (!response) return
 
+      const deadline = dayjs().add(response.time, "ms").toISOString()
       const humanReadable = msToHumanReadable(response.time)
-      setEstimate({ ...response, humanReadable })
+
+      setEstimate({ ...response, humanReadable, deadline })
     } catch (error) {
       console.error(error)
     } finally {
