@@ -19,7 +19,7 @@ const Page = async () => {
   if (!user) return redirect("/")
   return (
     <main className="flex min-h-screen flex-col pb-10 pt-20 px-4 sm:px-16">
-      <div className="max-w-xl mx-auto">
+      <div className="max-w-xl mx-auto w-full">
         <Chat />
       </div>
     </main>

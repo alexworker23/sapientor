@@ -22,7 +22,7 @@ export const HubModals = async ({ linkId, action }: Props) => {
   const { data: targetLink } = linkId
     ? await supabase
         .from("links")
-        .select("id,title,favicon,reason")
+        .select("id,title,favicon,reason,summary_id")
         .eq("id", linkId)
         .single()
     : { data: null }

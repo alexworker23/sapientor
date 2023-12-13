@@ -7,10 +7,10 @@ import dayjs from "dayjs"
 import { Loader2 } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
+import { cn } from "@/lib/utils"
 import { addOwnSummary } from "@/app/actions/add-own-summary"
 
 import { Button } from "../../ui/button"
-import { cn } from "@/lib/utils"
 
 interface Props {
   text: string
@@ -69,7 +69,12 @@ export const ParseBlock = ({ text, onSuccess }: Props) => {
 
   return (
     <>
-      <div className={cn("flex w-full gap-1", !text ? 'justify-between' : 'justify-end')}>
+      <div
+        className={cn(
+          "flex w-full gap-1",
+          !text ? "justify-between" : "justify-end"
+        )}
+      >
         {!text && (
           <p className="text-xs text-slate-600 -mt-1.5">
             Input text you want to add to Knowledge Hub.

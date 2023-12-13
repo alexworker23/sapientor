@@ -1,13 +1,19 @@
 import type { StatusEnumType } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
-export const StatusBadge = ({ status }: { status: StatusEnumType }) => {
+interface Props {
+  status: StatusEnumType
+  className?: string
+}
+
+export const StatusBadge = ({ status, className }: Props) => {
   const text = status.charAt(0) + status.slice(1).toLowerCase()
   return (
     <div
       className={cn(
         "h-7 w-23 rounded-full bg-slate-50 text-xs flex justify-center items-center",
-        getColor(status)
+        getColor(status),
+        className
       )}
     >
       {text}
