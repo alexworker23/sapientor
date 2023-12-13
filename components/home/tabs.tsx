@@ -35,13 +35,13 @@ export const HomeUserTabs = ({ defaultTab = "add" }: HomeUserTabsProps) => {
           </TabsTrigger>
         </TabsList>
       </div>
-      <TabsContent value="add" className="w-[400px]">
+      <TabsContent value="add" className="px-2.5 sm:px-0 sm:w-[400px]">
         <LinkForm />
       </TabsContent>
-      <TabsContent value="file" className="w-[400px]">
+      <TabsContent value="file" className="px-2.5 sm:px-0 sm:w-[400px]">
         <FileForm />
       </TabsContent>
-      <TabsContent value="note" className="w-[400px]">
+      <TabsContent value="note" className="px-2.5 sm:px-0 sm:w-[400px]">
         <TextForm />
       </TabsContent>
     </Tabs>

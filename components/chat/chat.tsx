@@ -52,7 +52,7 @@ export function Chat() {
           />
         )}
       </div>
-      <div className="fixed bottom-0 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 bg-white/95 py-2.5 backdrop-blur supports-[backdrop-filter]:bg-white/60 sm:py-5">
+      <div className="fixed bottom-0 left-1/2 z-50 w-full px-2.5 sm:px-0 max-w-2xl -translate-x-1/2 bg-white/95 py-2.5 backdrop-blur supports-[backdrop-filter]:bg-white/60 sm:py-5">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <Textarea
             onKeyDown={handleKeyDown}

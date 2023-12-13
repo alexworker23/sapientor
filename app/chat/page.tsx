@@ -18,7 +18,7 @@ const Page = async () => {
   } = await supabase.auth.getUser()
   if (!user) return redirect("/")
   return (
-    <main className="flex min-h-screen flex-col pb-10 pt-20 px-16">
+    <main className="flex min-h-screen flex-col pb-10 pt-20 px-4 sm:px-16">
       <div className="max-w-xl mx-auto">
         <Chat />
       </div>

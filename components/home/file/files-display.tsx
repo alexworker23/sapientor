@@ -24,7 +24,7 @@ export const FilesDisplay = ({ files }: Props) => {
           {files.length} File{files.length > 1 ? "s" : ""}
         </Badge>
       </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
         {files.map((file) => (
           <div
             key={`file-${file.name}-${file.size}`}

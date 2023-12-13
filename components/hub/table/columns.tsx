@@ -66,7 +66,11 @@ export const columns: ColumnDef<LinkEntity>[] = [
     accessorKey: "created",
     header: "Created",
     cell: ({ row }) => {
-      return dayjs(row.original.created_at).format("MMM DD, YYYY HH:mm")
+      return (
+        <div className="w-max">
+          {dayjs(row.original.created_at).format("MMM DD, YYYY HH:mm")}
+        </div>
+      )
     },
   },
   {

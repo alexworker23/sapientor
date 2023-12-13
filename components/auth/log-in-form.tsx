@@ -84,7 +84,7 @@ export const LogInForm = ({ setIsEmailSent }: Props) => {
       <Button
         disabled={isLoading}
         type="submit"
-        className="gap-1 rounded-l-none absolute right-10 w-24 top-0"
+        className="gap-1 rounded-l-none absolute right-0 sm:right-10 w-24 top-0"
       >
         {isLoading && <Loader2 className="animate-spin" size={16} />}
         Log in

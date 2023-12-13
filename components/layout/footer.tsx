@@ -2,8 +2,8 @@ import Link from "next/link"
 
 export const Footer = () => {
   return (
-    <footer className="bg-white text-black">
-      <div className="mx-auto py-6 px-12 flex flex-col md:flex-row justify-between items-start border-t border-gray-300">
+    <footer className="bg-white text-black container">
+      <div className="mx-auto py-6 md:px-12 flex flex-row justify-between items-start border-t border-gray-300">
         <div>
           <h2 className="text-lg font-medium mb-2">Follow Us</h2>
           <div className="flex space-x-4">
@@ -15,7 +15,7 @@ export const Footer = () => {
             </a>
           </div>
         </div>
-        <div className="mt-6 md:mt-0">
+        <div className="">
           <h2 className="font-medium mb-2">Resources</h2>
           <Link className="text-sm block mb-1 hover:underline" href="/about">
             About

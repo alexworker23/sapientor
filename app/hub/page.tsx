@@ -16,10 +16,10 @@ interface Props {
 
 const Page = async ({ searchParams }: Props) => {
   return (
-    <main className="flex min-h-screen flex-col px-16 pb-10 pt-20">
-      <div className="flex items-start justify-between mb-5">
+    <main className="flex min-h-screen flex-col px-4 sm:px-16 pb-10 pt-20">
+      <div className="flex sm:items-start sm:justify-between mb-5 gap-2.5 flex-col sm:flex-row">
         <div className="flex items-center gap-2">
-          <h1 className="text-3xl w-max">Your Knowledge Hub</h1>
+          <h1 className="text-2xl sm:text-3xl w-max">Your Knowledge Hub</h1>
           <HubInfoPopover />
         </div>
         <Suspense fallback={<DownloadSummariesSkeleton />}>

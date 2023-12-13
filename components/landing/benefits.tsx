@@ -1,8 +1,8 @@
 import Link from "next/link"
 import { GaugeIcon, LightbulbIcon, ShieldIcon } from "lucide-react"
 
-import { Card, CardContent } from "../ui/card"
 import { Button } from "../ui/button"
+import { Card, CardContent } from "../ui/card"
 
 export const Benefits = () => {
   return (
@@ -17,7 +17,7 @@ export const Benefits = () => {
             freedom with our AI-driven platform.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <Card>
             <CardContent className="flex flex-col items-center space-y-4 p-4">
               <LightbulbIcon className="w-10 h-10 text-yellow-500" />
@@ -50,9 +50,7 @@ export const Benefits = () => {
           </Card>
         </div>
         <div className="flex justify-center">
-          <Link
-            href="/about"
-          >
+          <Link href="/about">
             <Button type="button" className="w-32">
               Learn More
             </Button>

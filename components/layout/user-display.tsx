@@ -1,6 +1,6 @@
 import Link from "next/link"
 import type { User } from "@supabase/auth-helpers-nextjs"
-import { BookMarked, MessagesSquare } from "lucide-react"
+import { BookMarked, InfoIcon, MessagesSquare, MonitorPlay } from "lucide-react"
 
 import { LogOutButton } from "../auth/log-out-button"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
@@ -63,6 +63,18 @@ export const UserDisplay = ({ user }: Props) => {
           </DropdownMenuItem>
         </Link>
         <DropdownMenuSeparator />
+        <Link href="/about">
+          <DropdownMenuItem className="flex justify-between">
+            <span>About</span>
+            <InfoIcon size={16} className="ml-4" />
+          </DropdownMenuItem>
+        </Link>
+        <Link href="/tutorial">
+          <DropdownMenuItem className="flex justify-between">
+            <span>Tutorial</span>
+            <MonitorPlay size={16} className="ml-4" />
+          </DropdownMenuItem>
+        </Link>
         <HelpModal />
         <FeedbackModal />
         <DropdownMenuSeparator />
