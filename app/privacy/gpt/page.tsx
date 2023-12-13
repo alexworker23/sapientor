@@ -15,7 +15,7 @@ export default function Page() {
             This Privacy Policy outlines the types of personal information
             collected by the Sapientor API, its usage, and protection. Our
             commitment is to ensure the confidentiality and security of our
-            users' data.
+            users&apos; data.
           </p>
         </section>
         <section>
