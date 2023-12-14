@@ -19,9 +19,9 @@ export default function Page() {
           </h2>
           <p className="mb-2.5">
             To start using sapientor app - you need to authorise first. You can
-            do so by clicking &quot;Log in&quot; button in the top right corner or by
-            clicking &quot;Get Started&quot; button on the home screen. For authorisation
-            we currently provide 2 options:
+            do so by clicking &quot;Log in&quot; button in the top right corner
+            or by clicking &quot;Get Started&quot; button on the home screen.
+            For authorisation we currently provide 2 options:
           </p>
           <ul className="list-disc list-inside">
             <li>
@@ -97,10 +97,10 @@ export default function Page() {
           <p>
             Estimation gives you an idea of how much time at maximum it will
             take to parse the content you provided and add into your Knowledge
-            Hub. Normally it should happen below that threshold but it&apos;s good to
-            know how much time it will take at worst, in case the website you
-            provided is restrictive or the content is not a text, but a video,
-            for example.
+            Hub. Normally it should happen below that threshold but it&apos;s
+            good to know how much time it will take at worst, in case the
+            website you provided is restrictive or the content is not a text,
+            but a video, for example.
           </p>
         </section>
         <section className="mb-5 border-b">
@@ -125,8 +125,8 @@ export default function Page() {
           </h2>
           <p className="mb-2.5">
             You can always access your Knowledge Hub by clicking on the
-            &quot;Knowledge Hub&quot; button in the navigation dropdown. On the Knowledge
-            Hub page you will the list containing all of your previous
+            &quot;Knowledge Hub&quot; button in the navigation dropdown. On the
+            Knowledge Hub page you will the list containing all of your previous
             submissions with the creation date and current status.
           </p>
           <Image
@@ -168,8 +168,8 @@ export default function Page() {
           />
           <p>
             Also, you can download your Knowledge Hub in JSON format at any time
-            by clicking on &quot;Download Knowledge Hub&quot; button. Please, note that
-            the button appear once you have at least 1 entry which was
+            by clicking on &quot;Download Knowledge Hub&quot; button. Please,
+            note that the button appear once you have at least 1 entry which was
             successfully processed, added to your Knowledge Hub and has a
             Completed status.
           </p>
@@ -222,10 +222,10 @@ export default function Page() {
           </h2>
           <p>
             We also have a simple chat interface built in. You can access it by
-            clicking a &quot;Chat&quot; in the navigation dropdown. Chat uses not a fancy
-            model and currently is here just for you to talk with your Knowledge
-            Hub. But for smoother experience at the moment we recommend using
-            ChatGPT with our Sapientor extension.
+            clicking a &quot;Chat&quot; in the navigation dropdown. Chat uses
+            not a fancy model and currently is here just for you to talk with
+            your Knowledge Hub. But for smoother experience at the moment we
+            recommend using ChatGPT with our Sapientor extension.
           </p>
           <Image
             src="/tutorial/our-chat.png"
