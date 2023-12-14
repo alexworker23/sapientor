@@ -37,7 +37,7 @@ export const DownloadButton = ({ summaries }: Props) => {
       className="text-sm"
       size="sm"
     >
-      Download Knowledge Hub
+      Download
     </Button>
   )
 }
