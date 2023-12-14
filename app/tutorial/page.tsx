@@ -220,11 +220,18 @@ export default function Page() {
             height={300}
             className="mx-auto rounded-md my-5"
           />
-          <p>
+          <p className="mb-2.5">
             When using our Custom GPT you can ask questions that are related to
             your knowledge hub. You can add entries to your Knowledge Hub via
             chat interface by just pasting in the link.
           </p>
+          <Image
+            src="/tutorial/gpt-link-parse.png"
+            alt="GPT parsing link"
+            width={500}
+            height={300}
+            className="mx-auto rounded-md"
+          />
         </section>
         <section>
           <h2 className="text-lg sm:text-xl font-semibold mb-2.5">
