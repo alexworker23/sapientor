@@ -165,6 +165,89 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+                paths:
+  /api/gpt/link:
+    post:
+      operationId: saveLink
+      summary: Saves a complex link.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: The URL to be processed.
+                user_id:
+                  type: string
+                  description: The user identifier for whom the link is being processed.
+              required:
+                - url
+                - user_id
+      responses:
+        '200':
+          description: Successfully created the link with an estimate.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      link:
+                        type: object
+                        properties:
+                          url:
+                            type: string
+                            format: uri
+                            description: The URL processed.
+                          estimate:
+                            type: object
+                            properties:
+                              time:
+                                type: integer
+                                format: int64
+                                description: Estimated time in milliseconds.
+                              deadline:
+                                type: string
+                                format: date-time
+                                description: The deadline date and time in ISO 8601 format.
+                              humanReadable:
+                                type: string
+                                description: Human-readable format of the estimated time.
+                          title:
+                            type: string
+                            description: Title of the link, default is the URL itself.
+                          user_id:
+                            type: string
+                            description: The user identifier associated with this link.
+                        required:
+                          - url
+                          - estimate
+                          - title
+                          - user_id
+        '400':
+          description: Bad request due to missing URL or user ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized access due to incorrect or missing API key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error during the link creation process.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     ErrorResponse:
