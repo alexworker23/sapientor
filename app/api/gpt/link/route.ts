@@ -2,9 +2,6 @@ import { cache } from "react"
 import { cookies } from "next/headers"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import dayjs from "dayjs"
-import type { Document } from "langchain/document"
-import { OpenAIEmbeddings } from "langchain/embeddings/openai"
-import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 
 import type { Database } from "@/lib/database.types"
 
@@ -18,6 +15,8 @@ const createServerSupabaseClient = cache(() => {
   )
 })
 
+const estimate = 3600000 * 5 // 5 hours
+
 export async function POST(
   request: Request,
 ) {
@@ -28,15 +27,12 @@ export async function POST(
     })
   }
 
-  const { url, title, content, description, user_id } = (await request.json()) as {
+  const { url, user_id } = (await request.json()) as {
     url: string | undefined
-    title: string | undefined
-    description: string | undefined
-    content: string | undefined
     user_id: string | undefined
   }
 
-  if (!content || !user_id || !title || !url) {
+  if (!user_id || !url) {
     return new Response(JSON.stringify({ error: "Bad Request" }), {
       status: 400,
     })
@@ -44,13 +40,18 @@ export async function POST(
 
   const supabase = createServerSupabaseClient()
 
+  const title = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split("/")[0]
+
   const { data: link } = await supabase
     .from("links")
     .insert({
       url,
-      estimate: { time: 0, deadline: dayjs().toISOString() },
+      estimate: { 
+        time: estimate,
+        deadline: dayjs().add(estimate, "ms").toISOString(),
+        humanReadable: '5h'
+      },
       title,
-      description,
       user_id,
     })
     .select("*")
@@ -62,34 +63,7 @@ export async function POST(
     })
   }
 
-  const contentToSave = `
-    ${title}
-    ${description}
-    ${content}
-  `
-
-  const embeddings = new OpenAIEmbeddings()
-  const store = new SupabaseVectorStore(embeddings, {
-    client: supabase,
-    tableName: "summaries",
-  })
-
-  const docs: Document[] = [
-    {
-      pageContent: contentToSave,
-      metadata: { user_id, link_id: link.id, url, title, author: "gpt" },
-    },
-  ]
-
-  const storedIds = await store.addDocuments(docs)
-
-  if (storedIds.length === 0) {
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      status: 500,
-    })
-  }
-
-  return new Response(JSON.stringify({ data: { link, storedIds } }), {
+  return new Response(JSON.stringify({ data: { link } }), {
     status: 200,
   })
 }

@@ -183,8 +183,15 @@ export default function Page() {
         </section>
         <section className="mb-5 py-5 border-b">
           <h2 className="text-xl sm:text-2xl font-semibold mb-2.5">
-            Custom GPT | ChatGPT
+            Custom GPT in ChatGPT
           </h2>
+          <Image
+            src="/tutorial/custom-gpt.png"
+            alt="Custom GPT view"
+            width={500}
+            height={300}
+            className="mx-auto rounded-md my-5"
+          />
           <p>
             We have a{" "}
             <a href={gpt_link} className="font-semibold hover:underline">
@@ -206,10 +213,13 @@ export default function Page() {
             height={400}
             className="mx-auto rounded-md my-5"
           />
-          <p>
-            Alternatively, you can download you Knowledge Hub as file then and
-            insert it into any chat interface, that allows you to do so.
-          </p>
+          <Image
+            src="/tutorial/custom-gpt-auth.png"
+            alt="Custom GPT view"
+            width={500}
+            height={300}
+            className="mx-auto rounded-md my-5"
+          />
           <p>
             When using our Custom GPT you can ask questions that are related to
             your knowledge hub. You can add entries to your Knowledge Hub via
