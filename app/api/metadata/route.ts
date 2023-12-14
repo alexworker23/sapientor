@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   const faviconMatch = html.match(/<link rel="icon" href="(.*?)"/)
 
   const metadata: LinkMetadata = {
-    title: titleMatch ? titleMatch[1] : "",
+    title: titleMatch ? titleMatch[1] : url,
     description: descMatch ? descMatch[1] : "",
     favicon: faviconMatch ? faviconMatch[1] : "",
     url,

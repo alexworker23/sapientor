@@ -40,8 +40,6 @@ export async function POST(
 
   const supabase = createServerSupabaseClient()
 
-  const title = url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split("/")[0]
-
   const { data: link } = await supabase
     .from("links")
     .insert({
@@ -51,7 +49,7 @@ export async function POST(
         deadline: dayjs().add(estimate, "ms").toISOString(),
         humanReadable: '5h'
       },
-      title,
+      title: url,
       user_id,
     })
     .select("*")
