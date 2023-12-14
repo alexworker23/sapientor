@@ -20,7 +20,6 @@ const createServerSupabaseClient = cache(() => {
 
 export async function POST(
   request: Request,
-  { params: { user_id } }: { params: { user_id: string } }
 ) {
   const apiKey = request.headers.get("x-api-key")
   if (apiKey !== process.env.GPT_API_KEY) {
@@ -29,7 +28,7 @@ export async function POST(
     })
   }
 
-  const { url, title, content, description } = (await request.json()) as {
+  const { url, title, content, description, user_id } = (await request.json()) as {
     url: string | undefined
     title: string | undefined
     description: string | undefined
