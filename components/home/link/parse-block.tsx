@@ -60,10 +60,10 @@ export const ParseBlock = ({
       if (!createdEntity) throw new Error("Error while saving link")
 
       // @todo disable for launch
-      // fetch("/api/parse/link", {
-      //   method: "POST",
-      //   body: JSON.stringify({ link_id: createdEntity.id }),
-      // })
+      fetch("/api/parse/link", {
+        method: "POST",
+        body: JSON.stringify({ link_id: createdEntity.id }),
+      })
 
       router.refresh()
       onSuccess()
