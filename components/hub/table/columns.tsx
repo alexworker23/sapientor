@@ -50,9 +50,15 @@ export const columns: ColumnDef<LinkEntity>[] = [
           className="max-h-6"
           alt="website favicon"
         />
-        <p className="max-w-[300px] truncate">
-          {decodeHtmlEntities(row.getValue("title"))}
-        </p>
+        {row.original.url.startsWith("http") ? (
+          <Link href={row.original.url} className="max-w-[300px] truncate">
+            {decodeHtmlEntities(row.getValue("title"))}
+          </Link>
+        ) : (
+          <span className="max-w-[300px] truncate">
+            {decodeHtmlEntities(row.getValue("title"))}
+          </span>
+        )}
       </div>
     ),
   },

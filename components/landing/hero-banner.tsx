@@ -1,8 +1,8 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import { AuthModal } from "../auth/dynamic-modal"
 import { Button } from "../ui/button"
-import Link from "next/link"
 
 export const HeroBanner = () => {
   return (

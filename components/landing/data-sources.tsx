@@ -13,7 +13,9 @@ export const DataSources = () => {
           <div className="flex flex-col justify-center space-y-4">
             <h3 className="text-xl font-bold">Links</h3>
             <p className="text-gray-500 dark:text-gray-400">
-              Supply links to the content you are interested in and we will parse it for you. After that, you can use it in your Knowledge Hub.
+              Supply links to the content you are interested in and we will
+              parse it for you. After that, you can use it in your Knowledge
+              Hub.
             </p>
           </div>
         </div>
@@ -43,7 +45,8 @@ export const DataSources = () => {
           <div className="flex flex-col justify-center space-y-4">
             <h3 className="text-xl font-bold">Notes</h3>
             <p className="text-gray-500 dark:text-gray-400">
-              Any of your hand-written notes can be added to your Knowledge Hub as well. 
+              Any of your hand-written notes can be added to your Knowledge Hub
+              as well.
             </p>
           </div>
         </div>

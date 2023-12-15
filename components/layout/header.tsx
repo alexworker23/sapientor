@@ -27,8 +27,19 @@ export const Header = async () => {
           </Link>
         </div>
         <div className="flex items-center gap-5">
-          {!user && <Link href="/about" className="hover:underline text-sm font-medium">About</Link>}
-          {!user && <Link href="/tutorial" className="hover:underline text-sm font-medium">Tutorial</Link>}
+          {!user && (
+            <Link href="/about" className="hover:underline text-sm font-medium">
+              About
+            </Link>
+          )}
+          {!user && (
+            <Link
+              href="/tutorial"
+              className="hover:underline text-sm font-medium"
+            >
+              Tutorial
+            </Link>
+          )}
           {user ? <UserDisplay user={user} /> : <AuthModal />}
         </div>
       </div>

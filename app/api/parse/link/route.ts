@@ -51,9 +51,10 @@ export async function POST(req: Request) {
     .eq("id", link_id)
     .single()
 
-  const tooLongParsingTime = (data?.estimate as ParsingEstimate)?.time &&
-  typeof (data?.estimate as ParsingEstimate)?.time === "number" &&
-  (data?.estimate as ParsingEstimate)?.time > 3600000
+  const tooLongParsingTime =
+    (data?.estimate as ParsingEstimate)?.time &&
+    typeof (data?.estimate as ParsingEstimate)?.time === "number" &&
+    (data?.estimate as ParsingEstimate)?.time > 3600000
 
   const complexLink = data?.title && data.url && data?.title === data?.url
 

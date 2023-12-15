@@ -17,9 +17,7 @@ const createServerSupabaseClient = cache(() => {
 
 const estimate = 3600000 * 5 // 5 hours
 
-export async function POST(
-  request: Request,
-) {
+export async function POST(request: Request) {
   const apiKey = request.headers.get("x-api-key")
   if (apiKey !== process.env.GPT_API_KEY) {
     return new Response(JSON.stringify({ error: "Unauthorized access" }), {
@@ -44,10 +42,10 @@ export async function POST(
     .from("links")
     .insert({
       url,
-      estimate: { 
+      estimate: {
         time: estimate,
         deadline: dayjs().add(estimate, "ms").toISOString(),
-        humanReadable: '5h'
+        humanReadable: "5h",
       },
       title: url,
       user_id,
