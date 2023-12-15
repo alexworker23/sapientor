@@ -33,5 +33,5 @@ export default async function Layout({
 }
 
 export const metadata: Metadata = {
-  title: "Knowledge Hub",
+  title: "knowledge hub",
 }
