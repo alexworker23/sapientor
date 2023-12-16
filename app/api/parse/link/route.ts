@@ -53,7 +53,7 @@ export async function POST(req: Request) {
 
   const tooLongParsingTime =
     (data?.estimate as ParsingEstimate)?.time &&
-    typeof (data?.estimate as ParsingEstimate)?.time === "number" &&
+    !isNaN((data?.estimate as ParsingEstimate)?.time) &&
     (data?.estimate as ParsingEstimate)?.time > 3600000
 
   const complexLink = data?.title && data.url && data?.title === data?.url
