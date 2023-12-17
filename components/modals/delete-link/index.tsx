@@ -40,14 +40,6 @@ export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
     try {
       setSubmitting(true)
 
-      if (link.summary_id) {
-        const { error } = await supabase
-          .from("summaries")
-          .delete()
-          .match({ id: link.summary_id })
-        if (error) throw new Error(error.message)
-      }
-
       const { error } = await supabase
         .from("links")
         .delete()
