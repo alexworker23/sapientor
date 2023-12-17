@@ -3,12 +3,13 @@
 import dynamic from "next/dynamic"
 
 import type { SummaryEntity } from "@/lib/types"
+import { Download } from "lucide-react"
 
 const Button = dynamic(
   () => import("@/components/ui/button").then((c) => c.Button),
   {
     loading: () => (
-      <div className="h-9 w-40 rounded-md bg-primary animate-pulse" />
+      <div className="h-9 w-28 rounded-md bg-primary animate-pulse" />
     ),
   }
 )
@@ -34,10 +35,10 @@ export const DownloadButton = ({ summaries }: Props) => {
     <Button
       type="button"
       onClick={handleDownload}
-      className="text-sm"
+      className="text-sm gap-1"
       size="sm"
     >
-      Download
+      Download <Download size={16} />
     </Button>
   )
 }

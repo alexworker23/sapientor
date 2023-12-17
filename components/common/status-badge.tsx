@@ -1,23 +1,32 @@
 import type { StatusEnumType } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+
 interface Props {
   status: StatusEnumType
+  tooltip?: string
   className?: string
 }
 
-export const StatusBadge = ({ status, className }: Props) => {
+export const StatusBadge = ({ status, tooltip, className }: Props) => {
   const text = status.charAt(0) + status.slice(1).toLowerCase()
   return (
-    <div
-      className={cn(
-        "h-7 w-23 rounded-full bg-slate-50 text-xs flex justify-center items-center",
-        getColor(status),
-        className
-      )}
-    >
-      {text}
-    </div>
+    <Popover open={tooltip ? undefined : false}>
+      <PopoverTrigger asChild>
+        <div
+          className={cn(
+            "h-7 w-23 rounded-full bg-slate-50 text-xs flex justify-center items-center",
+            getColor(status),
+            tooltip ? 'cursor-pointer hover:opacity-60 transition-opacity' : '',
+            className
+          )}
+        >
+          {text}
+        </div>
+      </PopoverTrigger>
+      <PopoverContent className="p-2.5 text-sm">{tooltip}</PopoverContent>
+    </Popover>
   )
 }
 

@@ -1,7 +1,6 @@
 1. Summaries ids as array
 2. Summaries for files automated (per page basis) with the help of Llama-Index
 3. Generalize links entity to cover all cases nicely
-4. Add tooltips for status badges
 5. All redirects should have a target action (e.g. login modal) and a path back (e.g. previous target path)
 6. Add admin mode (online / offline) affecting the estimates
 7. Chat RAG with Llama-Index + single file search

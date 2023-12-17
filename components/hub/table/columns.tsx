@@ -66,7 +66,12 @@ export const columns: ColumnDef<LinkEntity>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) =>
-      row.original.status ? <StatusBadge status={row.original.status} /> : null,
+      row.original.status ? (
+        <StatusBadge
+          status={row.original.status}
+          tooltip={getStatusTooltip(row.original)}
+        />
+      ) : null,
   },
   {
     accessorKey: "created",
@@ -94,11 +99,6 @@ export const columns: ColumnDef<LinkEntity>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[140px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            {link.status === "REJECTED" && link.reason && (
-              <Link href={`?linkId=${link.id}&action=reason`} scroll={false}>
-                <DropdownMenuItem>View rejection reason</DropdownMenuItem>
-              </Link>
-            )}
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(link.url)}
             >
@@ -119,3 +119,16 @@ export const columns: ColumnDef<LinkEntity>[] = [
     },
   },
 ]
+
+const getStatusTooltip = (link: LinkEntity) => {
+  switch (link.status) {
+    case "REJECTED":
+      return link.reason ? `This link was rejected because: ${link.reason}` : "This link was rejected without a reason"
+    case "PENDING":
+      return "This link is being processed and will be added to Knowledge Hub soon"
+    case "COMPLETED":
+      return "This link has been processed and the content has been added to Knowledge Hub"
+    default:
+      return undefined
+  }
+}
