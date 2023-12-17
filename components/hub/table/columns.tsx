@@ -17,6 +17,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { StatusBadge } from "@/components/common/status-badge"
 
 export const columns: ColumnDef<LinkEntity>[] = [
@@ -67,10 +72,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
     header: "Status",
     cell: ({ row }) =>
       row.original.status ? (
-        <StatusBadge
-          status={row.original.status}
-          tooltip={getStatusTooltip(row.original)}
-        />
+        <StatusBadgeWithTooltip link={row.original} />
       ) : null,
   },
   {
@@ -133,4 +135,21 @@ const getStatusTooltip = (link: LinkEntity) => {
     default:
       return undefined
   }
+}
+
+const StatusBadgeWithTooltip = ({ link }: { link: LinkEntity }) => {
+  const tooltip = getStatusTooltip(link)
+  return (
+    <Popover open={tooltip ? undefined : false}>
+      <PopoverTrigger asChild>
+        <StatusBadge
+          status={link.status}
+          className={
+            tooltip ? "cursor-pointer hover:opacity-60 transition-opacity" : ""
+          }
+        />
+      </PopoverTrigger>
+      <PopoverContent className="p-2.5 text-sm">{tooltip}</PopoverContent>
+    </Popover>
+  )
 }

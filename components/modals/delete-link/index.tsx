@@ -21,7 +21,7 @@ import { useToast } from "../../ui/use-toast"
 
 export interface DeleteModalProps {
   isOpen: boolean
-  link: Pick<LinkEntity, "id" | "title" | "favicon" | "summary_id"> | null
+  link: Pick<LinkEntity, "id" | "title" | "favicon"> | null
 }
 
 export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {

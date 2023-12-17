@@ -5,6 +5,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Loader2 } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
+import { saveRedirectTo } from "@/app/actions/save-redirect-to"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
@@ -12,9 +13,10 @@ import { useToast } from "../ui/use-toast"
 
 interface Props {
   setIsEmailSent: (value: boolean) => void
+  redirectTo?: string | null | undefined
 }
 
-export const LogInForm = ({ setIsEmailSent }: Props) => {
+export const LogInForm = ({ setIsEmailSent, redirectTo }: Props) => {
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
 
@@ -43,6 +45,12 @@ export const LogInForm = ({ setIsEmailSent }: Props) => {
           emailRedirectTo: `${window.origin}/auth/callback`,
         },
       })
+
+      if (redirectTo) {
+        const redirectData = new FormData()
+        redirectData.append("path", redirectTo)
+        await saveRedirectTo(redirectData)
+      }
 
       if (error) {
         setIsLoading(false)

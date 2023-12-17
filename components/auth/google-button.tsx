@@ -7,19 +7,25 @@ import { Loader2 } from "lucide-react"
 import { Button } from "../ui/button"
 import { useToast } from "../ui/use-toast"
 
-export const GoogleSignInButton = () => {
+interface Props {
+  redirectTo?: string | null | undefined
+}
+
+export const GoogleSignInButton = ({ redirectTo }: Props) => {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
 
   const handleGoogleSignIn = async () => {
     setLoading(true)
+
     try {
       const response = await fetch("/api/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ redirectTo }),
       })
       const { data } = await response.json()
       if (!data?.url) throw new Error("No url returned")

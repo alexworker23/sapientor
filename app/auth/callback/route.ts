@@ -14,10 +14,13 @@ export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get("code")
 
+  const redirectTo = cookies().get("redirectTo")?.value
+  if (redirectTo) cookies().delete("redirectTo")
+
   if (code) {
     const supabase = createServerSupabaseClient()
     await supabase.auth.exchangeCodeForSession(code)
   }
 
-  return NextResponse.redirect(`${requestUrl.origin}/`)
+  return NextResponse.redirect(`${requestUrl.origin}${redirectTo || ""}`)
 }

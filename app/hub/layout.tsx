@@ -25,7 +25,7 @@ export default async function Layout({
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) return redirect("/")
+  if (!user) return redirect("/?login=true&redirect=/hub")
   if (user.email && admin_list.includes(user.email))
     return redirect("/admin/hub")
 

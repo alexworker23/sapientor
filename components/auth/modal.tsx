@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { MailCheck } from "lucide-react"
 import { Balancer } from "react-wrap-balancer"
 
@@ -11,7 +12,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog"
 import { GoogleSignInButton } from "./google-button"
 import { LogInForm } from "./log-in-form"
@@ -25,14 +25,31 @@ export const AuthModal = ({
   buttonLabel = "Log in",
   ...props
 }: AuthModalProps) => {
+  const [isOpen, setIsOpen] = useState(false)
   const [isEmailSent, setIsEmailSent] = useState(false)
+
+  const searchParams = useSearchParams()
+  const isLoginRedirect = searchParams.get("login") === "true"
+  const redirectTo = searchParams.get("redirect")
+
+  useEffect(() => {
+    if (isLoginRedirect) {
+      setIsOpen(true)
+    }
+  }, [isLoginRedirect])
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="secondary" className="text-sm" size="sm" {...props}>
-          {buttonLabel}
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={() => setIsOpen(false)}>
+      <Button
+        onClick={() => setIsOpen(true)}
+        type="button"
+        variant="secondary"
+        className="text-sm"
+        size="sm"
+        {...props}
+      >
+        {buttonLabel}
+      </Button>
       <DialogContent className="gap-5">
         <DialogHeader>
           <DialogTitle>Log in</DialogTitle>
@@ -59,10 +76,13 @@ export const AuthModal = ({
           </div>
         ) : (
           <>
-            <LogInForm setIsEmailSent={setIsEmailSent} />
+            <LogInForm
+              redirectTo={redirectTo}
+              setIsEmailSent={setIsEmailSent}
+            />
             <OrDivider />
             <div className="flex justify-center">
-              <GoogleSignInButton />
+              <GoogleSignInButton redirectTo={redirectTo} />
             </div>
           </>
         )}

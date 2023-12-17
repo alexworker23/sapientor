@@ -21,7 +21,7 @@ const Page = async () => {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) return redirect("/")
+  if (!user) return redirect("/?login=true&redirect=/connect-gpt")
 
   const code = generateUserToken(user.id)
   const displayableCode = code.slice(0, 10) + "..." + code.slice(-10)
