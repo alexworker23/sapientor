@@ -79,7 +79,7 @@ export const RejectModal = ({ isOpen, link }: Props) => {
             name="reason"
             id="reason"
           />
-          <DialogFooter className="mt-5">
+          <DialogFooter className="mt-5 flex-row space-x-2 justify-end">
             <Button
               disabled={submitting}
               variant="outline"

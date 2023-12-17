@@ -36,7 +36,7 @@ const Page = async ({ searchParams }: Props) => {
     : { data: null }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-16">
+    <main className="flex min-h-screen flex-col items-center justify-between px-4 sm:px-16 pb-10 pt-20">
       <div className="mx-auto py-10 w-full">
         <Suspense
           fallback={<Skeleton className="w-full h-96 rounded-md border" />}

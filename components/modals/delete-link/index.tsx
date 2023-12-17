@@ -81,15 +81,15 @@ export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
         <DialogDescription>
           Are you sure you want to delete this link?
         </DialogDescription>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center w-full max-w-[280px] sm:max-w-0">
           {link?.favicon && (
             <img src={link.favicon} className="max-h-6" alt="website favicon" />
           )}
-          <p className="font-semibold">
+          <p className="font-semibold block whitespace-normal w-full">
             {decodeHtmlEntities(link?.title ?? "")}
           </p>
         </div>
-        <DialogFooter className="mt-5">
+        <DialogFooter className="mt-5 flex-row space-x-2 justify-end">
           <Button
             disabled={submitting}
             variant="outline"

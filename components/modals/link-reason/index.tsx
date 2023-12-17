@@ -35,7 +35,7 @@ export const ReasonModal = ({ isOpen, link }: ReasonModalProps) => {
         <div>
           <p className="text-xl">&quot;{link?.reason}&quot;</p>
         </div>
-        <DialogFooter className="mt-5">
+        <DialogFooter className="mt-5 flex-row space-x-2 justify-end">
           <Button type="button" onClick={handleClose} className="w-28">
             Close
           </Button>
