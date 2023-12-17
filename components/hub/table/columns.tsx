@@ -123,7 +123,9 @@ export const columns: ColumnDef<LinkEntity>[] = [
 const getStatusTooltip = (link: LinkEntity) => {
   switch (link.status) {
     case "REJECTED":
-      return link.reason ? `This link was rejected because: ${link.reason}` : "This link was rejected without a reason"
+      return link.reason
+        ? `This link was rejected because: ${link.reason}`
+        : "This link was rejected without a reason"
     case "PENDING":
       return "This link is being processed and will be added to Knowledge Hub soon"
     case "COMPLETED":

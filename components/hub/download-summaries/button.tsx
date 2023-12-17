@@ -1,9 +1,9 @@
 "use client"
 
 import dynamic from "next/dynamic"
+import { Download } from "lucide-react"
 
 import type { SummaryEntity } from "@/lib/types"
-import { Download } from "lucide-react"
 
 const Button = dynamic(
   () => import("@/components/ui/button").then((c) => c.Button),

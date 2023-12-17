@@ -18,7 +18,7 @@ export const StatusBadge = ({ status, tooltip, className }: Props) => {
           className={cn(
             "h-7 w-23 rounded-full bg-slate-50 text-xs flex justify-center items-center",
             getColor(status),
-            tooltip ? 'cursor-pointer hover:opacity-60 transition-opacity' : '',
+            tooltip ? "cursor-pointer hover:opacity-60 transition-opacity" : "",
             className
           )}
         >
