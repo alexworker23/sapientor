@@ -21,8 +21,8 @@ export const HubModals = async ({ linkId, action }: Props) => {
   const supabase = createServerSupabaseClient()
   const { data: targetLink } = linkId
     ? await supabase
-        .from("links")
-        .select("id,title,favicon,reason")
+        .from("sources")
+        .select("id,title,icon,reason")
         .eq("id", linkId)
         .single()
     : { data: null }

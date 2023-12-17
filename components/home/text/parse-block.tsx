@@ -29,9 +29,8 @@ export const ParseBlock = ({ text, onSuccess }: Props) => {
       setSaving(true)
 
       const { data: createdEntity, error: creationError } = await supabase
-        .from("links")
+        .from("sources")
         .insert({
-          url: "#user-text",
           title: text.slice(0, 50),
           description: text,
           estimate: {

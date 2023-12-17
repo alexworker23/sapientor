@@ -47,7 +47,7 @@ export const addSummary = async (data: FormData) => {
   const content = data.get("content") as string
   const linkId = data.get("linkId") as string
   const userId = data.get("userId") as string
-  if (!content || !linkId || !title || !userId || !url) {
+  if (!content || !linkId || !title || !userId) {
     return {
       code: 400,
       message: "Bad Request",

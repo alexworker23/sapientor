@@ -51,11 +51,11 @@ export const columns: ColumnDef<LinkEntity>[] = [
     cell: ({ row }) => (
       <div className="flex gap-2 items-center">
         <img
-          src={row.original.favicon || "/icon.png"}
+          src={row.original.icon || "/icon.png"}
           className="max-h-6"
           alt="website favicon"
         />
-        {row.original.url.startsWith("http") ? (
+        {row.original.url?.startsWith("http") ? (
           <Link href={row.original.url} className="max-w-[300px] truncate">
             {decodeHtmlEntities(row.getValue("title"))}
           </Link>
@@ -101,14 +101,16 @@ export const columns: ColumnDef<LinkEntity>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[140px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            {!!link.url && 
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(link.url)}
+              onClick={() => navigator.clipboard.writeText(link.url!)}
             >
               Copy
-            </DropdownMenuItem>
+            </DropdownMenuItem>}
+            {!!link.url && 
             <a href={link.url} target="_blank" rel="noreferrer, noopener">
               <DropdownMenuItem>Open</DropdownMenuItem>
-            </a>
+            </a>}
             <DropdownMenuSeparator />
             <Link href={`?linkId=${link.id}&action=delete`} scroll={false}>
               <DropdownMenuItem className="text-red-600">

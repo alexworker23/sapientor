@@ -27,7 +27,7 @@ export const SummaryForm = ({ link }: Props) => {
     const formData = new FormData(event.currentTarget)
     formData.append("linkId", link.id)
     formData.append("userId", link.user_id)
-    formData.append("url", link.url)
+    {link.url && formData.append("url", link.url)}
     formData.append("title", link.title ?? "")
     formData.append("description", link.description ?? "")
     try {
@@ -55,16 +55,20 @@ export const SummaryForm = ({ link }: Props) => {
     <div className="max-w-xl w-full">
       <h1 className="text-2xl mb-5">You are adding summary for</h1>
       <p className="text-sm whitespace-normal font-semibold">
-        {link.favicon && (
+        {link.icon && (
           <img
-            src={link.favicon}
+            src={link.icon}
             className="max-h-5 inline mr-1"
             alt="website favicon"
           />
         )}
-        <a href={link.url} className="hover:underline">
-          {decodeHtmlEntities(link.title ?? "")}
-        </a>
+        {link.url ? (
+          <a href={link.url} className="hover:underline">
+            {decodeHtmlEntities(link.title ?? "")}
+          </a>
+        ) : (
+          <span>{decodeHtmlEntities(link.title ?? "")}</span>
+        )}
       </p>
       <form className="mt-5" onSubmit={handleSubmit}>
         <Textarea placeholder="Summary content" name="content" id="content" />

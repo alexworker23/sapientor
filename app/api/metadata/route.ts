@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   const metadata: LinkMetadata = {
     title: titleMatch ? titleMatch[1] : url,
     description: descMatch ? descMatch[1] : "",
-    favicon: faviconMatch ? faviconMatch[1] : "",
+    icon: faviconMatch ? faviconMatch[1] : "",
     url,
   }
 

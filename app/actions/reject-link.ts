@@ -47,7 +47,7 @@ export const rejectLink = async (data: FormData) => {
     }
   }
   const { data: updatedEntity, error } = await supabase
-    .from("links")
+    .from("sources")
     .update({ status: "REJECTED", reason })
     .eq("id", id)
     .select("*")

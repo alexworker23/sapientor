@@ -14,7 +14,7 @@ const createServerSupabaseClient = cache(() => {
 export const FetchedHubTable = async () => {
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
-    .from("links")
+    .from("sources")
     .select("*")
     .order("created_at", { ascending: false })
 

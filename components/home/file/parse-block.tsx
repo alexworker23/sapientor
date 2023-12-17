@@ -52,7 +52,7 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
       )
 
       const { data: createdEntities, error: creationError } = await supabase
-        .from("links")
+        .from("sources")
         .insert(
           uploadedFiles.map((file) => ({
             ...file,

@@ -44,7 +44,7 @@ export async function POST(request: Request) {
   const supabase = createServerSupabaseClient()
 
   const { data: link } = await supabase
-    .from("links")
+    .from("sources")
     .insert({
       url,
       estimate: { time: 0, deadline: dayjs().toISOString() },

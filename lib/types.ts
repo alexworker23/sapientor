@@ -3,7 +3,7 @@ import { Database } from "./database.types"
 export type LinkMetadata = {
   title: string
   description: string
-  favicon: string
+  icon: string
   url: string
 }
 
@@ -13,7 +13,7 @@ export type ParsingEstimate = {
   humanReadable: string
 }
 
-export type LinkEntity = Database["public"]["Tables"]["links"]["Row"]
+export type LinkEntity = Database["public"]["Tables"]["sources"]["Row"]
 
 export type StatusEnumType = Database["public"]["Enums"]["status"]
 

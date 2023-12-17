@@ -25,7 +25,7 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
     cell: ({ row }) => (
       <div className="flex gap-2 items-center">
         <img
-          src={row.original.favicon || "/icon.png"}
+          src={row.original.icon || "/icon.png"}
           className="max-h-6"
           alt="website favicon"
         />
@@ -82,14 +82,15 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[140px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(link.url)}
+            {!!link.url && <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(link.url!)}
             >
               Copy
-            </DropdownMenuItem>
+            </DropdownMenuItem>}
+            {link.url ? 
             <a href={link.url} target="_blank" rel="noreferrer, noopener">
               <DropdownMenuItem>Open</DropdownMenuItem>
-            </a>
+            </a> : <span>{link.url}</span>}
             {isLinkPending && <DropdownMenuSeparator />}
             {isLinkPending && (
               <Link href={`/admin/hub/${link.id}/add-summary`}>

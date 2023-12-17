@@ -45,13 +45,13 @@ export const ParseBlock = ({
       setSaving(true)
 
       const { data: createdEntity, error: creationError } = await supabase
-        .from("links")
+        .from("sources")
         .insert({
           url: link,
           estimate,
           title: metadata?.title,
           description: metadata?.description,
-          favicon: metadata?.favicon,
+          icon: metadata?.icon,
         })
         .select("*")
         .single()

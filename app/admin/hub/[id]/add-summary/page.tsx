@@ -25,7 +25,7 @@ interface Props {
 const Page = async ({ params }: Props) => {
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
-    .from("links")
+    .from("sources")
     .select("*")
     .eq("id", params.id)
     .single()

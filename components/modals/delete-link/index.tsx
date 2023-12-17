@@ -21,7 +21,7 @@ import { useToast } from "../../ui/use-toast"
 
 export interface DeleteModalProps {
   isOpen: boolean
-  link: Pick<LinkEntity, "id" | "title" | "favicon"> | null
+  link: Pick<LinkEntity, "id" | "title" | "icon"> | null
 }
 
 export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
@@ -41,7 +41,7 @@ export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
       setSubmitting(true)
 
       const { error } = await supabase
-        .from("links")
+        .from("sources")
         .delete()
         .match({ id: link.id })
       if (error) throw new Error(error.message)
@@ -74,8 +74,8 @@ export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
           Are you sure you want to delete this link?
         </DialogDescription>
         <div className="flex gap-2 items-center w-full max-w-[280px] sm:max-w-0">
-          {link?.favicon && (
-            <img src={link.favicon} className="max-h-6" alt="website favicon" />
+          {link?.icon && (
+            <img src={link.icon} className="max-h-6" alt="website favicon" />
           )}
           <p className="font-semibold block whitespace-normal w-full">
             {decodeHtmlEntities(link?.title ?? "")}

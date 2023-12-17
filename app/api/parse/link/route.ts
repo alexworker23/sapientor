@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
-    .from("links")
+    .from("sources")
     .select("url, title, description, user_id, estimate")
     .eq("id", link_id)
     .single()

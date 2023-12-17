@@ -29,7 +29,7 @@ const Page = async ({ searchParams }: Props) => {
 
   const { data: targetLink } = searchParams.linkId
     ? await supabase
-        .from("links")
+        .from("sources")
         .select("*")
         .eq("id", searchParams.linkId)
         .single()

@@ -9,59 +9,6 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      links: {
-        Row: {
-          created_at: string
-          description: string | null
-          estimate: Json
-          favicon: string | null
-          id: string
-          reason: string | null
-          status: Database["public"]["Enums"]["status"]
-          summary_ids: string[] | null
-          title: string | null
-          updated_at: string | null
-          url: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          estimate: Json
-          favicon?: string | null
-          id?: string
-          reason?: string | null
-          status?: Database["public"]["Enums"]["status"]
-          summary_ids?: string[] | null
-          title?: string | null
-          updated_at?: string | null
-          url: string
-          user_id?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          estimate?: Json
-          favicon?: string | null
-          id?: string
-          reason?: string | null
-          status?: Database["public"]["Enums"]["status"]
-          summary_ids?: string[] | null
-          title?: string | null
-          updated_at?: string | null
-          url?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "links_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       notifications: {
         Row: {
           created_at: string
@@ -96,6 +43,59 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sources: {
+        Row: {
+          created_at: string
+          description: string | null
+          estimate: Json
+          icon: string | null
+          id: string
+          reason: string | null
+          status: Database["public"]["Enums"]["status"]
+          summary_ids: string[] | null
+          title: string | null
+          updated_at: string | null
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          estimate: Json
+          icon?: string | null
+          id?: string
+          reason?: string | null
+          status?: Database["public"]["Enums"]["status"]
+          summary_ids?: string[] | null
+          title?: string | null
+          updated_at?: string | null
+          url?: string | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          estimate?: Json
+          icon?: string | null
+          id?: string
+          reason?: string | null
+          status?: Database["public"]["Enums"]["status"]
+          summary_ids?: string[] | null
+          title?: string | null
+          updated_at?: string | null
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sources_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"

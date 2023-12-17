@@ -15,7 +15,7 @@ const createServerSupabaseClient = cache(() => {
 export const FetchAdminDataTable = async () => {
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
-    .from("links")
+    .from("sources")
     .select("*")
     .order("created_at", { ascending: false })
 
