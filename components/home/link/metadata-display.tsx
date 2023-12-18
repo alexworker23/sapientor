@@ -23,7 +23,7 @@ export const MetadataDisplay = ({ metadata, loading }: Props) => {
   if (!metadata) return null
   return (
     <TooltipProvider>
-      <Tooltip delayDuration={100}>
+      <Tooltip>
         <TooltipTrigger asChild>
           <Card className="flex p-4 items-start space-x-4 max-w-full overflow-hidden">
             <div className="flex items-center space-x-2 flex-shrink-0 mt-1">

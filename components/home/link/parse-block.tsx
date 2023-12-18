@@ -7,7 +7,8 @@ import { InfoIcon, Loader2 } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
 import type { LinkMetadata, ParsingEstimate } from "@/lib/types"
-import { urlRegex } from "@/lib/utils"
+import { cn, urlRegex } from "@/lib/utils"
+import { Checkbox } from "@/components/ui/checkbox"
 
 import { Button } from "../../ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover"
@@ -28,6 +29,7 @@ export const ParseBlock = ({
   loading,
   onSuccess,
 }: Props) => {
+  const [notParse, setNotParse] = useState(false)
   const [saving, setSaving] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
 
@@ -52,6 +54,7 @@ export const ParseBlock = ({
           title: metadata?.title,
           description: metadata?.description,
           icon: metadata?.icon,
+          status: notParse ? "PAUSED" : undefined,
         })
         .select("*")
         .single()
@@ -59,10 +62,12 @@ export const ParseBlock = ({
       if (creationError) throw new Error(creationError.message)
       if (!createdEntity) throw new Error("Error while saving link")
 
-      fetch("/api/parse/link", {
-        method: "POST",
-        body: JSON.stringify({ link_id: createdEntity.id }),
-      })
+      if (!notParse) {
+        fetch("/api/parse/link", {
+          method: "POST",
+          body: JSON.stringify({ source_id: createdEntity.id }),
+        })
+      }
 
       router.refresh()
       onSuccess()
@@ -76,34 +81,51 @@ export const ParseBlock = ({
 
   return (
     <>
-      <div className="flex w-full justify-between">
-        {loading || !estimate ? (
-          <div className="grid gap-1">
-            <Skeleton className="h-4 w-20" />
-            <Skeleton className="h-4 w-14" />
+      <div className={cn("flex w-full justify-between")}>
+        <div className="grid gap-1">
+          {notParse ? null : loading || !estimate ? (
+            <div className="grid gap-1">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-4 w-14" />
+            </div>
+          ) : (
+            <div>
+              <p className="text-xs">
+                Time to process
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <InfoIcon
+                      size={14}
+                      className="inline ml-1 hover:opacity-50 cursor-pointer"
+                    />
+                  </PopoverTrigger>
+                  <PopoverContent className="text-xs font-medium p-2.5">
+                    Typically, parsing of an article takes ~10 seconds. But here
+                    we display the maximum time required to parse the article,
+                    in case there are some blockers on the website, or the
+                    content is not a plain text, but a video for example.
+                  </PopoverContent>
+                </Popover>
+              </p>
+              <p>~{estimate?.humanReadable}</p>
+            </div>
+          )}
+          <div className="flex items-center space-x-1">
+            <Checkbox
+              id="doNotParse"
+              checked={notParse}
+              onCheckedChange={(value) => setNotParse(!!value)}
+              disabled={loading}
+            />
+            <label
+              htmlFor="doNotParse"
+              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Don&apos;t process the link now
+            </label>
           </div>
-        ) : (
-          <div>
-            <p className="text-xs">
-              Time to process
-              <Popover>
-                <PopoverTrigger asChild>
-                  <InfoIcon
-                    size={14}
-                    className="inline ml-1 hover:opacity-50 cursor-pointer"
-                  />
-                </PopoverTrigger>
-                <PopoverContent className="text-xs font-medium p-2.5">
-                  Typically, parsing of an article takes ~10 seconds. But here
-                  we display the maximum time required to parse the article, in
-                  case there are some blockers on the website, or the content is
-                  not a plain text, but a video for example.
-                </PopoverContent>
-              </Popover>
-            </p>
-            <p>~{estimate?.humanReadable}</p>
-          </div>
-        )}
+        </div>
+
         <Button
           onClick={handleSave}
           disabled={!isValid || saving || loading}

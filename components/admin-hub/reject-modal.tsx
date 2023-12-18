@@ -4,7 +4,7 @@ import { useState, type FormEventHandler } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
-import type { LinkEntity } from "@/lib/types"
+import type { SourceEntity } from "@/lib/types"
 import { rejectLink } from "@/app/actions/reject-link"
 
 import { Button } from "../ui/button"
@@ -20,10 +20,10 @@ import { useToast } from "../ui/use-toast"
 
 interface Props {
   isOpen: boolean
-  link: LinkEntity | null
+  source: SourceEntity | null
 }
 
-export const RejectModal = ({ isOpen, link }: Props) => {
+export const RejectModal = ({ isOpen, source }: Props) => {
   const [submitting, setSubmitting] = useState(false)
 
   const router = useRouter()
@@ -33,11 +33,11 @@ export const RejectModal = ({ isOpen, link }: Props) => {
   const handleClose = () => router.push(pathname)
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-    if (!link) return
+    if (!source) return
 
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
-    formData.append("id", link.id)
+    formData.append("id", source.id)
 
     try {
       setSubmitting(true)
@@ -49,14 +49,14 @@ export const RejectModal = ({ isOpen, link }: Props) => {
       router.refresh()
       toast({
         title: "Link rejected",
-        description: "The link has been rejected successfully.",
+        description: "The source has been rejected successfully.",
       })
     } catch (error) {
       console.error(error)
       toast({
         title: "Error",
         description:
-          "An error occurred while rejecting the link. " +
+          "An error occurred while rejecting the source. " +
           (error as Error).message,
         variant: "destructive",
       })
@@ -68,9 +68,9 @@ export const RejectModal = ({ isOpen, link }: Props) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
-        <DialogHeader>Reject link</DialogHeader>
+        <DialogHeader>Reject source</DialogHeader>
         <DialogDescription>
-          Are you sure you want to reject this link? If yes, please provide a
+          Are you sure you want to reject this source? If yes, please provide a
           reason below.
         </DialogDescription>
         <form onSubmit={handleSubmit}>

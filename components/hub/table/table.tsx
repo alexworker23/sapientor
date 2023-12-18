@@ -1,12 +1,12 @@
 "use client"
 
-import type { LinkEntity } from "@/lib/types"
+import type { SourceEntity } from "@/lib/types"
 import { DataTable } from "@/components/common/data-table"
 
 import { columns } from "./columns"
 
 export interface HubTableProps {
-  data: LinkEntity[]
+  data: SourceEntity[]
 }
 
 export const HubTable = ({ data }: HubTableProps) => {

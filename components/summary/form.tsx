@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
-import type { LinkEntity } from "@/lib/types"
+import type { SourceEntity } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
 import { addSummary } from "@/app/actions/add-summary"
 
@@ -13,10 +13,10 @@ import { Textarea } from "../ui/textarea"
 import { useToast } from "../ui/use-toast"
 
 interface Props {
-  link: LinkEntity
+  source: SourceEntity
 }
 
-export const SummaryForm = ({ link }: Props) => {
+export const SummaryForm = ({ source }: Props) => {
   const [submitting, setSubmitting] = useState(false)
 
   const { toast } = useToast()
@@ -25,11 +25,11 @@ export const SummaryForm = ({ link }: Props) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
-    formData.append("linkId", link.id)
-    formData.append("userId", link.user_id)
-    {link.url && formData.append("url", link.url)}
-    formData.append("title", link.title ?? "")
-    formData.append("description", link.description ?? "")
+    formData.append("sourceId", source.id)
+    formData.append("userId", source.user_id)
+    source.url && formData.append("url", source.url)
+    formData.append("title", source.title ?? "")
+    formData.append("description", source.description ?? "")
     try {
       setSubmitting(true)
       const { code, message } = await addSummary(formData)
@@ -55,19 +55,19 @@ export const SummaryForm = ({ link }: Props) => {
     <div className="max-w-xl w-full">
       <h1 className="text-2xl mb-5">You are adding summary for</h1>
       <p className="text-sm whitespace-normal font-semibold">
-        {link.icon && (
+        {source.icon && (
           <img
-            src={link.icon}
+            src={source.icon}
             className="max-h-5 inline mr-1"
             alt="website favicon"
           />
         )}
-        {link.url ? (
-          <a href={link.url} className="hover:underline">
-            {decodeHtmlEntities(link.title ?? "")}
+        {source.url ? (
+          <a href={source.url} className="hover:underline">
+            {decodeHtmlEntities(source.title ?? "")}
           </a>
         ) : (
-          <span>{decodeHtmlEntities(link.title ?? "")}</span>
+          <span>{decodeHtmlEntities(source.title ?? "")}</span>
         )}
       </p>
       <form className="mt-5" onSubmit={handleSubmit}>

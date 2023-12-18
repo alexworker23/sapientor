@@ -20,18 +20,18 @@ const createServerSupabaseClient = cache(() => {
 interface Props {
   searchParams: {
     action: string | undefined
-    linkId: string | undefined
+    sourceId: string | undefined
   }
 }
 
 const Page = async ({ searchParams }: Props) => {
   const supabase = createServerSupabaseClient()
 
-  const { data: targetLink } = searchParams.linkId
+  const { data: targetSource } = searchParams.sourceId
     ? await supabase
         .from("sources")
         .select("*")
-        .eq("id", searchParams.linkId)
+        .eq("id", searchParams.sourceId)
         .single()
     : { data: null }
 
@@ -46,8 +46,8 @@ const Page = async ({ searchParams }: Props) => {
       </div>
       <Suspense>
         <RejectModal
-          isOpen={searchParams.action === "reject" && !!targetLink}
-          link={targetLink}
+          isOpen={searchParams.action === "reject" && !!targetSource}
+          source={targetSource}
         />
       </Suspense>
     </main>

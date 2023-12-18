@@ -27,21 +27,18 @@ export const addOwnSummary = async (data: FormData) => {
     }
   }
 
-  const url = data.get("url") as string
   const title = data.get("title") as string
   const description = data.get("description") as string
   const content = data.get("content") as string
-  const linkId = data.get("linkId") as string
+  const sourceId = data.get("sourceId") as string
   const userId = data.get("userId") as string
 
-  if (!content || !linkId || !title || !userId || !url) {
+  if (!content || !sourceId || !title || !userId) {
     return {
       code: 400,
       message: `Missing required fields: ${!content ? "content" : ""} ${
-        !linkId ? "linkId" : ""
-      } ${!title ? "title" : ""} ${!userId ? "userId" : ""} ${
-        !url ? "url" : ""
-      }`,
+        !sourceId ? "sourceId" : ""
+      } ${!title ? "title" : ""} ${!userId ? "userId" : ""}`,
     }
   }
 
@@ -62,8 +59,7 @@ export const addOwnSummary = async (data: FormData) => {
       pageContent: contentToSave,
       metadata: {
         user_id: userId,
-        link_id: linkId,
-        url,
+        source_id: sourceId,
         title,
         author: "user",
       },

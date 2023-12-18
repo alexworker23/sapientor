@@ -35,7 +35,7 @@ const Page = async ({ params }: Props) => {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-16">
-      <SummaryForm link={data} />
+      <SummaryForm source={data} />
     </main>
   )
 }

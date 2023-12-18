@@ -6,7 +6,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Loader2 } from "lucide-react"
 
 import { Database } from "@/lib/database.types"
-import type { LinkEntity } from "@/lib/types"
+import type { SourceEntity } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
 
 import { Button } from "../../ui/button"
@@ -21,10 +21,10 @@ import { useToast } from "../../ui/use-toast"
 
 export interface DeleteModalProps {
   isOpen: boolean
-  link: Pick<LinkEntity, "id" | "title" | "icon"> | null
+  source: Pick<SourceEntity, "id" | "title" | "icon"> | null
 }
 
-export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
+export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
   const [submitting, setSubmitting] = useState(false)
 
   const router = useRouter()
@@ -35,7 +35,7 @@ export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
   const handleClose = () => router.push(pathname)
 
   const handleDelete = async () => {
-    if (!link) return
+    if (!source) return
 
     try {
       setSubmitting(true)
@@ -43,21 +43,21 @@ export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
       const { error } = await supabase
         .from("sources")
         .delete()
-        .match({ id: link.id })
+        .match({ id: source.id })
       if (error) throw new Error(error.message)
 
       handleClose()
       router.refresh()
       toast({
-        title: "Link deleted",
-        description: "The link has been deleted successfully.",
+        title: "Source deleted",
+        description: "The source has been deleted successfully.",
       })
     } catch (error) {
       console.error(error)
       toast({
         title: "Error",
         description:
-          "An error occurred while deleting the link. " +
+          "An error occurred while deleting the source. " +
           (error as Error).message,
         variant: "destructive",
       })
@@ -69,16 +69,16 @@ export const DeleteModal = ({ isOpen, link }: DeleteModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
-        <DialogHeader>Delete link</DialogHeader>
+        <DialogHeader>Delete source</DialogHeader>
         <DialogDescription>
-          Are you sure you want to delete this link?
+          Are you sure you want to delete this source?
         </DialogDescription>
         <div className="flex gap-2 items-center w-full max-w-[280px] sm:max-w-0">
-          {link?.icon && (
-            <img src={link.icon} className="max-h-6" alt="website favicon" />
+          {source?.icon && (
+            <img src={source.icon} className="max-h-6" alt="website favicon" />
           )}
           <p className="font-semibold block whitespace-normal w-full">
-            {decodeHtmlEntities(link?.title ?? "")}
+            {decodeHtmlEntities(source?.title ?? "")}
           </p>
         </div>
         <DialogFooter className="mt-5 flex-row space-x-2 justify-end">

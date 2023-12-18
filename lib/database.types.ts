@@ -163,7 +163,7 @@ export interface Database {
       }
     }
     Enums: {
-      status: "PENDING" | "REJECTED" | "COMPLETED"
+      status: "PENDING" | "REJECTED" | "COMPLETED" | "PAUSED"
     }
     CompositeTypes: {
       [_ in never]: never

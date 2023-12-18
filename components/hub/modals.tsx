@@ -13,28 +13,28 @@ const createServerSupabaseClient = cache(() => {
 })
 
 interface Props {
-  linkId: string | undefined
+  sourceId: string | undefined
   action: string | undefined
 }
 
-export const HubModals = async ({ linkId, action }: Props) => {
+export const HubModals = async ({ sourceId, action }: Props) => {
   const supabase = createServerSupabaseClient()
-  const { data: targetLink } = linkId
+  const { data: targetSource } = sourceId
     ? await supabase
         .from("sources")
         .select("id,title,icon,reason")
-        .eq("id", linkId)
+        .eq("id", sourceId)
         .single()
     : { data: null }
   return (
     <>
       <DeleteModal
-        isOpen={action === "delete" && !!targetLink}
-        link={targetLink}
+        isOpen={action === "delete" && !!targetSource}
+        source={targetSource}
       />
       <ReasonModal
-        isOpen={action === "reason" && !!targetLink}
-        link={targetLink}
+        isOpen={action === "reason" && !!targetSource}
+        source={targetSource}
       />
     </>
   )

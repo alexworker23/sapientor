@@ -5,7 +5,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import dayjs from "dayjs"
 import { MoreHorizontal } from "lucide-react"
 
-import type { LinkEntity, ParsingEstimate } from "@/lib/types"
+import type { ParsingEstimate, SourceEntity } from "@/lib/types"
 import { cn, decodeHtmlEntities } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { StatusBadge } from "@/components/common/status-badge"
 
-export const admin_columns: ColumnDef<LinkEntity>[] = [
+export const admin_columns: ColumnDef<SourceEntity>[] = [
   {
     accessorKey: "title",
     header: "Title",
@@ -69,8 +69,8 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const link = row.original
-      const isLinkPending = link.status === "PENDING"
+      const source = row.original
+      const isLinkPending = source.status === "PENDING"
 
       return (
         <DropdownMenu>
@@ -82,18 +82,23 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[140px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            {!!link.url && <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(link.url!)}
-            >
-              Copy
-            </DropdownMenuItem>}
-            {link.url ? 
-            <a href={link.url} target="_blank" rel="noreferrer, noopener">
-              <DropdownMenuItem>Open</DropdownMenuItem>
-            </a> : <span>{link.url}</span>}
+            {!!source.url && (
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(source.url!)}
+              >
+                Copy
+              </DropdownMenuItem>
+            )}
+            {source.url ? (
+              <a href={source.url} target="_blank" rel="noreferrer, noopener">
+                <DropdownMenuItem>Open</DropdownMenuItem>
+              </a>
+            ) : (
+              <span>{source.url}</span>
+            )}
             {isLinkPending && <DropdownMenuSeparator />}
             {isLinkPending && (
-              <Link href={`/admin/hub/${link.id}/add-summary`}>
+              <Link href={`/admin/hub/${source.id}/add-summary`}>
                 <DropdownMenuItem className="text-green-600">
                   Add summary
                 </DropdownMenuItem>
@@ -108,7 +113,7 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
               </DropdownMenuItem>
             )}
             {isLinkPending && (
-              <Link href={`?linkId=${link.id}&action=reject`}>
+              <Link href={`?sourceId=${source.id}&action=reject`}>
                 <DropdownMenuItem className="text-red-600">
                   Reject
                 </DropdownMenuItem>
@@ -121,11 +126,11 @@ export const admin_columns: ColumnDef<LinkEntity>[] = [
   },
 ]
 
-const parseLink = async (link_id: string) => {
+const parseLink = async (source_id: string) => {
   try {
     fetch("/api/parse/link", {
       method: "POST",
-      body: JSON.stringify({ link_id }),
+      body: JSON.stringify({ source_id }),
     })
   } catch (error) {
     console.error(error)

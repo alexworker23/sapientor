@@ -34,12 +34,12 @@ const createServerSupabaseClient = cache(() => {
 })
 
 export async function POST(req: Request) {
-  const { link_id } = (await req.json()) as {
-    link_id: string | undefined
+  const { source_id } = (await req.json()) as {
+    source_id: string | undefined
   }
 
-  if (!link_id) {
-    return new Response(JSON.stringify({ error: "Link ID is required" }), {
+  if (!source_id) {
+    return new Response(JSON.stringify({ error: "Source ID is required" }), {
       status: 400,
     })
   }
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
   const { data, error } = await supabase
     .from("sources")
     .select("url, title, description, user_id, estimate")
-    .eq("id", link_id)
+    .eq("id", source_id)
     .single()
 
   const tooLongParsingTime =
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
 
   if (tooLongParsingTime || complexLink) {
     return new Response(
-      JSON.stringify({ message: "Parsing is not possible for this link" }),
+      JSON.stringify({ message: "Parsing is not possible for this source" }),
       {
         status: 200,
       }
@@ -110,7 +110,7 @@ export async function POST(req: Request) {
       pageContent: contentToSave,
       metadata: {
         user_id: data.user_id,
-        link_id,
+        source_id,
         url: data.url,
         title: data.title,
         author: "gpt-parser",

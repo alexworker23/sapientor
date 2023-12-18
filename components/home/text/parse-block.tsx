@@ -43,14 +43,13 @@ export const ParseBlock = ({ text, onSuccess }: Props) => {
         .single()
 
       if (creationError) throw new Error(creationError.message)
-      if (!createdEntity) throw new Error("Error while saving link")
+      if (!createdEntity) throw new Error("Error while saving text note")
 
       const formData = new FormData()
-      formData.append("url", "#user-text")
       formData.append("title", createdEntity.title ?? "")
       formData.append("description", createdEntity.description ?? "")
       formData.append("content", text)
-      formData.append("linkId", createdEntity.id)
+      formData.append("sourceId", createdEntity.id)
       formData.append("userId", createdEntity.user_id)
 
       const { code, message } = await addOwnSummary(formData)

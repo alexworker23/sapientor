@@ -61,8 +61,8 @@ export const rejectLink = async (data: FormData) => {
   }
 
   await supabase.from("notifications").insert({
-    title: "Your link has been rejected.",
-    description: `Your link "${updatedEntity.title?.slice(0, 50)}${
+    title: "Your source has been rejected.",
+    description: `Your source "${updatedEntity.title?.slice(0, 50)}${
       updatedEntity.title && updatedEntity.title?.length > 50 ? "..." : ""
     }" has been rejected because ${reason}.`,
     user_id: updatedEntity.user_id,

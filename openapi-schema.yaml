@@ -101,7 +101,7 @@ paths:
   /api/gpt/summary:
     post:
       operationId: saveSummary
-      summary: Saves a summary & link.
+      summary: Saves a summary & source.
       requestBody:
         required: true
         content:
@@ -133,15 +133,15 @@ paths:
                 - user_id
       responses:
         '200':
-          description: Successfully saved the link and content.
+          description: Successfully saved the source and content.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  link:
+                  source:
                     type: object
-                    description: Details of the saved link.
+                    description: Details of the saved source.
                   storedIds:
                     type: array
                     items:

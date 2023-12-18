@@ -62,7 +62,7 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
         .select("*")
 
       if (creationError) throw new Error(creationError.message)
-      if (!createdEntities) throw new Error("Error while saving link")
+      if (!createdEntities) throw new Error("Error while saving file")
 
       router.refresh()
       onSuccess()

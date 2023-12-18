@@ -45,9 +45,9 @@ export const addSummary = async (data: FormData) => {
   const title = data.get("title") as string
   const description = data.get("description") as string
   const content = data.get("content") as string
-  const linkId = data.get("linkId") as string
+  const sourceId = data.get("sourceId") as string
   const userId = data.get("userId") as string
-  if (!content || !linkId || !title || !userId) {
+  if (!content || !sourceId || !title || !userId) {
     return {
       code: 400,
       message: "Bad Request",
@@ -71,7 +71,7 @@ export const addSummary = async (data: FormData) => {
       pageContent: contentToSave,
       metadata: {
         user_id: userId,
-        link_id: linkId,
+        source_id: sourceId,
         url,
         title,
         author: "admin",

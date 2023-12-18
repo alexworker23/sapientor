@@ -43,7 +43,7 @@ export async function POST(request: Request) {
 
   const supabase = createServerSupabaseClient()
 
-  const { data: link } = await supabase
+  const { data: source } = await supabase
     .from("sources")
     .insert({
       url,
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     .select("*")
     .single()
 
-  if (!link) {
+  if (!source) {
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
       status: 500,
     })
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
   const docs: Document[] = [
     {
       pageContent: contentToSave,
-      metadata: { user_id, link_id: link.id, url, title, author: "gpt" },
+      metadata: { user_id, source_id: source.id, url, title, author: "gpt" },
     },
   ]
 
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
     })
   }
 
-  return new Response(JSON.stringify({ data: { link, storedIds } }), {
+  return new Response(JSON.stringify({ data: { source, storedIds } }), {
     status: 200,
   })
 }

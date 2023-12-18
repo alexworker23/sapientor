@@ -13,7 +13,7 @@ export type ParsingEstimate = {
   humanReadable: string
 }
 
-export type LinkEntity = Database["public"]["Tables"]["sources"]["Row"]
+export type SourceEntity = Database["public"]["Tables"]["sources"]["Row"]
 
 export type StatusEnumType = Database["public"]["Enums"]["status"]
 

@@ -1,11 +1,13 @@
 "use client"
 
 import Link from "next/link"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import type { ColumnDef } from "@tanstack/react-table"
 import dayjs from "dayjs"
 import { MoreHorizontal } from "lucide-react"
 
-import type { LinkEntity } from "@/lib/types"
+import type { Database } from "@/lib/database.types"
+import type { SourceEntity } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -22,9 +24,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { toast } from "@/components/ui/use-toast"
 import { StatusBadge } from "@/components/common/status-badge"
 
-export const columns: ColumnDef<LinkEntity>[] = [
+export const columns: ColumnDef<SourceEntity>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -72,7 +75,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
     header: "Status",
     cell: ({ row }) =>
       row.original.status ? (
-        <StatusBadgeWithTooltip link={row.original} />
+        <StatusBadgeWithTooltip source={row.original} />
       ) : null,
   },
   {
@@ -89,7 +92,7 @@ export const columns: ColumnDef<LinkEntity>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const link = row.original
+      const source = row.original
 
       return (
         <DropdownMenu>
@@ -101,18 +104,25 @@ export const columns: ColumnDef<LinkEntity>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-[140px]">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            {!!link.url && 
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(link.url!)}
-            >
-              Copy
-            </DropdownMenuItem>}
-            {!!link.url && 
-            <a href={link.url} target="_blank" rel="noreferrer, noopener">
-              <DropdownMenuItem>Open</DropdownMenuItem>
-            </a>}
+            {!!source.url && (
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(source.url!)}
+              >
+                Copy
+              </DropdownMenuItem>
+            )}
+            {!!source.url && (
+              <a href={source.url} target="_blank" rel="noreferrer, noopener">
+                <DropdownMenuItem>Open</DropdownMenuItem>
+              </a>
+            )}
             <DropdownMenuSeparator />
-            <Link href={`?linkId=${link.id}&action=delete`} scroll={false}>
+            {source.status === "PAUSED" ? (
+              <DropdownMenuItem onClick={() => changeSourceStatus(source)}>
+                Process
+              </DropdownMenuItem>
+            ) : null}
+            <Link href={`?sourceId=${source.id}&action=delete`} scroll={false}>
               <DropdownMenuItem className="text-red-600">
                 Delete
               </DropdownMenuItem>
@@ -124,34 +134,70 @@ export const columns: ColumnDef<LinkEntity>[] = [
   },
 ]
 
-const getStatusTooltip = (link: LinkEntity) => {
-  switch (link.status) {
+const getStatusTooltip = (source: SourceEntity) => {
+  switch (source.status) {
     case "REJECTED":
-      return link.reason
-        ? `This link was rejected because: ${link.reason}`
-        : "This link was rejected without a reason"
+      return source.reason
+        ? `This source was rejected because: ${source.reason}`
+        : "This source was rejected without a reason"
     case "PENDING":
-      return "This link is being processed and will be added to Knowledge Hub soon"
+      return "This source is being processed and will be added to Knowledge Hub soon"
     case "COMPLETED":
-      return "This link has been processed and the content has been added to Knowledge Hub"
+      return "This source has been processed and the content has been added to Knowledge Hub"
+    case "PAUSED":
+      return "This source is currently not being processed. You can send it to processing by clicking on the Process button"
     default:
       return undefined
   }
 }
 
-const StatusBadgeWithTooltip = ({ link }: { link: LinkEntity }) => {
-  const tooltip = getStatusTooltip(link)
+const StatusBadgeWithTooltip = ({ source }: { source: SourceEntity }) => {
+  const tooltip = getStatusTooltip(source)
   return (
     <Popover open={tooltip ? undefined : false}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <StatusBadge
-          status={link.status}
+          status={source.status}
           className={
             tooltip ? "cursor-pointer hover:opacity-60 transition-opacity" : ""
           }
         />
       </PopoverTrigger>
-      <PopoverContent className="p-2.5 text-sm">{tooltip}</PopoverContent>
+      <PopoverContent className="p-2.5 text-sm max-w-xs">
+        {tooltip}
+      </PopoverContent>
     </Popover>
   )
+}
+
+const changeSourceStatus = async (source: SourceEntity) => {
+  const supabase = createClientComponentClient<Database>()
+
+  try {
+
+    if (source.status === "PAUSED") {
+      const { error } = await supabase
+        .from("sources")
+        .update({ status: "PENDING" })
+        .eq("id", source.id)
+      fetch("/api/parse/link", {
+        method: "POST",
+        body: JSON.stringify({ source_id: source.id }),
+      })
+      if (error) throw new Error(error.message)
+      toast({
+        title: "Source sent to processing",
+        description: "The source will be processed soon",
+      })
+    }
+
+    return
+  } catch (error) {
+    console.error(error)
+    toast({
+      title: "Error",
+      description: "An error occurred while processing the source",
+      variant: "destructive",
+    })
+  }
 }
