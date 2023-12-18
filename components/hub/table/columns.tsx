@@ -174,7 +174,6 @@ const changeSourceStatus = async (source: SourceEntity) => {
   const supabase = createClientComponentClient<Database>()
 
   try {
-
     if (source.status === "PAUSED") {
       const { error } = await supabase
         .from("sources")

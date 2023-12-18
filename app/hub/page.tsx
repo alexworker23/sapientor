@@ -37,7 +37,10 @@ const Page = async ({ searchParams }: Props) => {
         key={`${searchParams.action}-${searchParams.sourceId}`}
         fallback={<></>}
       >
-        <HubModals sourceId={searchParams.sourceId} action={searchParams.action} />
+        <HubModals
+          sourceId={searchParams.sourceId}
+          action={searchParams.action}
+        />
       </Suspense>
     </main>
   )

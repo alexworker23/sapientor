@@ -82,7 +82,7 @@ export const FileForm = () => {
         className="w-full"
         onChange={handleChange}
         multiple
-        accept=".pdf,.csv,.docx,.xlsx,.txt"
+        accept=".pdf,.csv,.docx,.txt,.md"
       />
       {!files?.length && (
         <>
