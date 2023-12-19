@@ -17,7 +17,11 @@ export interface ViewSummaryModalProps {
   title: string | null
 }
 
-export const ViewSummaryModal = ({ isOpen, summaries, title }: ViewSummaryModalProps) => {
+export const ViewSummaryModal = ({
+  isOpen,
+  summaries,
+  title,
+}: ViewSummaryModalProps) => {
   const router = useRouter()
   const pathname = usePathname()
 

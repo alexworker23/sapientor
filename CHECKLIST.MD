@@ -1,8 +1,7 @@
 3. Add admin mode (online / offline) affecting the estimates
 5. Filters for Sources table
-7. Ability to view and edit title of the links
-9. Maintenance mode
-10. Expand landing page
+6. Maintenance mode
+7.  Expand landing page
 - FEATURES PROPOSALS BLOCK
 - OPENAI GPT AD BLOCK
 

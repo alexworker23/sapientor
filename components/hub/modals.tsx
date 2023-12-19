@@ -5,6 +5,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import type { Database } from "@/lib/database.types"
 
 import { DeleteModal } from "../modals/delete-link/dynamic"
+import { EditTitleModal } from "../modals/edit-title/dynamic"
 import { ReasonModal } from "../modals/link-reason/dynamic"
 import { ViewSummaryModal } from "../modals/view-summary/dynamic"
 
@@ -27,24 +28,23 @@ export const HubModals = async ({ sourceId, action }: Props) => {
         .eq("id", sourceId)
         .single()
     : { data: null }
-  const { data: summaries } = action === 'summary' && sourceId 
-    ? await supabase.from('summaries').select('content').eq('metadata->>source_id', sourceId)
-    : { data: null}
+  const { data: summaries } =
+    action === "summary" && sourceId
+      ? await supabase
+          .from("summaries")
+          .select("content")
+          .eq("metadata->>source_id", sourceId)
+      : { data: null }
   return (
     <>
-      <DeleteModal
-        isOpen={action === "delete" && !!source}
-        source={source}
-      />
-      <ReasonModal
-        isOpen={action === "reason" && !!source}
-        source={source}
-      />
-      <ViewSummaryModal 
+      <DeleteModal isOpen={action === "delete" && !!source} source={source} />
+      <ReasonModal isOpen={action === "reason" && !!source} source={source} />
+      <ViewSummaryModal
         isOpen={action === "summary" && !!source && !!summaries?.length}
-        title={source?.title ?? ''}
-        summaries={summaries?.map(summary => summary.content) ?? null}
+        title={source?.title ?? ""}
+        summaries={summaries?.map((summary) => summary.content) ?? null}
       />
+      <EditTitleModal isOpen={action === "title" && !!source} source={source} />
     </>
   )
 }

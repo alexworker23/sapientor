@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react"
 import type { Database } from "@/lib/database.types"
 import type { SourceEntity } from "@/lib/types"
 import { decodeHtmlEntities } from "@/lib/utils"
+import { Input } from "@/components/ui/input"
 
 import { Button } from "../../ui/button"
 import {
@@ -19,12 +20,13 @@ import {
 } from "../../ui/dialog"
 import { useToast } from "../../ui/use-toast"
 
-export interface DeleteModalProps {
+export interface EditTitleModalProps {
   isOpen: boolean
-  source: Pick<SourceEntity, "id" | "title" | "icon"> | null
+  source: Pick<SourceEntity, "id" | "title"> | null
 }
 
-export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
+export const EditTitleModal = ({ isOpen, source }: EditTitleModalProps) => {
+  const [title, setTitle] = useState(source?.title ?? "")
   const [submitting, setSubmitting] = useState(false)
 
   const router = useRouter()
@@ -42,22 +44,24 @@ export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
 
       const { error } = await supabase
         .from("sources")
-        .delete()
+        .update({
+          title,
+        })
         .match({ id: source.id })
       if (error) throw new Error(error.message)
 
       handleClose()
       router.refresh()
       toast({
-        title: "Source deleted",
-        description: "The source has been deleted successfully.",
+        title: "Title edited",
+        description: "The title of the source has been edited successfully.",
       })
     } catch (error) {
       console.error(error)
       toast({
         title: "Error",
         description:
-          "An error occurred while deleting the source. " +
+          "An error occurred while editing the title. " +
           (error as Error).message,
         variant: "destructive",
       })
@@ -69,18 +73,15 @@ export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
-        <DialogHeader>Delete source</DialogHeader>
+        <DialogHeader>Update title</DialogHeader>
         <DialogDescription>
-          Are you sure you want to delete this source?
+          Update source title for <b>&quot;{source?.title}&quot;</b> :
         </DialogDescription>
-        <div className="flex gap-2 items-center w-full max-w-[280px] sm:max-w-0">
-          {source?.icon && (
-            <img src={source.icon} className="max-h-6" alt="website favicon" />
-          )}
-          <p className="font-semibold block whitespace-normal w-full">
-            {decodeHtmlEntities(source?.title ?? "")}
-          </p>
-        </div>
+        <Input
+          value={decodeHtmlEntities(title)}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
         <DialogFooter className="mt-5 flex-row space-x-2 justify-end">
           <Button
             disabled={submitting}
@@ -98,7 +99,7 @@ export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
             className="gap-1 w-28"
           >
             {submitting && <Loader2 className="animate-spin" size={16} />}
-            Confirm
+            Update
           </Button>
         </DialogFooter>
       </DialogContent>
