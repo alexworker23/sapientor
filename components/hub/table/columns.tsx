@@ -122,6 +122,13 @@ export const columns: ColumnDef<SourceEntity>[] = [
                 Process
               </DropdownMenuItem>
             ) : null}
+            {source.status === "COMPLETED" ? (
+            <Link href={`?sourceId=${source.id}&action=summary`} scroll={false}>
+              <DropdownMenuItem>
+                View summary
+              </DropdownMenuItem>
+            </Link>
+            ) : null}
             <Link href={`?sourceId=${source.id}&action=delete`} scroll={false}>
               <DropdownMenuItem className="text-red-600">
                 Delete

@@ -42,12 +42,6 @@ export const addOwnSummary = async (data: FormData) => {
     }
   }
 
-  const contentToSave = `
-    ${title}
-    ${description}
-    ${content}
-  `
-
   const embeddings = new OpenAIEmbeddings()
   const store = new SupabaseVectorStore(embeddings, {
     client: supabase,
@@ -56,11 +50,12 @@ export const addOwnSummary = async (data: FormData) => {
 
   const docs: Document[] = [
     {
-      pageContent: contentToSave,
+      pageContent: content,
       metadata: {
         user_id: userId,
         source_id: sourceId,
         title,
+        description,
         author: "user",
       },
     },
