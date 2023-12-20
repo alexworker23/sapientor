@@ -73,7 +73,7 @@ export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
         <DialogDescription>
           Are you sure you want to delete this source?
         </DialogDescription>
-        <div className="flex gap-2 items-center w-full max-w-[280px] sm:max-w-0">
+        <div className="flex gap-2 items-center w-full">
           {source?.icon && (
             <img src={source.icon} className="max-h-6" alt="website favicon" />
           )}

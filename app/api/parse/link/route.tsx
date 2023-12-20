@@ -1,5 +1,6 @@
 import { cache } from "react"
 import { cookies } from "next/headers"
+import { NextResponse } from "next/server"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { DataNode, DomHandler, Element, Node } from "domhandler"
 import { Parser } from "htmlparser2"
@@ -11,10 +12,13 @@ import type {
   ChatCompletionSystemMessageParam,
   ChatCompletionUserMessageParam,
 } from "openai/resources/index.mjs"
+import { Resend } from "resend"
 
 import type { Database } from "@/lib/database.types"
 import type { ParsingEstimate } from "@/lib/types"
+import ComplexLinkEmail from "@/components/emails/complex-link"
 
+const resend = new Resend(process.env.RESEND_API_KEY!)
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
@@ -39,9 +43,12 @@ export async function POST(req: Request) {
   }
 
   if (!source_id) {
-    return new Response(JSON.stringify({ error: "Source ID is required" }), {
-      status: 400,
-    })
+    return new NextResponse(
+      JSON.stringify({ error: "Source ID is required" }),
+      {
+        status: 400,
+      }
+    )
   }
 
   const supabase = createServerSupabaseClient()
@@ -59,7 +66,22 @@ export async function POST(req: Request) {
   const complexLink = data?.title && data.url && data?.title === data?.url
 
   if (tooLongParsingTime || complexLink) {
-    return new Response(
+
+    await resend.emails.send({
+      from: `sapientor. <feedback@sapientor.net>`,
+      to: process.env.SUPPORT_EMAIL || "valoiscene@gmail.com",
+      subject: `Complex link request - ${data?.title}`,
+      react: (
+        <ComplexLinkEmail
+          url={data?.url || "No URL provided."}
+          title={data?.title || "No title provided."}
+          estimate={data?.estimate as ParsingEstimate}
+          userId={data?.user_id || "No user provided."}
+        />
+      ),
+    })
+
+    return new NextResponse(
       JSON.stringify({ message: "Parsing is not possible for this source" }),
       {
         status: 200,
@@ -68,13 +90,13 @@ export async function POST(req: Request) {
   }
 
   if (error) {
-    return new Response(JSON.stringify({ error }), {
+    return new NextResponse(JSON.stringify({ error }), {
       status: 500,
     })
   }
 
   if (!data.url || !data.title) {
-    return new Response("Missing link data", {
+    return new NextResponse("Missing link data", {
       status: 400,
     })
   }
@@ -128,7 +150,7 @@ export async function POST(req: Request) {
     user_id: data.user_id,
   })
 
-  return new Response(JSON.stringify({ ids: storedIds }), {
+  return new NextResponse(JSON.stringify({ ids: storedIds }), {
     status: 200,
   })
 }

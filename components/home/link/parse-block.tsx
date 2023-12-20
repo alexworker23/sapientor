@@ -82,49 +82,48 @@ export const ParseBlock = ({
   return (
     <>
       <div className={cn("flex w-full justify-between")}>
-        <div className="grid gap-1">
-          {notParse ? null : loading || !estimate ? (
-            <div className="grid gap-1">
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-4 w-14" />
-            </div>
-          ) : (
-            <div>
-              <p className="text-xs">
-                Time to process
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <InfoIcon
-                      size={14}
-                      className="inline ml-1 hover:opacity-50 cursor-pointer"
-                    />
-                  </PopoverTrigger>
-                  <PopoverContent className="text-xs font-medium p-2.5">
-                    Typically, parsing of an article takes ~10 seconds. But here
-                    we display the maximum time required to parse the article,
-                    in case there are some blockers on the website, or the
-                    content is not a plain text, but a video for example.
-                  </PopoverContent>
-                </Popover>
-              </p>
-              <p>~{estimate?.humanReadable}</p>
-            </div>
-          )}
-          <div className="flex items-center space-x-1">
-            <Checkbox
-              id="doNotParse"
-              checked={notParse}
-              onCheckedChange={(value) => setNotParse(!!value)}
-              disabled={loading}
-            />
-            <label
-              htmlFor="doNotParse"
-              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Don&apos;t process the link now
-            </label>
+        {notParse ? null : loading || !estimate ? (
+          <div className="grid gap-1">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-14" />
+            <Skeleton className="h-4 w-24" />
           </div>
-        </div>
+        ) : (
+          <div>
+            <p className="text-xs">
+              Time to process
+              <Popover>
+                <PopoverTrigger asChild>
+                  <InfoIcon
+                    size={14}
+                    className="inline ml-1 hover:opacity-50 cursor-pointer"
+                  />
+                </PopoverTrigger>
+                <PopoverContent className="text-xs font-medium p-2.5">
+                  Typically, parsing of an article takes ~10 seconds. But here
+                  we display the maximum time required to parse the article, in
+                  case there are some blockers on the website, or the content is
+                  not a plain text, but a video for example.
+                </PopoverContent>
+              </Popover>
+            </p>
+            <p>~{estimate?.humanReadable}</p>
+            <div className="flex items-center space-x-1 mt-1">
+              <Checkbox
+                id="doNotParse"
+                checked={notParse}
+                onCheckedChange={(value) => setNotParse(!!value)}
+                disabled={loading}
+              />
+              <label
+                htmlFor="doNotParse"
+                className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Don&apos;t process the link now
+              </label>
+            </div>
+          </div>
+        )}
 
         <Button
           onClick={handleSave}
