@@ -2,14 +2,16 @@ import { cache } from "react"
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
-import { PuppeteerWebBaseLoader } from "langchain/document_loaders/web/puppeteer"
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 import { Resend } from "resend"
+import { DataNode, DomHandler, Element, Node } from "domhandler"
+import { Parser } from "htmlparser2"
 
 import type { Database } from "@/lib/database.types"
 import type { ParsingEstimate } from "@/lib/types"
 import ComplexLinkEmail from "@/components/emails/complex-link"
+import type { Document } from "langchain/document"
 
 const resend = new Resend(process.env.RESEND_API_KEY!)
 export const maxDuration = 60
@@ -90,8 +92,7 @@ export async function POST(req: Request) {
     })
   }
 
-  const loader = new PuppeteerWebBaseLoader(data.url)
-  const docs = await loader.load()
+  const content = await fetchAndParseURL(data.url)
 
   // summary generation functionality
   // const chatRequest: ChatCompletionUserMessageParam = {
@@ -109,23 +110,22 @@ export async function POST(req: Request) {
   //   ${summary}
   // `
 
-  const docsWithMetadata = docs.map((doc) => ({
-    ...doc,
+  const doc: Document[] = [{
+    pageContent: content,
     metadata: {
       user_id: data.user_id,
       source_id,
       url: data.url,
       title: data.title,
-      author: "gpt-parser",
-    },
-  }))
+    }
+  }]
 
   const embeddings = new OpenAIEmbeddings()
   const store = new SupabaseVectorStore(embeddings, {
     client: supabase,
     tableName: "summaries",
   })
-  const storedIds = await store.addDocuments(docsWithMetadata)
+  const storedIds = await store.addDocuments(doc)
 
   await supabase.from("notifications").insert({
     title: "Your summary is ready!",
@@ -138,4 +138,55 @@ export async function POST(req: Request) {
   return new NextResponse(JSON.stringify({ ids: storedIds }), {
     status: 200,
   })
+}
+
+function extractText(dom: Node[]): string {
+  let text = ""
+  dom.forEach((node) => {
+    if (node instanceof Element) {
+      if (
+        node.tagName === "script" ||
+        node.tagName === "style" ||
+        node.tagName === "noscript"
+      ) {
+        // ignore scripts, styles, and noscript tags
+      } else if (node.childNodes.length > 0) {
+        // recursively get text for child nodes
+        text += extractText(node.childNodes)
+      }
+    } else if (node instanceof DataNode) {
+      text += node.data + " "
+    }
+  })
+  // Remove all newline and tabulation characters
+  text = text.replace(/[\n\t]+/g, " ").trim()
+
+  // Optionally, replace multiple spaces with a single space
+  text = text.replace(/\s+/g, " ")
+
+  return text
+}
+
+async function fetchAndParseURL(url: string): Promise<string> {
+  try {
+    const response = await fetch(url)
+    const html = await response.text()
+
+    let textContent = ""
+    const handler = new DomHandler((error, dom) => {
+      if (error) {
+        throw error
+      }
+      textContent = extractText(dom)
+    })
+
+    const parser = new Parser(handler)
+    parser.write(html)
+    parser.end()
+
+    return textContent.trim()
+  } catch (error) {
+    console.error("Error fetching or parsing URL:", error)
+    return ""
+  }
 }

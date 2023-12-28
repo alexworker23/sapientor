@@ -121,7 +121,7 @@ export const columns: ColumnDef<SourceEntity>[] = [
               <DropdownMenuItem onClick={() => changeSourceStatus(source)}>
                 Process
               </DropdownMenuItem>
-            ) : null}
+             ) : null}
             {source.status === "COMPLETED" ? (
               <Link
                 href={`?sourceId=${source.id}&action=summary`}
