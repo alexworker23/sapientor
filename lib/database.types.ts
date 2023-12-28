@@ -62,6 +62,7 @@ export interface Database {
           status: Database["public"]["Enums"]["status"]
           summary_ids: string[] | null
           title: string | null
+          type: Database["public"]["Enums"]["source_type"]
           updated_at: string | null
           url: string | null
           user_id: string
@@ -77,6 +78,7 @@ export interface Database {
           status?: Database["public"]["Enums"]["status"]
           summary_ids?: string[] | null
           title?: string | null
+          type?: Database["public"]["Enums"]["source_type"]
           updated_at?: string | null
           url?: string | null
           user_id?: string
@@ -92,6 +94,7 @@ export interface Database {
           status?: Database["public"]["Enums"]["status"]
           summary_ids?: string[] | null
           title?: string | null
+          type?: Database["public"]["Enums"]["source_type"]
           updated_at?: string | null
           url?: string | null
           user_id?: string
@@ -166,6 +169,7 @@ export interface Database {
       }
     }
     Enums: {
+      source_type: "LINK" | "FILE" | "NOTE"
       status: "PENDING" | "REJECTED" | "COMPLETED" | "PAUSED"
     }
     CompositeTypes: {

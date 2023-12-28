@@ -27,7 +27,6 @@ interface Props {
 
 export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
   const [notParse, setNotParse] = useState(false)
-  const [saveFullText, setSaveFullText] = useState(false)
   const [saving, setSaving] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
   const router = useRouter()
@@ -64,7 +63,9 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
         uploadedFiles.map((file) => ({
           ...file,
           estimate,
-          full_text: saveFullText,
+          status: notParse ? "PAUSED" : undefined,
+          full_text: true,
+          type: "FILE",
         }))
 
       const { data: createdEntities, error: creationError } = await supabase
@@ -119,19 +120,7 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
                       thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
                     />
                     <Label htmlFor="do-not-parse" className="text-xs">
-                      Do Not Parse Now
-                    </Label>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <Switch
-                      id="save-full-text"
-                      checked={saveFullText}
-                      onCheckedChange={(value) => setSaveFullText(value)}
-                      className="w-9 h-5"
-                      thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
-                    />
-                    <Label htmlFor="save-full-text" className="text-xs">
-                      Save Full Text
+                      Process Later
                     </Label>
                   </div>
                 </div>

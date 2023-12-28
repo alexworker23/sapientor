@@ -34,7 +34,7 @@ export const ParseBlock = ({
   onSuccess,
 }: Props) => {
   const [notParse, setNotParse] = useState(false)
-  const [saveFullText, setSaveFullText] = useState(false)
+  // const [saveFullText, setSaveFullText] = useState(false)
   const [saving, setSaving] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
 
@@ -59,7 +59,8 @@ export const ParseBlock = ({
           description: metadata?.description,
           icon: metadata?.icon,
           status: notParse ? "PAUSED" : undefined,
-          full_text: saveFullText,
+          full_text: true,
+          type: "LINK",
         })
         .select("*")
         .single()
@@ -118,10 +119,10 @@ export const ParseBlock = ({
                       thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
                     />
                     <Label htmlFor="do-not-parse" className="text-xs">
-                      Do Not Parse Now
+                      Process Later
                     </Label>
                   </div>
-                  <div className="flex items-center gap-2.5">
+                  {/* <div className="flex items-center gap-2.5">
                     <Switch
                       id="save-full-text"
                       checked={saveFullText}
@@ -132,7 +133,7 @@ export const ParseBlock = ({
                     <Label htmlFor="save-full-text" className="text-xs">
                       Save Full Text
                     </Label>
-                  </div>
+                  </div> */}
                 </div>
                 {!notParse && (
                   <p className="text-xs">

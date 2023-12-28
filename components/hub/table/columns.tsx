@@ -117,7 +117,7 @@ export const columns: ColumnDef<SourceEntity>[] = [
               </a>
             )}
             <DropdownMenuSeparator />
-            {source.status === "PAUSED" ? (
+            {getShowStatusForProcessButton(source) ? (
               <DropdownMenuItem onClick={() => changeSourceStatus(source)}>
                 Process
               </DropdownMenuItem>
@@ -181,6 +181,22 @@ const StatusBadgeWithTooltip = ({ source }: { source: SourceEntity }) => {
   )
 }
 
+const getShowStatusForProcessButton = (source: SourceEntity) => {
+  if (source.type === "LINK" && source.status === "PAUSED") {
+    return true
+  }
+
+  if (
+    source.type === "FILE" &&
+    source.status !== "COMPLETED" &&
+    source.status !== "REJECTED"
+  ) {
+    return true
+  }
+
+  return false
+}
+
 const changeSourceStatus = async (source: SourceEntity) => {
   const supabase = createClientComponentClient<Database>()
 
@@ -190,16 +206,27 @@ const changeSourceStatus = async (source: SourceEntity) => {
         .from("sources")
         .update({ status: "PENDING" })
         .eq("id", source.id)
+      if (error) throw new Error(error.message)
+    }
+
+    if (source.type === "LINK") {
       fetch("/api/parse/link", {
         method: "POST",
         body: JSON.stringify({ source_id: source.id }),
       })
-      if (error) throw new Error(error.message)
-      toast({
-        title: "Source sent to processing",
-        description: "The source will be processed soon",
+    }
+
+    if (source.type === "FILE") {
+      fetch("/api/parse/file", {
+        method: "POST",
+        body: JSON.stringify({ source_id: source.id }),
       })
     }
+
+    toast({
+      title: "Source sent to processing",
+      description: "The source will be processed soon",
+    })
 
     return
   } catch (error) {

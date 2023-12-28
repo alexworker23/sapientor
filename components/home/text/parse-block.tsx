@@ -39,6 +39,7 @@ export const ParseBlock = ({ text, onSuccess }: Props) => {
             deadline: dayjs().toISOString(),
           },
           full_text: true,
+          type: "NOTE",
         })
         .select("*")
         .single()
