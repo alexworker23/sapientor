@@ -55,6 +55,7 @@ export interface Database {
           created_at: string
           description: string | null
           estimate: Json
+          full_text: boolean
           icon: string | null
           id: string
           reason: string | null
@@ -69,6 +70,7 @@ export interface Database {
           created_at?: string
           description?: string | null
           estimate: Json
+          full_text?: boolean
           icon?: string | null
           id?: string
           reason?: string | null
@@ -83,6 +85,7 @@ export interface Database {
           created_at?: string
           description?: string | null
           estimate?: Json
+          full_text?: boolean
           icon?: string | null
           id?: string
           reason?: string | null

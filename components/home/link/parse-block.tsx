@@ -3,16 +3,20 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { InfoIcon, Loader2 } from "lucide-react"
+import { Loader2, Settings } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
 import type { LinkMetadata, ParsingEstimate } from "@/lib/types"
 import { cn, urlRegex } from "@/lib/utils"
-import { Checkbox } from "@/components/ui/checkbox"
-
-import { Button } from "../../ui/button"
-import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover"
-import { Skeleton } from "../../ui/skeleton"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Switch } from "@/components/ui/switch"
 
 interface Props {
   link: string
@@ -30,11 +34,11 @@ export const ParseBlock = ({
   onSuccess,
 }: Props) => {
   const [notParse, setNotParse] = useState(false)
+  const [saveFullText, setSaveFullText] = useState(false)
   const [saving, setSaving] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
 
   const isValid = urlRegex.test(link)
-
   const router = useRouter()
 
   if (!link || !metadata) return null
@@ -55,6 +59,7 @@ export const ParseBlock = ({
           description: metadata?.description,
           icon: metadata?.icon,
           status: notParse ? "PAUSED" : undefined,
+          full_text: saveFullText,
         })
         .select("*")
         .single()
@@ -82,49 +87,62 @@ export const ParseBlock = ({
   return (
     <>
       <div className={cn("flex w-full justify-between")}>
-        {notParse ? null : loading || !estimate ? (
+        {loading || !estimate ? (
           <div className="grid gap-1">
-            <Skeleton className="h-4 w-20" />
-            <Skeleton className="h-4 w-14" />
-            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-12" />
+            <Skeleton className="h-5 w-5 rounded-full" />
           </div>
         ) : (
-          <div>
-            <p className="text-xs">
-              Time to process
-              <Popover>
-                <PopoverTrigger asChild>
-                  <InfoIcon
-                    size={14}
-                    className="inline ml-1 hover:opacity-50 cursor-pointer"
-                  />
-                </PopoverTrigger>
-                <PopoverContent className="text-xs font-medium p-2.5">
-                  Typically, parsing of an article takes ~10 seconds. But here
-                  we display the maximum time required to parse the article, in
-                  case there are some blockers on the website, or the content is
-                  not a plain text, but a video for example.
-                </PopoverContent>
-              </Popover>
-            </p>
-            <p>~{estimate?.humanReadable}</p>
-            <div className="flex items-center space-x-1 mt-1">
-              <Checkbox
-                id="doNotParse"
-                checked={notParse}
-                onCheckedChange={(value) => setNotParse(!!value)}
-                disabled={loading}
-              />
-              <label
-                htmlFor="doNotParse"
-                className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Don&apos;t process the link now
-              </label>
-            </div>
+          <div className="grid gap-1">
+            <p className="text-xs font-semibold">Settings</p>
+            <Popover>
+              <PopoverTrigger>
+                <Settings
+                  size={20}
+                  className="transition-opacity hover:opacity-50"
+                />
+              </PopoverTrigger>
+              <PopoverContent className="p-2.5 max-w-xs">
+                <div
+                  className={cn(
+                    "grid gap-2.5",
+                    notParse ? "" : "mb-2.5 border-b pb-2.5"
+                  )}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Switch
+                      id="do-not-parse"
+                      checked={notParse}
+                      onCheckedChange={(value) => setNotParse(value)}
+                      className="w-9 h-5"
+                      thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
+                    />
+                    <Label htmlFor="do-not-parse" className="text-xs">
+                      Do Not Parse Now
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Switch
+                      id="save-full-text"
+                      checked={saveFullText}
+                      onCheckedChange={(value) => setSaveFullText(value)}
+                      className="w-9 h-5"
+                      thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
+                    />
+                    <Label htmlFor="save-full-text" className="text-xs">
+                      Save Full Text
+                    </Label>
+                  </div>
+                </div>
+                {!notParse && (
+                  <p className="text-xs">
+                    Max time to process: <b>{estimate?.humanReadable}</b>
+                  </p>
+                )}
+              </PopoverContent>
+            </Popover>
           </div>
         )}
-
         <Button
           onClick={handleSave}
           disabled={!isValid || saving || loading}

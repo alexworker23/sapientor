@@ -3,13 +3,20 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { InfoIcon, Loader2 } from "lucide-react"
+import { Loader2, Settings } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
 import type { ParsingEstimate } from "@/lib/types"
+import { cn } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Switch } from "@/components/ui/switch"
 
 import { Button } from "../../ui/button"
-import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover"
 import { Skeleton } from "../../ui/skeleton"
 
 interface Props {
@@ -19,6 +26,8 @@ interface Props {
 }
 
 export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
+  const [notParse, setNotParse] = useState(false)
+  const [saveFullText, setSaveFullText] = useState(false)
   const [saving, setSaving] = useState(false)
   const [errorText, setErrorText] = useState<string | null>(null)
   const router = useRouter()
@@ -51,14 +60,16 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
         })
       )
 
+      const sources_to_insert: Database["public"]["Tables"]["sources"]["Insert"][] =
+        uploadedFiles.map((file) => ({
+          ...file,
+          estimate,
+          full_text: saveFullText,
+        }))
+
       const { data: createdEntities, error: creationError } = await supabase
         .from("sources")
-        .insert(
-          uploadedFiles.map((file) => ({
-            ...file,
-            estimate,
-          }))
-        )
+        .insert(sources_to_insert)
         .select("*")
 
       if (creationError) throw new Error(creationError.message)
@@ -83,25 +94,54 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
             <Skeleton className="h-4 w-14" />
           </div>
         ) : (
-          <div>
-            <p className="text-xs">
-              Time to process
-              <Popover>
-                <PopoverTrigger asChild>
-                  <InfoIcon
-                    size={14}
-                    className="inline ml-1 hover:opacity-50 cursor-pointer"
-                  />
-                </PopoverTrigger>
-                <PopoverContent className="text-xs font-medium p-2.5">
-                  Typically, parsing a single text page takes 15-20 seconds. But
-                  here we display approximate time that might be required to
-                  parse the document. If the document is long or has a complex
-                  structure, it might take longer.
-                </PopoverContent>
-              </Popover>
-            </p>
-            <p>~{estimate?.humanReadable}</p>
+          <div className="grid gap-1">
+            <p className="text-xs font-semibold">Settings</p>
+            <Popover>
+              <PopoverTrigger>
+                <Settings
+                  size={20}
+                  className="transition-opacity hover:opacity-50"
+                />
+              </PopoverTrigger>
+              <PopoverContent className="p-2.5 max-w-xs">
+                <div
+                  className={cn(
+                    "grid gap-2.5",
+                    notParse ? "" : "mb-2.5 border-b pb-2.5"
+                  )}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Switch
+                      id="do-not-parse"
+                      checked={notParse}
+                      onCheckedChange={(value) => setNotParse(value)}
+                      className="w-9 h-5"
+                      thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
+                    />
+                    <Label htmlFor="do-not-parse" className="text-xs">
+                      Do Not Parse Now
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <Switch
+                      id="save-full-text"
+                      checked={saveFullText}
+                      onCheckedChange={(value) => setSaveFullText(value)}
+                      className="w-9 h-5"
+                      thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
+                    />
+                    <Label htmlFor="save-full-text" className="text-xs">
+                      Save Full Text
+                    </Label>
+                  </div>
+                </div>
+                {!notParse && (
+                  <p className="text-xs">
+                    Max time to process: <b>{estimate?.humanReadable}</b>
+                  </p>
+                )}
+              </PopoverContent>
+            </Popover>
           </div>
         )}
         <Button

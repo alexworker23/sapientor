@@ -66,7 +66,6 @@ export async function POST(req: Request) {
   const complexLink = data?.title && data.url && data?.title === data?.url
 
   if (tooLongParsingTime || complexLink) {
-
     await resend.emails.send({
       from: `sapientor. <feedback@sapientor.net>`,
       to: process.env.SUPPORT_EMAIL || "valoiscene@gmail.com",

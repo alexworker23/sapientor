@@ -6,7 +6,7 @@ import { ClipboardCheckIcon } from "lucide-react"
 
 import { useDebounce } from "@/lib/hooks"
 import { useLinkStore } from "@/lib/store"
-import { ParsingEstimate } from "@/lib/types"
+import type { ParsingEstimate } from "@/lib/types"
 import { msToHumanReadable, urlRegex } from "@/lib/utils"
 
 import { Input } from "../../ui/input"
@@ -100,7 +100,7 @@ export const LinkForm = () => {
     }
   }
 
-  const debouncedLink = useDebounce(link, 250)
+  const debouncedLink = useDebounce(link, 50)
   useEffect(() => {
     fetchLinkData(debouncedLink)
   }, [debouncedLink])
