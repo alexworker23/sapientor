@@ -39,6 +39,7 @@ export async function GET(
     .select(`content, metadata->url, metadata->title`)
     .eq("metadata->>user_id", user_id)
     .order("created_at", { ascending: false })
+    .limit(10)
 
   if (error) {
     return new Response(JSON.stringify({ error }), {

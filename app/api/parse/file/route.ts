@@ -5,9 +5,9 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 
 import type { Database } from "@/lib/database.types"
+import { splitDocuments } from "@/lib/utils"
 
 import { parseFileToDocuments } from "./utils"
-import { splitDocuments } from "@/lib/utils"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()

@@ -49,20 +49,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /api/gpt/knowledge/{user_id}:
+  /knowledge/{user_id}/basic:
     get:
-      operationId: getKnowledgeSummaries
-      summary: Retrieves knowledge summaries for a specified user.
+      operationId: getBasicKnowledgeSummaries
+      summary: Retrieves the last 10 knowledge summaries for a specified user.
       parameters:
         - in: path
           name: user_id
           required: true
           schema:
             type: string
-          description: User identifier,
+          description: User identifier
       responses:
         '200':
-          description: Successfully retrieved summaries.
+          description: Successfully retrieved the last 10 summaries.
           content:
             application/json:
               schema:
@@ -94,6 +94,50 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Database error or retrieval failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /knowledge/{user_id}/input:
+    post:
+      summary: Processes input to retrieve relevant documents based on keywords for a specified user.
+      operationId: processInputForKeywordRetrieval
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: User identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keywords:
+                  type: string
+                  description: Input keywords to retrieve relevant documents.
+      responses:
+        '200':
+          description: Successfully retrieved relevant documents.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+                  description: Relevant documents retrieved based on input keywords.
+        '400':
+          description: Input validation error. Either 'input' or 'user_id' is missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized access. Invalid or missing API key.
           content:
             application/json:
               schema:

@@ -5,15 +5,15 @@ import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { DataNode, DomHandler, Element, Node } from "domhandler"
 import { Parser } from "htmlparser2"
 import type { Document } from "langchain/document"
+import { YoutubeLoader } from "langchain/document_loaders/web/youtube"
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 import { Resend } from "resend"
-import { YoutubeLoader } from "langchain/document_loaders/web/youtube";
 
 import type { Database } from "@/lib/database.types"
 import type { ParsingEstimate } from "@/lib/types"
-import ComplexLinkEmail from "@/components/emails/complex-link"
 import { splitDocuments } from "@/lib/utils"
+import ComplexLinkEmail from "@/components/emails/complex-link"
 
 const resend = new Resend(process.env.RESEND_API_KEY!)
 export const maxDuration = 60
@@ -90,8 +90,8 @@ export async function POST(req: Request) {
       const loader = YoutubeLoader.createFromUrl(data.url, {
         language: "en",
         addVideoInfo: true,
-      });
-      
+      })
+
       const docs = await loader.load()
       const splitDocs = splitDocuments(docs)
       const docsWithMetadata = splitDocs.map((doc) => ({
@@ -233,14 +233,13 @@ async function fetchAndParseURL(url: string): Promise<string> {
 
 function isYouTubeURL(url: string): boolean {
   const youtubeDomains = [
-    'youtube.com',        // Main YouTube domain
-    'youtu.be',           // YouTube short URLs
-    'm.youtube.com',      // Mobile version of YouTube
-    'gaming.youtube.com', // YouTube Gaming
-    'music.youtube.com'   // YouTube Music
-  ];
+    "youtube.com", // Main YouTube domain
+    "youtu.be", // YouTube short URLs
+    "m.youtube.com", // Mobile version of YouTube
+    "gaming.youtube.com", // YouTube Gaming
+    "music.youtube.com", // YouTube Music
+  ]
 
-  const parsedURL = new URL(url);
-  return youtubeDomains.includes(parsedURL.hostname);
+  const parsedURL = new URL(url)
+  return youtubeDomains.includes(parsedURL.hostname)
 }
-
