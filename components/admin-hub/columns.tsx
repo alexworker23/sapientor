@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { StatusBadge } from "@/components/common/status-badge"
 
+import { toast } from "../ui/use-toast"
+
 export const admin_columns: ColumnDef<SourceEntity>[] = [
   {
     accessorKey: "title",
@@ -107,11 +109,19 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
             {isLinkPending && (
               <DropdownMenuItem
                 className="text-green-600"
-                onClick={() => parseLink(row.original.id)}
+                onClick={() => parseSource(row.original)}
               >
                 Auto-parse
               </DropdownMenuItem>
             )}
+            {source.status === "COMPLETED" ? (
+              <Link
+                href={`?sourceId=${source.id}&action=summary`}
+                scroll={false}
+              >
+                <DropdownMenuItem>View summary</DropdownMenuItem>
+              </Link>
+            ) : null}
             {isLinkPending && (
               <Link href={`?sourceId=${source.id}&action=reject`}>
                 <DropdownMenuItem className="text-red-600">
@@ -126,11 +136,25 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
   },
 ]
 
-const parseLink = async (source_id: string) => {
+const parseSource = async (source: SourceEntity) => {
   try {
-    fetch("/api/parse/link", {
-      method: "POST",
-      body: JSON.stringify({ source_id }),
+    if (source.type === "LINK") {
+      fetch("/api/parse/link", {
+        method: "POST",
+        body: JSON.stringify({ source_id: source.id }),
+      })
+    }
+
+    if (source.type === "FILE") {
+      fetch("/api/parse/file", {
+        method: "POST",
+        body: JSON.stringify({ source_id: source.id }),
+      })
+    }
+
+    return toast({
+      title: "Source sent to processing",
+      description: "The source will be processed soon",
     })
   } catch (error) {
     console.error(error)

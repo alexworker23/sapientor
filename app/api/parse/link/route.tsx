@@ -2,16 +2,16 @@ import { cache } from "react"
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
+import { DataNode, DomHandler, Element, Node } from "domhandler"
+import { Parser } from "htmlparser2"
+import type { Document } from "langchain/document"
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 import { Resend } from "resend"
-import { DataNode, DomHandler, Element, Node } from "domhandler"
-import { Parser } from "htmlparser2"
 
 import type { Database } from "@/lib/database.types"
 import type { ParsingEstimate } from "@/lib/types"
 import ComplexLinkEmail from "@/components/emails/complex-link"
-import type { Document } from "langchain/document"
 
 const resend = new Resend(process.env.RESEND_API_KEY!)
 export const maxDuration = 60
@@ -110,15 +110,17 @@ export async function POST(req: Request) {
   //   ${summary}
   // `
 
-  const doc: Document[] = [{
-    pageContent: content,
-    metadata: {
-      user_id: data.user_id,
-      source_id,
-      url: data.url,
-      title: data.title,
-    }
-  }]
+  const doc: Document[] = [
+    {
+      pageContent: content,
+      metadata: {
+        user_id: data.user_id,
+        source_id,
+        url: data.url,
+        title: data.title,
+      },
+    },
+  ]
 
   const embeddings = new OpenAIEmbeddings()
   const store = new SupabaseVectorStore(embeddings, {
