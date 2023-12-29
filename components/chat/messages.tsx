@@ -6,6 +6,7 @@ import { Check, Copy } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+import { DotsLoader } from "../ui/dots-loader"
 import { Skeleton } from "../ui/skeleton"
 
 const Markdown = dynamic(() => import("react-markdown"), {
@@ -59,6 +60,20 @@ export const AiMessage = ({
       >
         {copied ? <Check size={16} /> : <Copy size={16} />}
       </div>
+    </div>
+  )
+}
+
+export const AiMessageLoader = ({ className }: { className?: string }) => {
+  return (
+    <div
+      className={cn(
+        common_class,
+        "bg-blue-200 py-5 w-32 flex justify-center",
+        className
+      )}
+    >
+      <DotsLoader className="bg-blue-600" />
     </div>
   )
 }

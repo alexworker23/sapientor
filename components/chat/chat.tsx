@@ -7,7 +7,7 @@ import { useMessagesStore } from "@/lib/store"
 
 import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
-import { AiMessage, UserMessage } from "./messages"
+import { AiMessage, AiMessageLoader, UserMessage } from "./messages"
 
 export function Chat() {
   const { messages: initialMessages, setMessages } = useMessagesStore()
@@ -15,6 +15,8 @@ export function Chat() {
     useChat({
       initialMessages,
     })
+
+  const isAiLoading = messages.length !== 0 && messages.at(-1)?.role === "user"
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -51,6 +53,7 @@ export function Chat() {
             className="min-h-[44px] w-full"
           />
         )}
+        {isAiLoading && <AiMessageLoader className="self-end" />}
       </div>
       <div className="fixed bottom-0 left-1/2 z-50 w-full px-2.5 sm:px-0 max-w-2xl -translate-x-1/2 bg-white/95 py-2.5 backdrop-blur supports-[backdrop-filter]:bg-white/60 sm:py-5">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">

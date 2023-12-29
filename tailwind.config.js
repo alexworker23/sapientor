@@ -18,7 +18,9 @@ module.exports = {
       },
     },
     extend: {
-      
+      transitionDelay: {
+        '250': '250ms',
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
@@ -71,10 +73,16 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "blinking": {
+          '0%': { opacity: 1 },
+          '50%': { opacity: 0.3 },
+          '100%': { opacity: 0.3 }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "blinking": "blinking 0.75s linear infinite alternate",
       },
       spacing: {
         '22': '5.5rem',
