@@ -46,8 +46,8 @@ export async function POST(
 
   const retriever = new SupabaseHybridSearch(embeddings, {
     client: supabase,
-    similarityK: 5,
-    keywordK: 5,
+    similarityK: 2,
+    keywordK: 2,
     tableName: "summaries",
     similarityQueryName: "match_summaries",
     keywordQueryName: "kw_match_summaries",
