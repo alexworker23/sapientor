@@ -8,10 +8,12 @@ import type { Document } from "langchain/document"
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 import { Resend } from "resend"
+import { YoutubeLoader } from "langchain/document_loaders/web/youtube";
 
 import type { Database } from "@/lib/database.types"
 import type { ParsingEstimate } from "@/lib/types"
 import ComplexLinkEmail from "@/components/emails/complex-link"
+import { splitDocuments } from "@/lib/utils"
 
 const resend = new Resend(process.env.RESEND_API_KEY!)
 export const maxDuration = 60
@@ -44,11 +46,23 @@ export async function POST(req: Request) {
   }
 
   const supabase = createServerSupabaseClient()
+  const embeddings = new OpenAIEmbeddings()
+  const store = new SupabaseVectorStore(embeddings, {
+    client: supabase,
+    tableName: "summaries",
+  })
+
   const { data, error } = await supabase
     .from("sources")
     .select("url, title, description, user_id, estimate")
     .eq("id", source_id)
     .single()
+
+  if (!data?.url || !data?.title) {
+    return new NextResponse("Missing source data", {
+      status: 400,
+    })
+  }
 
   const tooLongParsingTime =
     (data?.estimate as ParsingEstimate)?.time &&
@@ -72,6 +86,39 @@ export async function POST(req: Request) {
       ),
     })
 
+    if (isYouTubeURL(data.url)) {
+      const loader = YoutubeLoader.createFromUrl(data.url, {
+        language: "en",
+        addVideoInfo: true,
+      });
+      
+      const docs = await loader.load()
+      const splitDocs = splitDocuments(docs)
+      const docsWithMetadata = splitDocs.map((doc) => ({
+        ...doc,
+        metadata: {
+          user_id: data.user_id,
+          source_id,
+          url: data.url,
+          title: data.title,
+        },
+      }))
+      const storedIds = await store.addDocuments(docsWithMetadata)
+
+      if (storedIds.length) {
+        await supabase.from("notifications").insert({
+          title: "Your summary is ready!",
+          description: `Your summary for "${data.title.slice(0, 50)}${
+            data.title.length > 50 ? "..." : ""
+          }" is done and is already added to your Knowledge Hub`,
+          user_id: data.user_id,
+        })
+      }
+      return new NextResponse(JSON.stringify({ ids: storedIds }), {
+        status: 200,
+      })
+    }
+
     return new NextResponse(
       JSON.stringify({ message: "Parsing is not possible for this source" }),
       {
@@ -83,12 +130,6 @@ export async function POST(req: Request) {
   if (error) {
     return new NextResponse(JSON.stringify({ error }), {
       status: 500,
-    })
-  }
-
-  if (!data.url || !data.title) {
-    return new NextResponse("Missing link data", {
-      status: 400,
     })
   }
 
@@ -122,12 +163,9 @@ export async function POST(req: Request) {
     },
   ]
 
-  const embeddings = new OpenAIEmbeddings()
-  const store = new SupabaseVectorStore(embeddings, {
-    client: supabase,
-    tableName: "summaries",
-  })
-  const storedIds = await store.addDocuments(doc)
+  const splitDocs = splitDocuments(doc)
+
+  const storedIds = await store.addDocuments(splitDocs)
 
   await supabase.from("notifications").insert({
     title: "Your summary is ready!",
@@ -192,3 +230,17 @@ async function fetchAndParseURL(url: string): Promise<string> {
     return ""
   }
 }
+
+function isYouTubeURL(url: string): boolean {
+  const youtubeDomains = [
+    'youtube.com',        // Main YouTube domain
+    'youtu.be',           // YouTube short URLs
+    'm.youtube.com',      // Mobile version of YouTube
+    'gaming.youtube.com', // YouTube Gaming
+    'music.youtube.com'   // YouTube Music
+  ];
+
+  const parsedURL = new URL(url);
+  return youtubeDomains.includes(parsedURL.hostname);
+}
+

@@ -7,6 +7,7 @@ import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 import type { Database } from "@/lib/database.types"
 
 import { parseFileToDocuments } from "./utils"
+import { splitDocuments } from "@/lib/utils"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
@@ -53,7 +54,8 @@ export async function POST(req: Request) {
   })
 
   const documents = await parseFileToDocuments(file, source)
-  const storedIds = await store.addDocuments(documents)
+  const splitDocs = splitDocuments(documents)
+  const storedIds = await store.addDocuments(splitDocs)
 
   await supabase.from("notifications").insert({
     title: "Your summary is ready!",

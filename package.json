@@ -32,6 +32,7 @@
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
     "domhandler": "^5.0.3",
+    "gpt-tokenizer": "^2.1.2",
     "htmlparser2": "^9.0.0",
     "jsonwebtoken": "^9.0.2",
     "langchain": "^0.0.200",
@@ -51,6 +52,8 @@
     "tailwindcss-animate": "^1.0.7",
     "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0",
+    "youtube-transcript": "^1.0.6",
+    "youtubei.js": "^8.1.0",
     "zustand": "^4.4.7"
   },
   "devDependencies": {

@@ -8,10 +8,11 @@ import { useMessagesStore } from "@/lib/store"
 import { Button } from "../ui/button"
 import { Textarea } from "../ui/textarea"
 import { AiMessage, AiMessageLoader, UserMessage } from "./messages"
+import { StopCircle } from "lucide-react"
 
 export function Chat() {
   const { messages: initialMessages, setMessages } = useMessagesStore()
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
+  const { messages, input, handleInputChange, handleSubmit, isLoading, stop } =
     useChat({
       initialMessages,
     })
@@ -64,9 +65,15 @@ export function Chat() {
             className="resize-none"
             placeholder="Your question..."
           />
-          <Button type="submit" className="mx-auto w-24">
-            Send
-          </Button>
+          <div className="flex relative justify-center">
+            <Button type="submit" className="w-24">
+              Send
+            </Button>
+            {isLoading && 
+            <div className="absolute top-1/2 -translate-y-1/2 right-0">
+              <StopCircle onClick={stop} className="hover:opacity-50 transition-opacity cursor-pointer" />
+            </div>}
+          </div>
         </form>
       </div>
     </div>

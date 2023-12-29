@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx"
 import jwt from "jsonwebtoken"
 import { twMerge } from "tailwind-merge"
+import type  { Document } from 'langchain/document'
+import { encode, decode } from 'gpt-tokenizer'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -72,4 +74,36 @@ export function decodeUserToken(token: string): {
     console.error("Token verification failed:", error)
     return { userId: null, expired: false }
   }
+}
+
+export function splitDocuments(docs: Document[], maxTokens = 2048): Document[] {
+  let splitDocs: Document[] = [];
+
+  for (const doc of docs) {
+    const tokens = encode(doc.pageContent);
+    if (tokens.length > maxTokens) {
+      let currentTokens: number[] = [];
+
+      // Splitting the content into smaller parts by tokens
+      for (const token of tokens) {
+        if (currentTokens.length >= maxTokens) {
+          const splitContent = decode(currentTokens);
+          splitDocs.push({ ...doc, pageContent: splitContent });
+          currentTokens = [token];
+        } else {
+          currentTokens.push(token);
+        }
+      }
+
+      // Add any remaining tokens as the last document
+      if (currentTokens.length > 0) {
+        const splitContent = decode(currentTokens);
+        splitDocs.push({ ...doc, pageContent: splitContent });
+      }
+    } else {
+      splitDocs.push(doc);
+    }
+  }
+
+  return splitDocs;
 }
