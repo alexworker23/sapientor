@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import dayjs from "dayjs"
 import { Loader2, Settings } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
@@ -62,7 +63,11 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
       const sources_to_insert: Database["public"]["Tables"]["sources"]["Insert"][] =
         uploadedFiles.map((file) => ({
           ...file,
-          estimate,
+          estimate: estimate || {
+            time: 3600000 * 5,
+            humanReadable: "5hr",
+            deadline: dayjs().add(5, "hour").toISOString(),
+          },
           status: notParse ? "PAUSED" : undefined,
           full_text: true,
           type: "FILE",

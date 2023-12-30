@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import dayjs from "dayjs"
 import { Loader2, Settings } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
@@ -54,7 +55,11 @@ export const ParseBlock = ({
         .from("sources")
         .insert({
           url: link,
-          estimate,
+          estimate: estimate || {
+            time: 3600000,
+            humanReadable: "1hr",
+            deadline: dayjs().add(1, "hour").toISOString(),
+          },
           title: metadata?.title,
           description: metadata?.description,
           icon: metadata?.icon,
@@ -146,7 +151,7 @@ export const ParseBlock = ({
         )}
         <Button
           onClick={handleSave}
-          disabled={!isValid || saving || loading}
+          disabled={!isValid || saving}
           className="w-24 transition-all gap-1"
         >
           {saving && <Loader2 size={16} className="animate-spin" />}
