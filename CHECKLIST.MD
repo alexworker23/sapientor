@@ -1,7 +1,8 @@
-1. Summaries for files automated (per page basis) with the help of Llama-Index
-2. Chat RAG with Llama-Index + single file search
+- GPT not processing but calling functions (link, text note, audio note)
+- Improved document retrieval logic for GPT 
 
-3. Better landing page
+
+1. Better landing page
 - FEATURES PROPOSALS BLOCK
 - OPENAI GPT AD BLOCK
-4. ADDITIONAL INTEGRATIONS (CLAUDE / BARD)
+1. ADDITIONAL INTEGRATIONS (CLAUDE / BARD)

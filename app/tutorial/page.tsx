@@ -263,7 +263,7 @@ export const metadata: Metadata = {
   description:
     "Effortlessly organise your data into a Knowledge Hub ready to enhance any AI chatbot. Upload with a simple click: links, files, or notes. Navigate your knowledge with ease, engage through interactive chats, or secure it for future use. Transform how you manage information today.",
   keywords:
-    "data organization, Knowledge Hub, AI chatbot enhancement, easy upload, interactive chats, information management, secure data storage, sapientor, knowledge base, knowledge hub",
+    "ai knowledge base, personal knowledge base, open ai knowledge base, ai knowledge management, sapientor, knowledge base, knowledge hub",
   metadataBase: new URL("https://sapientor.net"),
   alternates: {
     canonical: "/tutorial",
