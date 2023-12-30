@@ -49,7 +49,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /knowledge/{user_id}/basic:
+  /api/gpt/knowledge/{user_id}/basic:
     get:
       operationId: getBasicKnowledgeSummaries
       summary: Retrieves the last 10 knowledge summaries for a specified user.
@@ -98,10 +98,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /knowledge/{user_id}/input:
+  /api/gpt/knowledge/{user_id}/input:
     post:
-      summary: Processes input to retrieve relevant documents based on keywords for a specified user.
-      operationId: processInputForKeywordRetrieval
+      summary: Processes input to retrieve relevant documents for a specified user.
+      operationId: getRelevantDocumentsForInput
       parameters:
         - in: path
           name: user_id
@@ -116,20 +116,20 @@ paths:
             schema:
               type: object
               properties:
-                keywords:
+                input:
                   type: string
-                  description: Input keywords to retrieve relevant documents.
+                  description: Input text to process and find relevant information.
       responses:
         '200':
-          description: Successfully retrieved relevant documents.
+          description: Successfully processed input and returned relevant information.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  additionalProperties: true
-                  description: Relevant documents retrieved based on input keywords.
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: The result of processing the input.
         '400':
           description: Input validation error. Either 'input' or 'user_id' is missing.
           content:
