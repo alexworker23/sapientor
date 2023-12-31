@@ -52,7 +52,7 @@ export async function POST(
     client: supabase,
     tableName: "summaries",
     queryName: "match_summaries",
-    filter: { user_id }
+    filter: { user_id },
   })
   const retriever = vectorstore.asRetriever()
   const tool = createRetrieverTool(retriever, {

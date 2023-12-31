@@ -78,6 +78,15 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
         .insert(sources_to_insert)
         .select("*")
 
+      if (!notParse && createdEntities?.length) {
+        for (const source of createdEntities) {
+          fetch("/api/parse/file", {
+            method: "POST",
+            body: JSON.stringify({ source_id: source.id }),
+          })
+        }
+      }
+
       if (creationError) throw new Error(creationError.message)
       if (!createdEntities) throw new Error("Error while saving file")
 
