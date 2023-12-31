@@ -63,7 +63,7 @@ export const ParseBlock = ({
           title: metadata?.title,
           description: metadata?.description,
           icon: metadata?.icon,
-          status: notParse ? "PAUSED" : undefined,
+          status: notParse ? "PAUSED" : "PENDING",
           full_text: true,
           type: "LINK",
         })

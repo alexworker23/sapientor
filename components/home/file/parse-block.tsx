@@ -68,7 +68,7 @@ export const ParseBlock = ({ files, estimate, onSuccess }: Props) => {
             humanReadable: "5hr",
             deadline: dayjs().add(5, "hour").toISOString(),
           },
-          status: notParse ? "PAUSED" : undefined,
+          status: notParse ? "PAUSED" : "PENDING",
           full_text: true,
           type: "FILE",
         }))
