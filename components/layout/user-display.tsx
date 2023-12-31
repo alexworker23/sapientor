@@ -5,6 +5,7 @@ import {
   GraduationCap,
   InfoIcon,
   MessagesSquare,
+  Plus,
 } from "lucide-react"
 
 import { LogOutButton } from "../auth/log-out-button"
@@ -40,6 +41,12 @@ export const UserDisplay = ({ user }: Props) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <Link href="/">
+          <DropdownMenuItem className="flex justify-between">
+            <span>Add source</span>
+            <Plus size={16} className="ml-4" />
+          </DropdownMenuItem>
+        </Link>
         <Link href="/hub">
           <DropdownMenuItem className="flex justify-between">
             <span>Knowledge Hub</span>

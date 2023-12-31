@@ -76,34 +76,30 @@ export function decodeUserToken(token: string): {
   }
 }
 
-export function splitDocuments(docs: Document[], maxTokens = 2048): Document[] {
-  let splitDocs: Document[] = []
+export function splitDocuments(docs: Document[], maxTokens = 1536, overlaySize = 200): Document[] {
+  let splitDocs: Document[] = [];
 
   for (const doc of docs) {
-    const tokens = encode(doc.pageContent)
+    const tokens = encode(doc.pageContent);
     if (tokens.length > maxTokens) {
-      let currentTokens: number[] = []
+      let currentTokens: number[] = [];
+      let startIndex = 0;
 
-      // Splitting the content into smaller parts by tokens
-      for (const token of tokens) {
-        if (currentTokens.length >= maxTokens) {
-          const splitContent = decode(currentTokens)
-          splitDocs.push({ ...doc, pageContent: splitContent })
-          currentTokens = [token]
-        } else {
-          currentTokens.push(token)
-        }
-      }
+      while (startIndex < tokens.length) {
+        let endIndex = Math.min(startIndex + maxTokens, tokens.length);
+        if (endIndex < tokens.length) endIndex -= overlaySize;
 
-      // Add any remaining tokens as the last document
-      if (currentTokens.length > 0) {
-        const splitContent = decode(currentTokens)
-        splitDocs.push({ ...doc, pageContent: splitContent })
+        currentTokens = tokens.slice(startIndex, endIndex);
+        const splitContent = decode(currentTokens);
+        splitDocs.push({ ...doc, pageContent: splitContent });
+
+        startIndex = endIndex;
+        if (endIndex < tokens.length) startIndex += overlaySize;
       }
     } else {
-      splitDocs.push(doc)
+      splitDocs.push(doc);
     }
   }
 
-  return splitDocs
+  return splitDocs;
 }

@@ -118,9 +118,9 @@ export const columns: ColumnDef<SourceEntity>[] = [
             )}
             <DropdownMenuSeparator />
             {getShowStatusForProcessButton(source) ? (
-              <DropdownMenuItem onClick={() => changeSourceStatus(source)}>
-                Process
-              </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => changeSourceStatus(source)}>
+              Process
+            </DropdownMenuItem>
             ) : null}
             <Link href={`?sourceId=${source.id}&action=title`} scroll={false}>
               <DropdownMenuItem>Edit title</DropdownMenuItem>
