@@ -196,6 +196,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /api/gpt/parse-text:
+    post:
+      operationId: parseText
+      summary: Parses given text, generates a title, and stores the text with its metadata.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: Text to be parsed and titled.
+                user_id:
+                  type: string
+                  description: User ID for associating the parsing process.
+              required:
+                - text
+                - user_id
+      responses:
+        '200':
+          description: Successfully processed the request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates if the process was successful.
+        '400':
+          description: Bad request - missing fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized access.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     ErrorResponse:

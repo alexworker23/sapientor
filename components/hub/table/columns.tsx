@@ -59,11 +59,11 @@ export const columns: ColumnDef<SourceEntity>[] = [
           alt="website favicon"
         />
         {row.original.url?.startsWith("http") ? (
-          <Link href={row.original.url} className="max-w-[300px] truncate">
+          <Link href={row.original.url} className="max-w-md truncate">
             {decodeHtmlEntities(row.getValue("title"))}
           </Link>
         ) : (
-          <span className="max-w-[300px] truncate">
+          <span className="max-w-md truncate">
             {decodeHtmlEntities(row.getValue("title"))}
           </span>
         )}

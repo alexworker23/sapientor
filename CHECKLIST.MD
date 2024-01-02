@@ -1,5 +1,5 @@
-- GPT not processing but calling functions (link, text note, audio note)
 - Improved document retrieval logic for GPT 
+- For all retrievals add date of document
 
 
 1. Better landing page

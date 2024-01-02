@@ -118,6 +118,7 @@ export async function POST(request: Request) {
         deadline: dayjs().add(estimateMs, "ms").toISOString(),
         humanReadable: msToHumanReadable(estimateMs),
       },
+      type: "LINK",
     })
     .select("*")
     .single()
@@ -201,6 +202,7 @@ export async function POST(request: Request) {
         source_id: data.id,
         url: data.url,
         title: data.title,
+        author: "gpt",
       },
     },
   ]
@@ -216,7 +218,7 @@ export async function POST(request: Request) {
     user_id: data.user_id,
   })
 
-  return new NextResponse(JSON.stringify({ succeess: !!storedIds.length }), {
+  return new NextResponse(JSON.stringify({ success: !!storedIds.length }), {
     status: 200,
   })
 }
