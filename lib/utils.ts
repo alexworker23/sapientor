@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
+import { DataNode, DomHandler, Element, Node } from "domhandler"
 import { decode, encode } from "gpt-tokenizer"
+import { Parser } from "htmlparser2"
 import jwt from "jsonwebtoken"
 import type { Document } from "langchain/document"
 import { twMerge } from "tailwind-merge"
@@ -106,4 +108,68 @@ export function splitDocuments(
   }
 
   return splitDocs
+}
+
+export function isYouTubeURL(url: string): boolean {
+  const youtubeDomains = [
+    "youtube.com", // Main YouTube domain
+    "youtu.be", // YouTube short URLs
+    "m.youtube.com", // Mobile version of YouTube
+    "gaming.youtube.com", // YouTube Gaming
+    "music.youtube.com", // YouTube Music
+  ]
+
+  const parsedURL = new URL(url)
+  return youtubeDomains.includes(parsedURL.hostname)
+}
+
+function extractText(dom: Node[]): string {
+  let text = ""
+  dom.forEach((node) => {
+    if (node instanceof Element) {
+      if (
+        node.tagName === "script" ||
+        node.tagName === "style" ||
+        node.tagName === "noscript"
+      ) {
+        // ignore scripts, styles, and noscript tags
+      } else if (node.childNodes.length > 0) {
+        // recursively get text for child nodes
+        text += extractText(node.childNodes)
+      }
+    } else if (node instanceof DataNode) {
+      text += node.data + " "
+    }
+  })
+  // Remove all newline and tabulation characters
+  text = text.replace(/[\n\t]+/g, " ").trim()
+
+  // Optionally, replace multiple spaces with a single space
+  text = text.replace(/\s+/g, " ")
+
+  return text
+}
+
+export async function fetchAndParseURL(url: string): Promise<string> {
+  try {
+    const response = await fetch(url)
+    const html = await response.text()
+
+    let textContent = ""
+    const handler = new DomHandler((error, dom) => {
+      if (error) {
+        throw error
+      }
+      textContent = extractText(dom)
+    })
+
+    const parser = new Parser(handler)
+    parser.write(html)
+    parser.end()
+
+    return textContent.trim()
+  } catch (error) {
+    console.error("Error fetching or parsing URL:", error)
+    return ""
+  }
 }
