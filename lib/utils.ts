@@ -1,3 +1,4 @@
+import { ReadonlyURLSearchParams } from "next/navigation"
 import { clsx, type ClassValue } from "clsx"
 import { DataNode, DomHandler, Element, Node } from "domhandler"
 import { decode, encode } from "gpt-tokenizer"
@@ -172,4 +173,14 @@ export async function fetchAndParseURL(url: string): Promise<string> {
     console.error("Error fetching or parsing URL:", error)
     return ""
   }
+}
+
+export const createUrl = (
+  pathname: string,
+  params: URLSearchParams | ReadonlyURLSearchParams
+) => {
+  const paramsString = params.toString()
+  const queryString = `${paramsString.length ? "?" : ""}${paramsString}`
+
+  return `${pathname}${queryString}`
 }

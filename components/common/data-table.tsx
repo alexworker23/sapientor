@@ -1,5 +1,6 @@
 "use client"
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import {
   ColumnDef,
   flexRender,
@@ -8,6 +9,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
+import { createUrl } from "@/lib/utils"
 import {
   Table,
   TableBody,
@@ -22,18 +24,61 @@ import { Button } from "../ui/button"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  total?: number
+  defaultPageSize?: number
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  total = 0,
+  defaultPageSize = 10,
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const pageString = searchParams.get("page")
+  const pageSizeString = searchParams.get("pageSize")
+
+  const page =
+    pageString && !isNaN(parseInt(pageString)) ? parseInt(pageString) : 1
+  const pageSize =
+    pageSizeString && !isNaN(parseInt(pageSizeString))
+      ? parseInt(pageSizeString)
+      : defaultPageSize
+
+  const totalPages = Math.ceil(total / pageSize)
+  const prevPageDisabled = page <= 1
+  const nextPageDisabled = page >= totalPages
+
+  const handlePrevPage = () => {
+    const newPage = page - 1
+    if (newPage < 1) return
+
+    const newParams = new URLSearchParams(searchParams.toString())
+    if (newPage === 1) {
+      newParams.delete("page")
+    } else {
+      newParams.set("page", newPage.toString())
+    }
+    router.replace(createUrl(pathname, newParams))
+  }
+
+  const handleNextPage = () => {
+    const newPage = page + 1
+    if (newPage > totalPages) return
+
+    const newParams = new URLSearchParams(searchParams.toString())
+    newParams.set("page", newPage.toString())
+    router.replace(createUrl(pathname, newParams))
+  }
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: { pagination: { pageSize: 10 } },
+    initialState: { pagination: { pageSize: defaultPageSize } },
   })
 
   return (
@@ -90,23 +135,23 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredSelectedRowModel().rows.length} of {total} row(s)
+          selected.
         </div>
         <div className="space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={handlePrevPage}
+            disabled={prevPageDisabled}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={handleNextPage}
+            disabled={nextPageDisabled}
           >
             Next
           </Button>

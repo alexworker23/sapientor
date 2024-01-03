@@ -12,14 +12,33 @@ const createServerSupabaseClient = cache(() => {
   return createServerComponentClient<Database>({ cookies: () => cookieStore })
 })
 
-export const FetchAdminDataTable = async () => {
+interface Props {
+  page: string | undefined
+}
+
+const PAGE_SIZE = 10
+
+export const FetchAdminDataTable = async ({ page }: Props) => {
   const supabase = createServerSupabaseClient()
-  const { data, error } = await supabase
+
+  const from =
+    page && !isNaN(parseInt(page)) ? (parseInt(page) - 1) * PAGE_SIZE : 0
+  const till = from + PAGE_SIZE
+
+  const { data, error, count } = await supabase
     .from("sources")
-    .select("*")
+    .select("*", { count: "exact" })
     .order("created_at", { ascending: false })
+    .range(from, till)
 
   if (error) throw error
 
-  return <DataTable columns={admin_columns} data={data} />
+  return (
+    <DataTable
+      columns={admin_columns}
+      data={data}
+      total={count ?? 0}
+      defaultPageSize={PAGE_SIZE}
+    />
+  )
 }

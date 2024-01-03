@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, type FormEventHandler } from "react"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Loader2 } from "lucide-react"
 
 import type { SourceEntity } from "@/lib/types"
+import { createUrl } from "@/lib/utils"
 import { rejectLink } from "@/app/actions/reject-link"
 
 import { Button } from "../ui/button"
@@ -28,9 +29,15 @@ export const RejectModal = ({ isOpen, source }: Props) => {
 
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const { toast } = useToast()
 
-  const handleClose = () => router.push(pathname)
+  const handleClose = () => {
+    const newParams = new URLSearchParams(searchParams.toString())
+    newParams.delete("action")
+    newParams.delete("sourceId")
+    router.replace(createUrl(pathname, newParams))
+  }
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     if (!source) return

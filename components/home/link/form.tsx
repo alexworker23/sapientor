@@ -24,7 +24,6 @@ export const LinkForm = () => {
     setMetadataLoading,
     estimate,
     setEstimate,
-    estimateLoading,
     setEstimateLoading,
     saveSuccess,
     setSaveSuccess,
@@ -162,7 +161,6 @@ export const LinkForm = () => {
         link={link}
         estimate={estimate}
         metadata={metadata}
-        loading={estimateLoading}
         onSuccess={handleSuccess}
       />
     </div>

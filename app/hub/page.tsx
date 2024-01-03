@@ -11,6 +11,7 @@ interface Props {
   searchParams: {
     action: string | undefined
     sourceId: string | undefined
+    page: string | undefined
   }
 }
 
@@ -29,8 +30,9 @@ const Page = async ({ searchParams }: Props) => {
       <div className="mx-auto w-full">
         <Suspense
           fallback={<Skeleton className="w-full h-96 rounded-md border" />}
+          key={`hub-${searchParams.page}`}
         >
-          <FetchedHubTable />
+          <FetchedHubTable page={searchParams.page} />
         </Suspense>
       </div>
       <Suspense

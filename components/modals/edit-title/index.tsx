@@ -1,13 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Loader2 } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
 import type { SourceEntity } from "@/lib/types"
-import { decodeHtmlEntities } from "@/lib/utils"
+import { createUrl, decodeHtmlEntities } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 
 import { Button } from "../../ui/button"
@@ -31,10 +31,16 @@ export const EditTitleModal = ({ isOpen, source }: EditTitleModalProps) => {
 
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const { toast } = useToast()
   const supabase = createClientComponentClient<Database>()
 
-  const handleClose = () => router.push(pathname)
+  const handleClose = () => {
+    const newParams = new URLSearchParams(searchParams.toString())
+    newParams.delete("action")
+    newParams.delete("sourceId")
+    router.replace(createUrl(pathname, newParams))
+  }
 
   const handleDelete = async () => {
     if (!source) return

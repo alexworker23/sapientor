@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname, useSearchParams } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import type { ColumnDef } from "@tanstack/react-table"
 import dayjs from "dayjs"
@@ -8,7 +9,7 @@ import { MoreHorizontal } from "lucide-react"
 
 import type { Database } from "@/lib/database.types"
 import type { SourceEntity } from "@/lib/types"
-import { decodeHtmlEntities } from "@/lib/utils"
+import { createUrl, decodeHtmlEntities } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -93,6 +94,18 @@ export const columns: ColumnDef<SourceEntity>[] = [
     id: "actions",
     cell: ({ row }) => {
       const source = row.original
+      const searchParams = useSearchParams()
+      const pathname = usePathname()
+
+      const titleParams = new URLSearchParams(searchParams.toString())
+      titleParams.set("sourceId", source.id)
+      titleParams.set("action", "title")
+      const editUrl = createUrl(pathname, titleParams)
+
+      const deleteParams = new URLSearchParams(searchParams.toString())
+      deleteParams.set("sourceId", source.id)
+      deleteParams.set("action", "delete")
+      const deleteUrl = createUrl(pathname, deleteParams)
 
       return (
         <DropdownMenu>
@@ -122,10 +135,10 @@ export const columns: ColumnDef<SourceEntity>[] = [
                 Process
               </DropdownMenuItem>
             ) : null}
-            <Link href={`?sourceId=${source.id}&action=title`} scroll={false}>
+            <Link href={editUrl} scroll={false}>
               <DropdownMenuItem>Edit title</DropdownMenuItem>
             </Link>
-            <Link href={`?sourceId=${source.id}&action=delete`} scroll={false}>
+            <Link href={deleteUrl} scroll={false}>
               <DropdownMenuItem className="text-red-600">
                 Delete
               </DropdownMenuItem>

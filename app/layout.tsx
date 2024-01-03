@@ -5,6 +5,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import "./globals.css"
 
+import { Suspense } from "react"
+
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Header } from "@/components/layout/header"
@@ -29,7 +31,7 @@ export default function RootLayout({
         )}
       >
         <Header />
-        {children}
+        <Suspense>{children}</Suspense>
         <Toaster />
         <NotificationsListener />
 

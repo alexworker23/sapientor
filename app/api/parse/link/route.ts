@@ -64,12 +64,14 @@ export async function POST(req: Request) {
     (data?.estimate as ParsingEstimate)?.time > 3600000
   const isNotCrawalableLink =
     data?.title && data.url && data?.title === data?.url
-  const isComplexLink = isLongParsingTime || isNotCrawalableLink
+  const isYouTubeLink = isYouTubeURL(data.url)
+  const isComplexLink =
+    isLongParsingTime || isNotCrawalableLink || isYouTubeLink
 
   if (isComplexLink) {
     await handleComplexLinkEmailSend(data)
 
-    if (isYouTubeURL(data.url)) {
+    if (isYouTubeLink) {
       const loader = YoutubeLoader.createFromUrl(data.url, {
         language: "en",
         addVideoInfo: true,

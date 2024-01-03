@@ -1,6 +1,8 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+
+import { createUrl } from "@/lib/utils"
 
 import { Button } from "../../ui/button"
 import {
@@ -24,8 +26,14 @@ export const ViewSummaryModal = ({
 }: ViewSummaryModalProps) => {
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-  const handleClose = () => router.push(pathname)
+  const handleClose = () => {
+    const newParams = new URLSearchParams(searchParams.toString())
+    newParams.delete("action")
+    newParams.delete("sourceId")
+    router.replace(createUrl(pathname, newParams))
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>

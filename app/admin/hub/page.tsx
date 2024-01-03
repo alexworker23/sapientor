@@ -21,6 +21,7 @@ interface Props {
   searchParams: {
     action: string | undefined
     sourceId: string | undefined
+    page: string | undefined
   }
 }
 
@@ -40,11 +41,15 @@ const Page = async ({ searchParams }: Props) => {
       <div className="mx-auto py-10 w-full">
         <Suspense
           fallback={<Skeleton className="w-full h-96 rounded-md border" />}
+          key={`hub-${searchParams.page}`}
         >
-          <FetchAdminDataTable />
+          <FetchAdminDataTable page={searchParams.page} />
         </Suspense>
       </div>
-      <Suspense>
+      <Suspense
+        fallback={<></>}
+        key={`${searchParams.action}-${searchParams.sourceId}`}
+      >
         <RejectModal
           isOpen={searchParams.action === "reject" && !!targetSource}
           source={targetSource}

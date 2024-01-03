@@ -16,24 +16,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Switch } from "@/components/ui/switch"
 
 interface Props {
   link: string
   estimate: ParsingEstimate | null
   metadata: LinkMetadata | null
-  loading: boolean
   onSuccess: () => void
 }
 
-export const ParseBlock = ({
-  link,
-  estimate,
-  metadata,
-  loading,
-  onSuccess,
-}: Props) => {
+export const ParseBlock = ({ link, estimate, metadata, onSuccess }: Props) => {
   const [notParse, setNotParse] = useState(false)
   // const [saveFullText, setSaveFullText] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -93,41 +85,35 @@ export const ParseBlock = ({
   return (
     <>
       <div className={cn("flex w-full justify-between")}>
-        {loading || !estimate ? (
-          <div className="grid gap-1">
-            <Skeleton className="h-4 w-12" />
-            <Skeleton className="h-5 w-5 rounded-full" />
-          </div>
-        ) : (
-          <div className="grid gap-1">
-            <p className="text-xs font-semibold">Settings</p>
-            <Popover>
-              <PopoverTrigger>
-                <Settings
-                  size={20}
-                  className="transition-opacity hover:opacity-50"
-                />
-              </PopoverTrigger>
-              <PopoverContent className="p-2.5 max-w-xs">
-                <div
-                  className={cn(
-                    "grid gap-2.5",
-                    notParse ? "" : "mb-2.5 border-b pb-2.5"
-                  )}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Switch
-                      id="do-not-parse"
-                      checked={notParse}
-                      onCheckedChange={(value) => setNotParse(value)}
-                      className="w-9 h-5"
-                      thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
-                    />
-                    <Label htmlFor="do-not-parse" className="text-xs">
-                      Process Later
-                    </Label>
-                  </div>
-                  {/* <div className="flex items-center gap-2.5">
+        <div className="grid gap-1">
+          <p className="text-xs font-semibold">Settings</p>
+          <Popover>
+            <PopoverTrigger>
+              <Settings
+                size={20}
+                className="transition-opacity hover:opacity-50"
+              />
+            </PopoverTrigger>
+            <PopoverContent className="p-2.5 max-w-xs">
+              <div
+                className={cn(
+                  "grid gap-2.5",
+                  !estimate || notParse ? "" : "mb-2.5 border-b pb-2.5"
+                )}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Switch
+                    id="do-not-parse"
+                    checked={notParse}
+                    onCheckedChange={(value) => setNotParse(value)}
+                    className="w-9 h-5"
+                    thumbClass="w-4 h-4 data-[state=checked]:translate-x-4"
+                  />
+                  <Label htmlFor="do-not-parse" className="text-xs">
+                    Process Later
+                  </Label>
+                </div>
+                {/* <div className="flex items-center gap-2.5">
                     <Switch
                       id="save-full-text"
                       checked={saveFullText}
@@ -139,19 +125,20 @@ export const ParseBlock = ({
                       Save Full Text
                     </Label>
                   </div> */}
-                </div>
-                {!notParse && (
-                  <p className="text-xs">
-                    Max time to process: <b>{estimate?.humanReadable}</b>
-                  </p>
-                )}
-              </PopoverContent>
-            </Popover>
-          </div>
-        )}
+              </div>
+              {estimate
+                ? !notParse && (
+                    <p className="text-xs">
+                      Max time to process: <b>{estimate?.humanReadable}</b>
+                    </p>
+                  )
+                : null}
+            </PopoverContent>
+          </Popover>
+        </div>
         <Button
           onClick={handleSave}
-          disabled={!isValid || saving || loading}
+          disabled={!isValid || saving}
           className="w-24 transition-all gap-1"
         >
           {saving && <Loader2 size={16} className="animate-spin" />}

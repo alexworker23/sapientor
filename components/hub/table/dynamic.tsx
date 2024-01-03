@@ -6,4 +6,4 @@ import type { HubTableProps } from "./table"
 
 const Component = dynamic(() => import("./table").then((c) => c.HubTable))
 
-export const HubTable = ({ data }: HubTableProps) => <Component data={data} />
+export const HubTable = (props: HubTableProps) => <Component {...props} />
