@@ -23,7 +23,7 @@ const createServerSupabaseClient = cache(() => {
 const TEMPLATE = `You are a helpful assistant and must find the relevant data from the documents according to user's input.
 If you don't know how to answer a question, use the available tools to look up relevant information.`
 
-export async function POST(
+export async function GET(
   request: NextRequest,
   { params: { user_id } }: { params: { user_id: string } }
 ) {
@@ -34,7 +34,9 @@ export async function POST(
     })
   }
 
-  const { input } = (await request.json()) as { input: string }
+  const searchParams = request.nextUrl.searchParams
+  const input = searchParams.get("input")
+  
   if (!input) {
     return new Response(JSON.stringify({ error: "input is required" }), {
       status: 400,

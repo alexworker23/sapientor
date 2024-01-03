@@ -1,6 +1,6 @@
 import { cache } from "react"
 import { cookies } from "next/headers"
-import { NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import dayjs from "dayjs"
 import type { Document } from "langchain/document"
@@ -59,7 +59,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-export async function POST(request: Request) {
+export async function GET(request: NextRequest) {
   const apiKey = request.headers.get("x-api-key")
   if (apiKey !== process.env.GPT_API_KEY) {
     return new Response(JSON.stringify({ error: "Unauthorized access" }), {
@@ -67,10 +67,9 @@ export async function POST(request: Request) {
     })
   }
 
-  const { url, user_id } = (await request.json()) as {
-    url: string | undefined
-    user_id: string | undefined
-  }
+  const searchParams = request.nextUrl.searchParams
+  const url = searchParams.get("url")
+  const user_id = searchParams.get("user_id")
 
   if (!user_id || !url) {
     return new Response(JSON.stringify({ error: "Bad Request" }), {

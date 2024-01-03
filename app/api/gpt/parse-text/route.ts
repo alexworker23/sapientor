@@ -1,6 +1,6 @@
 import { cache } from "react"
 import { cookies } from "next/headers"
-import { NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import dayjs from "dayjs"
 import type { Document } from "langchain/document"
@@ -37,7 +37,7 @@ const systemMessage: ChatCompletionSystemMessageParam = {
     `,
 }
 
-export async function POST(request: Request) {
+export async function GET(request: NextRequest) {
   const apiKey = request.headers.get("x-api-key")
   if (apiKey !== process.env.GPT_API_KEY) {
     return new Response(JSON.stringify({ error: "Unauthorized access" }), {
@@ -45,10 +45,9 @@ export async function POST(request: Request) {
     })
   }
 
-  const { text, user_id } = (await request.json()) as {
-    text: string | undefined
-    user_id: string | undefined
-  }
+  const searchParams = request.nextUrl.searchParams
+  const text = searchParams.get("text")
+  const user_id = searchParams.get("user_id")
 
   if (!user_id || !text) {
     return new Response(JSON.stringify({ error: "Bad Request" }), {

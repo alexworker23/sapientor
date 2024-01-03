@@ -99,7 +99,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
   /api/gpt/knowledge/{user_id}/input:
-    post:
+    get:
       summary: Processes input to retrieve relevant documents for a specified user.
       operationId: getRelevantDocumentsForInput
       parameters:
@@ -109,16 +109,12 @@ paths:
           schema:
             type: string
           description: User identifier
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                input:
-                  type: string
-                  description: Input text to process and find relevant information.
+        - in: query
+          name: input
+          required: true
+          schema:
+            type: string
+          description: Input text to process and find relevant information.
       responses:
         '200':
           description: Successfully processed input and returned relevant information.
@@ -143,25 +139,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
   /api/gpt/parse-link:
-    post:
+    get:
       operationId: parseLink
       summary: Parses a given link and performs data extraction and vector storage.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                url:
-                  type: string
-                  description: URL to parse.
-                user_id:
-                  type: string
-                  description: User ID for associating the parsing process.
-              required:
-                - url
-                - user_id
+      parameters:
+        - in: query
+          name: url
+          required: true
+          schema:
+            type: string
+          description: URL to parse.
+        - in: query
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: User ID for associating the parsing process.
       responses:
         '200':
           description: Successfully processed the request.
@@ -197,25 +190,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
   /api/gpt/parse-text:
-    post:
+    get:
       operationId: parseText
       summary: Parses given text, generates a title, and stores the text with its metadata.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                text:
-                  type: string
-                  description: Text to be parsed and titled.
-                user_id:
-                  type: string
-                  description: User ID for associating the parsing process.
-              required:
-                - text
-                - user_id
+      parameters:
+        - in: query
+          name: text
+          required: true
+          schema:
+            type: string
+          description: Text to be parsed.
+        - in: query
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: User ID for associating the parsing process.
       responses:
         '200':
           description: Successfully processed the request.
