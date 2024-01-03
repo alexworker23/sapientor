@@ -1,12 +1,13 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname, useSearchParams } from "next/navigation"
 import type { ColumnDef } from "@tanstack/react-table"
 import dayjs from "dayjs"
 import { MoreHorizontal } from "lucide-react"
 
 import type { ParsingEstimate, SourceEntity } from "@/lib/types"
-import { cn, decodeHtmlEntities } from "@/lib/utils"
+import { cn, createUrl, decodeHtmlEntities } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -74,6 +75,21 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
       const source = row.original
       const isLinkPending = source.status === "PENDING"
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const pathname = usePathname()
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const searchParams = useSearchParams()
+
+      const summaryParams = new URLSearchParams(searchParams.toString())
+      summaryParams.set("sourceId", source.id)
+      summaryParams.set("action", "summary")
+      const summaryUrl = createUrl(pathname, summaryParams)
+
+      const rejectParams = new URLSearchParams(searchParams.toString())
+      rejectParams.set("sourceId", source.id)
+      rejectParams.set("action", "reject")
+      const rejectUrl = createUrl(pathname, summaryParams)
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -115,15 +131,12 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
               </DropdownMenuItem>
             )}
             {source.status === "COMPLETED" ? (
-              <Link
-                href={`?sourceId=${source.id}&action=summary`}
-                scroll={false}
-              >
+              <Link href={summaryUrl} scroll={false}>
                 <DropdownMenuItem>View summary</DropdownMenuItem>
               </Link>
             ) : null}
             {isLinkPending && (
-              <Link href={`?sourceId=${source.id}&action=reject`}>
+              <Link href={rejectUrl}>
                 <DropdownMenuItem className="text-red-600">
                   Reject
                 </DropdownMenuItem>

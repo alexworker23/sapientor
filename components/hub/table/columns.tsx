@@ -94,13 +94,15 @@ export const columns: ColumnDef<SourceEntity>[] = [
     id: "actions",
     cell: ({ row }) => {
       const source = row.original
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const searchParams = useSearchParams()
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const pathname = usePathname()
 
       const titleParams = new URLSearchParams(searchParams.toString())
       titleParams.set("sourceId", source.id)
       titleParams.set("action", "title")
-      const editUrl = createUrl(pathname, titleParams)
+      const titleUrl = createUrl(pathname, titleParams)
 
       const deleteParams = new URLSearchParams(searchParams.toString())
       deleteParams.set("sourceId", source.id)
@@ -135,7 +137,7 @@ export const columns: ColumnDef<SourceEntity>[] = [
                 Process
               </DropdownMenuItem>
             ) : null}
-            <Link href={editUrl} scroll={false}>
+            <Link href={titleUrl} scroll={false}>
               <DropdownMenuItem>Edit title</DropdownMenuItem>
             </Link>
             <Link href={deleteUrl} scroll={false}>
