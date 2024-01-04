@@ -61,7 +61,7 @@ export function DataTable<TData, TValue>({
     } else {
       newParams.set("page", newPage.toString())
     }
-    router.replace(createUrl(pathname, newParams))
+    router.replace(createUrl(pathname, newParams), { scroll: false })
   }
 
   const handleNextPage = () => {
@@ -70,7 +70,7 @@ export function DataTable<TData, TValue>({
 
     const newParams = new URLSearchParams(searchParams.toString())
     newParams.set("page", newPage.toString())
-    router.replace(createUrl(pathname, newParams))
+    router.replace(createUrl(pathname, newParams), { scroll: false })
   }
 
   const table = useReactTable({

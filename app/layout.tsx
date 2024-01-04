@@ -31,7 +31,7 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <Suspense>{children}</Suspense>
+        <Suspense fallback={<></>}>{children}</Suspense>
         <Toaster />
         <NotificationsListener />
 

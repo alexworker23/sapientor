@@ -36,7 +36,7 @@ export async function GET(
 
   const { data: summaries, error } = await supabase
     .from("summaries")
-    .select(`content, metadata->url, metadata->title`)
+    .select(`created_at, content, metadata->url, metadata->title`)
     .eq("metadata->>user_id", user_id)
     .order("created_at", { ascending: false })
     .limit(10)

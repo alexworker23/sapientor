@@ -15,7 +15,7 @@ export const DownloadSummaries = async () => {
   const supabase = createServerSupabaseClient()
   const { data: summaries } = await supabase
     .from("summaries")
-    .select(`content, metadata->url, metadata->title`)
+    .select(`created_at, content, metadata->url, metadata->title`)
     .order("created_at", { ascending: false })
 
   if (!summaries?.length) return null
