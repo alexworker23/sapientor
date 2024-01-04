@@ -41,7 +41,7 @@ export const UserDisplay = ({ user }: Props) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <Link href="/">
+        <Link href="/add">
           <DropdownMenuItem className="flex justify-between">
             <span>Add source</span>
             <Plus size={16} className="ml-4" />

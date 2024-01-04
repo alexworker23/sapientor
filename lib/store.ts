@@ -75,3 +75,32 @@ export const useMessagesStore = create<MessagesStoreState>((set) => ({
   messages: [],
   setMessages: (newMessages: Message[]) => set({ messages: newMessages }),
 }))
+
+interface InputStoreState {
+  value: string
+  setValue: (newValue: string) => void
+
+  files: File[] | null
+  setFiles: (newFiles: File[] | null) => void
+
+  estimate: ParsingEstimate | null
+  setEstimate: (newEstimate: ParsingEstimate | null) => void
+
+  success: boolean
+  setSuccess: (isSuccess: boolean) => void
+}
+
+export const useInputStore = create<InputStoreState>((set) => ({
+  value: "",
+  setValue: (newValue: string) => set({ value: newValue }),
+
+  files: null,
+  setFiles: (newFiles: File[] | null) => set({ files: newFiles }),
+
+  estimate: null,
+  setEstimate: (newEstimate: ParsingEstimate | null) =>
+    set({ estimate: newEstimate }),
+
+  success: false,
+  setSuccess: (isSuccess: boolean) => set({ success: isSuccess }),
+}))

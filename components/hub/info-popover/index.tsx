@@ -16,9 +16,8 @@ export const HubInfoPopover = () => {
       </PopoverTrigger>
       <PopoverContent className="p-2.5">
         <p className="text-sm font-medium">
-          Below you can see the inventory of your links and their statuses. You
-          can download all processed links as a single file called Knowledge Hub
-          and insert into any of your assistants or chat interfaces.
+          Below you can see the inventory of all the data that you have added as
+          sources and their statuses.
         </p>
       </PopoverContent>
     </Popover>

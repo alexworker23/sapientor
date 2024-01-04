@@ -8,16 +8,14 @@ import {
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
-import { Card } from "@/components/ui/card"
 
 interface Props {
-  files: File[] | null
+  files: File[]
 }
 
 export const FilesDisplay = ({ files }: Props) => {
-  if (!files?.length) return null
   return (
-    <Card className="flex flex-col p-2.5 items-start space-x-0 max-w-full overflow-hidden">
+    <div className="shadow-2xl divide-slate-600 bg-slate-50 shadow-black/60 rounded-2xl flex flex-col p-5 items-start space-x-0 max-w-full overflow-hidden duration-1200 ease-in-out animate-in fade-in slide-in-from-bottom-2">
       <div className="flex justify-between items-center w-full mb-5">
         <h2 className="text-base font-bold">Files to Upload</h2>
         <Badge>
@@ -40,7 +38,7 @@ export const FilesDisplay = ({ files }: Props) => {
           </div>
         ))}
       </div>
-    </Card>
+    </div>
   )
 }
 
