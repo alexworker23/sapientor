@@ -1,8 +1,6 @@
 import { Suspense } from "react"
 
 import { Skeleton } from "@/components/ui/skeleton"
-import { DownloadSummaries } from "@/components/hub/download-summaries"
-import { DownloadSummariesSkeleton } from "@/components/hub/download-summaries/skeleton"
 import { HubInfoPopover } from "@/components/hub/info-popover/dynamic"
 import { HubModals } from "@/components/hub/modals"
 import { FetchedHubTable } from "@/components/hub/table/fetched"
@@ -23,9 +21,6 @@ const Page = async ({ searchParams }: Props) => {
           <h1 className="text-2xl sm:text-3xl w-max">Your Knowledge Hub</h1>
           <HubInfoPopover />
         </div>
-        <Suspense fallback={<DownloadSummariesSkeleton />}>
-          <DownloadSummaries />
-        </Suspense>
       </div>
       <div className="mx-auto w-full">
         <Suspense
