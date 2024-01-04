@@ -20,12 +20,12 @@ import {
 } from "../../ui/dialog"
 import { useToast } from "../../ui/use-toast"
 
-export interface EditTitleModalProps {
+export interface EditSourceModalProps {
   isOpen: boolean
   source: Pick<SourceEntity, "id" | "title"> | null
 }
 
-export const EditTitleModal = ({ isOpen, source }: EditTitleModalProps) => {
+export const EditSourceModal = ({ isOpen, source }: EditSourceModalProps) => {
   const [title, setTitle] = useState(source?.title ?? "")
   const [submitting, setSubmitting] = useState(false)
 
@@ -59,7 +59,7 @@ export const EditTitleModal = ({ isOpen, source }: EditTitleModalProps) => {
       handleClose()
       router.refresh()
       toast({
-        title: "Title edited",
+        title: "Edit successful",
         description: "The title of the source has been edited successfully.",
       })
     } catch (error) {
@@ -79,7 +79,7 @@ export const EditTitleModal = ({ isOpen, source }: EditTitleModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
-        <DialogHeader>Update title</DialogHeader>
+        <DialogHeader>Update source</DialogHeader>
         <DialogDescription>
           Update source title for <b>&quot;{source?.title}&quot;</b> :
         </DialogDescription>

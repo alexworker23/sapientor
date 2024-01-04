@@ -5,7 +5,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import type { Database } from "@/lib/database.types"
 
 import { DeleteModal } from "../modals/delete-link/dynamic"
-import { EditTitleModal } from "../modals/edit-title/dynamic"
+import { EditSourceModal } from "../modals/edit-source/dynamic"
 import { ReasonModal } from "../modals/link-reason/dynamic"
 import { ViewSummaryModal } from "../modals/view-summary/dynamic"
 
@@ -44,7 +44,7 @@ export const HubModals = async ({ sourceId, action }: Props) => {
         title={source?.title ?? ""}
         summaries={summaries?.map((summary) => summary.content) ?? null}
       />
-      <EditTitleModal isOpen={action === "title" && !!source} source={source} />
+      <EditSourceModal isOpen={action === "edit" && !!source} source={source} />
     </>
   )
 }

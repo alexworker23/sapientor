@@ -99,10 +99,10 @@ export const columns: ColumnDef<SourceEntity>[] = [
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const pathname = usePathname()
 
-      const titleParams = new URLSearchParams(searchParams.toString())
-      titleParams.set("sourceId", source.id)
-      titleParams.set("action", "title")
-      const titleUrl = createUrl(pathname, titleParams)
+      const editParams = new URLSearchParams(searchParams.toString())
+      editParams.set("sourceId", source.id)
+      editParams.set("action", "edit")
+      const editUrl = createUrl(pathname, editParams)
 
       const deleteParams = new URLSearchParams(searchParams.toString())
       deleteParams.set("sourceId", source.id)
@@ -137,8 +137,8 @@ export const columns: ColumnDef<SourceEntity>[] = [
                 Process
               </DropdownMenuItem>
             ) : null}
-            <Link href={titleUrl} scroll={false}>
-              <DropdownMenuItem>Edit title</DropdownMenuItem>
+            <Link href={editUrl} scroll={false}>
+              <DropdownMenuItem>Edit</DropdownMenuItem>
             </Link>
             <Link href={deleteUrl} scroll={false}>
               <DropdownMenuItem className="text-red-600">
