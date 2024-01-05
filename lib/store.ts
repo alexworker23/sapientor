@@ -83,8 +83,8 @@ interface InputStoreState {
   files: File[] | null
   setFiles: (newFiles: File[] | null) => void
 
-  estimate: ParsingEstimate | null
-  setEstimate: (newEstimate: ParsingEstimate | null) => void
+  metadata: LinkMetadata | null
+  setMetadata: (newLinkMetadata: LinkMetadata | null) => void
 
   success: boolean
   setSuccess: (isSuccess: boolean) => void
@@ -97,9 +97,9 @@ export const useInputStore = create<InputStoreState>((set) => ({
   files: null,
   setFiles: (newFiles: File[] | null) => set({ files: newFiles }),
 
-  estimate: null,
-  setEstimate: (newEstimate: ParsingEstimate | null) =>
-    set({ estimate: newEstimate }),
+  metadata: null,
+  setMetadata: (newLinkMetadata: LinkMetadata | null) =>
+    set({ metadata: newLinkMetadata }),
 
   success: false,
   setSuccess: (isSuccess: boolean) => set({ success: isSuccess }),
