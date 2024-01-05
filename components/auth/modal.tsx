@@ -50,7 +50,10 @@ export const AuthModal = ({
       >
         {buttonLabel}
       </Button>
-      <DialogContent className="gap-5" onOpenAutoFocus={e => e.preventDefault()}>
+      <DialogContent
+        className="gap-5"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>Log in</DialogTitle>
           <DialogDescription>
