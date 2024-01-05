@@ -6,6 +6,8 @@ import {
   type ChangeEventHandler,
   type FormEventHandler,
 } from "react"
+import { useRouter } from "next/navigation"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import {
   ClipboardCheckIcon,
   CornerDownLeft,
@@ -15,13 +17,16 @@ import {
   FileSpreadsheet,
   FileText,
   FileType,
+  Loader2,
   UploadIcon,
   X,
 } from "lucide-react"
 
+import type { Database } from "@/lib/database.types"
 import { useDebounce } from "@/lib/hooks"
 import { useInputStore } from "@/lib/store"
 import { cn, decodeHtmlEntities, urlRegex } from "@/lib/utils"
+import { addOwnSummary } from "@/app/actions/add-own-summary"
 
 import { Avatar, AvatarImage } from "../ui/avatar"
 import {
@@ -33,11 +38,20 @@ import {
 import { useToast } from "../ui/use-toast"
 
 export const SourceInput = () => {
-  const { value, setValue, files, setFiles, setMetadata, metadata } =
-    useInputStore()
+  const {
+    value,
+    setValue,
+    files,
+    setFiles,
+    setMetadata,
+    metadata,
+    setSubmitting,
+    submitting,
+  } = useInputStore()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const { toast } = useToast()
+  const router = useRouter()
 
   const handleTextAreaResize: FormEventHandler<HTMLTextAreaElement> = (e) => {
     const target = e.target as HTMLTextAreaElement
@@ -153,6 +167,153 @@ export const SourceInput = () => {
     }
   }, [debouncedValue])
 
+  const supabase = createClientComponentClient<Database>()
+
+  const handleStoreFiles = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (!user) throw new Error("User is not authenticated")
+
+    if (!files || !files.length) return null
+
+    const uploadedFiles = await Promise.all(
+      files.map(async (file) => {
+        const filePath = generateUniqueFilePath(file, user.id)
+        const { error: uploadError } = await supabase.storage
+          .from("files")
+          .upload(filePath, file)
+
+        if (uploadError) throw new Error(uploadError.message)
+
+        return {
+          url: filePath,
+          title: file.name,
+        }
+      })
+    )
+
+    const sources_to_insert: Database["public"]["Tables"]["sources"]["Insert"][] =
+      uploadedFiles.map((file) => ({
+        ...file,
+        type: "FILE",
+        status: "PENDING",
+      }))
+
+    const { data: createdEntities, error: creationError } = await supabase
+      .from("sources")
+      .insert(sources_to_insert)
+      .select("*")
+
+    if (createdEntities?.length) {
+      for (const source of createdEntities) {
+        fetch("/api/parse/file", {
+          method: "POST",
+          body: JSON.stringify({ source_id: source.id }),
+        })
+      }
+    }
+
+    if (creationError) throw new Error(creationError.message)
+    if (!createdEntities) throw new Error("Error while saving file")
+  }
+
+  const handleStoreLink = async () => {
+    const { data: createdEntity, error: creationError } = await supabase
+      .from("sources")
+      .insert({
+        url: value,
+        title: metadata?.title || value,
+        description: metadata?.description,
+        icon: metadata?.icon,
+        status: "PENDING",
+        type: "LINK",
+      })
+      .select("*")
+      .single()
+
+    if (creationError) throw new Error(creationError.message)
+    if (!createdEntity) throw new Error("Error while saving link")
+
+    fetch("/api/parse/link", {
+      method: "POST",
+      body: JSON.stringify({ source_id: createdEntity.id }),
+    })
+  }
+
+  const handleStoreText = async () => {
+    const { data: createdEntity, error: creationError } = await supabase
+      .from("sources")
+      .insert({
+        title: value.slice(0, 50),
+        description: value,
+        type: "NOTE",
+      })
+      .select("*")
+      .single()
+
+    if (creationError) throw new Error(creationError.message)
+    if (!createdEntity) throw new Error("Error while saving text note")
+
+    const formData = new FormData()
+    formData.append("title", createdEntity.title ?? "")
+    formData.append("description", createdEntity.description ?? "")
+    formData.append("content", value)
+    formData.append("sourceId", createdEntity.id)
+    formData.append("userId", createdEntity.user_id)
+
+    const { code, message } = await addOwnSummary(formData)
+    if (code !== 200) throw new Error(message)
+  }
+
+  const handleSubmit = async () => {
+    try {
+      if (!value.trim() && !files?.length) return
+      if (submitting) return
+
+      setSubmitting(true)
+
+      if (files && files.length) {
+        await handleStoreFiles()
+      }
+
+      const isValidUrl = urlRegex.test(value)
+
+      if (value && isValidUrl) {
+        await handleStoreLink()
+      }
+
+      if (value && !isValidUrl) {
+        await handleStoreText()
+      }
+
+      setFiles(null)
+      setMetadata(null)
+      setValue("")
+
+      router.refresh()
+
+      const textarea = document.getElementById("textarea-input")
+  
+      if (textarea) {
+        const parentDiv = textarea.closest(".flex") as HTMLDivElement
+        textarea.style.height = "auto"
+        if (parentDiv) {
+          parentDiv.style.height = "initial"
+        }
+      }
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: "Error",
+        description: (error as Error).message,
+        variant: "destructive",
+      })
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <div className="relative w-full max-w-[90%] sm:max-w-lg mx-auto sm:mt-24 min-h-screen">
       <div className="w-full absolute top-0 left-0">
@@ -211,6 +372,13 @@ export const SourceInput = () => {
                 setValue(e.target.value)
                 metadata && setMetadata(null)
               }}
+              onKeyDown={(e) => {
+                // only if just enter click and not shift+enter
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault()
+                  handleSubmit()
+                }
+              }}
               className="w-full disabled:opacity-80 text-primary text-sm bg-slate-50 border-0 shadow-none resize-none outline-none ring-0 disabled:bg-transparent selection:bg-blue-200 selection:text-black placeholder:text-slate-500 placeholder:truncate pr-2 [scroll-padding-block:0.75rem] leading-relaxed py-3 pl-2.5 [&_textarea]:px-0"
               style={{ colorScheme: "dark" }}
               rows={1}
@@ -218,11 +386,14 @@ export const SourceInput = () => {
             />
             <div className="flex py-2.5 pr-2.5">
               <TooltipProvider delayDuration={50}>
-                <Tooltip>
+                <Tooltip open={submitting ? false : undefined}>
                   <TooltipTrigger asChild>
                     <div
                       onClick={handlePaste}
-                      className="cursor-pointer rounded-full hover:bg-slate-100 transition-colors flex justify-center items-center w-7 h-7"
+                      className={cn(
+                        "cursor-pointer rounded-full hover:bg-slate-100 transition-colors flex justify-center items-center w-7 h-7",
+                        submitting ? "cursor-not-allowed opacity-50" : ""
+                      )}
                     >
                       <ClipboardCheckIcon size={16} />
                     </div>
@@ -233,11 +404,14 @@ export const SourceInput = () => {
                 </Tooltip>
               </TooltipProvider>
               <TooltipProvider>
-                <Tooltip>
+                <Tooltip open={submitting ? false : undefined}>
                   <TooltipTrigger asChild>
                     <label
                       htmlFor="file-upload"
-                      className="cursor-pointer rounded-full hover:bg-slate-100 transition-colors flex justify-center items-center w-7 h-7"
+                      className={cn(
+                        "cursor-pointer rounded-full hover:bg-slate-100 transition-colors flex justify-center items-center w-7 h-7",
+                        submitting ? "cursor-not-allowed opacity-50" : ""
+                      )}
                     >
                       <UploadIcon size={16} />
                       <input
@@ -247,6 +421,7 @@ export const SourceInput = () => {
                         onChange={handleChange}
                         multiple
                         accept=".pdf,.csv,.docx,.txt,.md,.json"
+                        disabled={submitting}
                       />
                     </label>
                   </TooltipTrigger>
@@ -259,6 +434,7 @@ export const SourceInput = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div
+                      onClick={handleSubmit}
                       className={cn(
                         "rounded-full hover:bg-slate-100 transition-colors flex justify-center items-center w-7 h-7",
                         Boolean(value.trim())
@@ -266,11 +442,15 @@ export const SourceInput = () => {
                           : "hover:bg-transparent text-primary/40"
                       )}
                     >
-                      <CornerDownLeft size={16} />
+                      {submitting ? (
+                        <Loader2 size={16} className="animate-spin" />
+                      ) : (
+                        <CornerDownLeft size={16} />
+                      )}
                     </div>
                   </TooltipTrigger>
                   <TooltipContent side="bottom" className="bg-slate-50">
-                    Submit
+                    {submitting ? "Submitting..." : "Submit"}
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -349,4 +529,11 @@ const getFileSize = (size: number) => {
   const mb = kb / 1000
   if (mb > 1) return `${mb.toFixed(2)} MB`
   return `${kb.toFixed(2)} KB`
+}
+
+const generateUniqueFilePath = (file: File, user_id: string) => {
+  const fileExt = file.name.split(".").pop()
+  const timestamp = Date.now()
+  const randomString = Math.random().toString(36).substring(2, 15) // Random string for uniqueness
+  return `${user_id}/${timestamp}-${randomString}.${fileExt}`
 }
