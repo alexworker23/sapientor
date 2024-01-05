@@ -12,7 +12,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { Header } from "@/components/layout/header"
 import { NotificationsListener } from "@/components/notifications/listener"
 
-export const fontSans = FontSans({
+const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 })

@@ -6,8 +6,8 @@ import type { ColumnDef } from "@tanstack/react-table"
 import dayjs from "dayjs"
 import { MoreHorizontal } from "lucide-react"
 
-import type { ParsingEstimate, SourceEntity } from "@/lib/types"
-import { cn, createUrl, decodeHtmlEntities } from "@/lib/utils"
+import type { SourceEntity } from "@/lib/types"
+import { createUrl, decodeHtmlEntities } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -45,28 +45,14 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
       row.original.status ? <StatusBadge status={row.original.status} /> : null,
   },
   {
-    accessorKey: "deadline",
-    header: "Deadline",
+    accessorKey: "created_at",
+    header: "Create At",
     cell: ({ row }) => {
-      const formatted = dayjs(
-        (row.original.estimate as ParsingEstimate).deadline
-      ).format("DD MMM YYYY HH:mm")
-      const isOverdue = dayjs().isAfter(formatted)
-      const isComplete = row.original.status !== "PENDING"
-
-      return (
-        <div
-          className={cn(
-            isComplete
-              ? "text-green-600"
-              : isOverdue
-                ? "text-red-600 font-medium"
-                : "font-semibold"
-          )}
-        >
-          {formatted}
-        </div>
+      const formatted = dayjs(row.original.created_at).format(
+        "DD MMM YYYY HH:mm"
       )
+
+      return formatted
     },
   },
   {

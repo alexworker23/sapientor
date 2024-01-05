@@ -85,6 +85,7 @@ module.exports = {
         "blinking": "blinking 0.75s linear infinite alternate",
       },
       spacing: {
+        '7.5': '1.875rem',
         '22': '5.5rem',
         '23': '5.75rem',
       }

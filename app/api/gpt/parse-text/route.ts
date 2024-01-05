@@ -1,8 +1,7 @@
 import { cache } from "react"
 import { cookies } from "next/headers"
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse, type NextRequest } from "next/server"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
-import dayjs from "dayjs"
 import type { Document } from "langchain/document"
 import { OpenAIEmbeddings } from "langchain/embeddings/openai"
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
@@ -73,11 +72,6 @@ export async function GET(request: NextRequest) {
       title: title,
       description: text,
       user_id,
-      estimate: {
-        humanReadable: "0s",
-        time: 0,
-        deadline: dayjs().toISOString(),
-      },
       full_text: true,
       type: "NOTE",
     })

@@ -36,7 +36,7 @@ export async function GET(
 
   const searchParams = request.nextUrl.searchParams
   const input = searchParams.get("input")
-  
+
   if (!input) {
     return new Response(JSON.stringify({ error: "input is required" }), {
       status: 400,

@@ -9,7 +9,6 @@ import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
 
 import type { Database } from "@/lib/database.types"
 import { handleComplexLinkEmailSend } from "@/lib/resend"
-import type { ParsingEstimate } from "@/lib/types"
 import { fetchAndParseURL, isYouTubeURL, splitDocuments } from "@/lib/utils"
 
 export const maxDuration = 60
@@ -42,7 +41,7 @@ export async function POST(req: Request) {
 
   const { data, error } = await supabase
     .from("sources")
-    .select("url, title, description, user_id, estimate")
+    .select("url, title, description, user_id")
     .eq("id", source_id)
     .single()
 
@@ -58,15 +57,10 @@ export async function POST(req: Request) {
     })
   }
 
-  const isLongParsingTime =
-    (data?.estimate as ParsingEstimate)?.time &&
-    !isNaN((data?.estimate as ParsingEstimate)?.time) &&
-    (data?.estimate as ParsingEstimate)?.time > 3600000
   const isNotCrawalableLink =
     data?.title && data.url && data?.title === data?.url
   const isYouTubeLink = isYouTubeURL(data.url)
-  const isComplexLink =
-    isLongParsingTime || isNotCrawalableLink || isYouTubeLink
+  const isComplexLink = isNotCrawalableLink || isYouTubeLink
 
   if (isComplexLink) {
     await handleComplexLinkEmailSend(data)

@@ -1,12 +1,11 @@
-import { cache } from "react"
-import { cookies } from "next/headers"
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-
-import type { Database } from "@/lib/database.types"
-import { home_tab_cookie_name } from "@/lib/utils"
-import { HomeUserTabs } from "@/components/home/dynamic-tabs"
+import { SourceInput } from "@/components/add/dynamic-input"
 import { Landing } from "@/components/landing"
 import { Footer } from "@/components/layout/footer"
+import { Database } from "@/lib/database.types"
+import { cn } from "@/lib/utils"
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
+import { cookies } from "next/headers"
+import { cache } from "react"
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
@@ -19,13 +18,12 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const defaultTab = cookies().get(home_tab_cookie_name)?.value
-
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between py-16 sm:p-16">
-        {!user && <Landing />}
-        {user && <HomeUserTabs defaultTab={defaultTab} />}
+      <main className={cn(
+        user ? "min-h-screen py-24 sm:p-24" : "flex min-h-screen flex-col items-center justify-between py-16 sm:p-16"
+        )}>
+        {user ? <SourceInput /> : <Landing />}
       </main>
       {!user && <Footer />}
     </>

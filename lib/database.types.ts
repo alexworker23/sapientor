@@ -54,8 +54,6 @@ export interface Database {
         Row: {
           created_at: string
           description: string | null
-          estimate: Json
-          full_text: boolean
           icon: string | null
           id: string
           reason: string | null
@@ -70,8 +68,6 @@ export interface Database {
         Insert: {
           created_at?: string
           description?: string | null
-          estimate: Json
-          full_text?: boolean
           icon?: string | null
           id?: string
           reason?: string | null
@@ -86,8 +82,6 @@ export interface Database {
         Update: {
           created_at?: string
           description?: string | null
-          estimate?: Json
-          full_text?: boolean
           icon?: string | null
           id?: string
           reason?: string | null
@@ -148,6 +142,7 @@ export interface Database {
         }
         Returns: {
           id: string
+          created_at: string
           content: string
           metadata: Json
           similarity: number
@@ -161,6 +156,7 @@ export interface Database {
         }
         Returns: {
           id: string
+          created_at: string
           content: string
           metadata: Json
           embedding: Json
