@@ -9,6 +9,7 @@ import {
 import { useRouter } from "next/navigation"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import {
+  CheckCircle,
   ClipboardCheckIcon,
   CornerDownLeft,
   FileBarChart,
@@ -47,6 +48,10 @@ export const SourceInput = () => {
     metadata,
     setSubmitting,
     submitting,
+    success,
+    setSuccess,
+    setSuccessMessage,
+    successMessage,
   } = useInputStore()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -294,7 +299,6 @@ export const SourceInput = () => {
       router.refresh()
 
       const textarea = document.getElementById("textarea-input")
-  
       if (textarea) {
         const parentDiv = textarea.closest(".flex") as HTMLDivElement
         textarea.style.height = "auto"
@@ -302,6 +306,21 @@ export const SourceInput = () => {
           parentDiv.style.height = "initial"
         }
       }
+
+      setSuccess(true)
+
+      const successMessage = `Saved ${
+        files?.length ? `${files.length} files${!!value ? " and " : ""}` : ""
+      } ${isValidUrl ? "1 link" : value ? "1 text note" : ""} to your knowledge base.`
+      setSuccessMessage(successMessage)
+
+      setTimeout(() => {
+        setSuccess(false)
+      }, 3000)
+
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 3500)
     } catch (error) {
       console.error(error)
       toast({
@@ -318,6 +337,24 @@ export const SourceInput = () => {
     <div className="relative w-full max-w-[90%] sm:max-w-lg mx-auto sm:mt-24 min-h-screen">
       <div className="w-full absolute top-0 left-0">
         <div className="overflow-hidden flex flex-col w-full shadow-md focus-within:shadow-lg min-h-12 bg-slate-50 focus-within:shadow-black/40 rounded-2xl transition-all">
+          <div
+            style={{
+              height: success ? "60px" : "0px",
+              transformOrigin: "50% 50% 0px",
+            }}
+            className={cn(
+              "z-0 transition-all duration-300 ease-in-out",
+              success ? "border-b border-slate-200" : ""
+            )}
+          >
+            <div className="flex items-center gap-2.5 p-2.5">
+              <CheckCircle className="text-green-600" size={24} />
+              <div>
+                <h4 className="text-sm font-medium">Success 🎉</h4>
+                <p className="text-xs">{successMessage}</p>
+              </div>
+            </div>
+          </div>
           <div
             style={{
               height: hasFiles ? "60px" : "0px",

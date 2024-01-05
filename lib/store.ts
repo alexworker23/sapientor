@@ -28,6 +28,8 @@ interface InputStoreState {
 
   success: boolean
   setSuccess: (isSuccess: boolean) => void
+  successMessage: string | null
+  setSuccessMessage: (newSuccessMessage: string | null) => void
 }
 
 export const useInputStore = create<InputStoreState>((set) => ({
@@ -46,4 +48,7 @@ export const useInputStore = create<InputStoreState>((set) => ({
 
   success: false,
   setSuccess: (isSuccess: boolean) => set({ success: isSuccess }),
+  successMessage: null,
+  setSuccessMessage: (newSuccessMessage: string | null) =>
+    set({ successMessage: newSuccessMessage }),
 }))
