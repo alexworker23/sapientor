@@ -58,9 +58,7 @@ export const DeleteModal = ({ isOpen, sources }: DeleteModalProps) => {
         )
       if (error) throw new Error(error.message)
 
-      const title = isMultipleSources
-        ? "Sources deleted"
-        : "Source deleted"
+      const title = isMultipleSources ? "Sources deleted" : "Source deleted"
 
       const description = isMultipleSources
         ? `${sources.length} sources have been deleted successfully.`

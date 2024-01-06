@@ -1,5 +1,6 @@
 import { cache } from "react"
 import { cookies } from "next/headers"
+import Image from "next/image"
 import { redirect } from "next/navigation"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
@@ -7,7 +8,6 @@ import type { Database } from "@/lib/database.types"
 import { generateUserToken } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { CopyButton } from "@/components/common/copy-button/dynamic"
-import Image from "next/image"
 
 const gpt_link =
   process.env.GPT_URL ?? "https://chat.openai.com/g/g-rGJvqSptw-sapientor"
@@ -64,10 +64,10 @@ const Page = async () => {
           </a>
         </div>
         <div>
-        <h2 className="sm:text-lg mb-2.5">
+          <h2 className="sm:text-lg mb-2.5">
             3. Paste the content in the newly opened chat window
           </h2>
-          <Image 
+          <Image
             height={200}
             width={360}
             alt="Paste content tutorial"
