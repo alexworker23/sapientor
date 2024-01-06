@@ -7,6 +7,7 @@ import type { Database } from "@/lib/database.types"
 import { generateUserToken } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { CopyButton } from "@/components/common/copy-button/dynamic"
+import Image from "next/image"
 
 const gpt_link =
   process.env.GPT_URL ?? "https://chat.openai.com/g/g-rGJvqSptw-sapientor"
@@ -32,9 +33,9 @@ const Page = async () => {
         <h1 className="text-2xl sm:text-3xl w-max mb-2">Connect to ChatGPT</h1>
         <p>To use your Knowledge Hub with ChatGPT do the following:</p>
       </div>
-      <div className="mt-5 flex-1 flex flex-col gap-6 bg-slate-50 py-6 px-4 sm:px-16 h-full">
+      <div className="flex-1 flex flex-col gap-6 py-6 px-4 sm:px-16 h-full">
         <div>
-          <h2 className="sm:text-lg mb-2.5">1. Click on copy button</h2>
+          <h2 className="sm:text-lg mb-2.5">1. Click on Copy button</h2>
           <div className="flex gap-2 sm:items-center sm:ml-5 flex-wrap">
             <div className="bg-slate-200 p-2.5 rounded-lg">
               <pre className="text-sm">{displayableCode}</pre>
@@ -44,7 +45,7 @@ const Page = async () => {
         </div>
         <div>
           <h2 className="sm:text-lg mb-2.5">
-            2. Click on Open GPT button and paste code
+            2. Open GPT by clicking on the button below
           </h2>
           <a href={gpt_link} target="_blank" rel="noopener">
             <Button type="button" className="gap-1 sm:ml-5">
@@ -61,6 +62,18 @@ const Page = async () => {
               </svg>
             </Button>
           </a>
+        </div>
+        <div>
+        <h2 className="sm:text-lg mb-2.5">
+            3. Paste the content in the newly opened chat window
+          </h2>
+          <Image 
+            height={200}
+            width={360}
+            alt="Paste content tutorial"
+            src="/tutorial/paste-tutorial.gif"
+            className="rounded-lg ml-4"
+          />
         </div>
       </div>
     </main>

@@ -100,12 +100,12 @@ export const columns: ColumnDef<SourceEntity>[] = [
       const pathname = usePathname()
 
       const editParams = new URLSearchParams(searchParams.toString())
-      editParams.set("sourceId", source.id)
+      editParams.set("sourceIds", source.id)
       editParams.set("action", "edit")
       const editUrl = createUrl(pathname, editParams)
 
       const deleteParams = new URLSearchParams(searchParams.toString())
-      deleteParams.set("sourceId", source.id)
+      deleteParams.set("sourceIds", source.id)
       deleteParams.set("action", "delete")
       const deleteUrl = createUrl(pathname, deleteParams)
 

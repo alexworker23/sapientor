@@ -67,12 +67,12 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
       const searchParams = useSearchParams()
 
       const summaryParams = new URLSearchParams(searchParams.toString())
-      summaryParams.set("sourceId", source.id)
+      summaryParams.set("sourceIds", source.id)
       summaryParams.set("action", "summary")
       const summaryUrl = createUrl(pathname, summaryParams)
 
       const rejectParams = new URLSearchParams(searchParams.toString())
-      rejectParams.set("sourceId", source.id)
+      rejectParams.set("sourceIds", source.id)
       rejectParams.set("action", "reject")
       const rejectUrl = createUrl(pathname, summaryParams)
 

@@ -17,6 +17,11 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    variants: {
+      extend: {
+        boxShadow: ['hover', 'before', 'after'],
+      }
+    },
     extend: {
       transitionDelay: {
         '250': '250ms',

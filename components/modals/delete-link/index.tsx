@@ -37,7 +37,7 @@ export const DeleteModal = ({ isOpen, sources }: DeleteModalProps) => {
   const handleClose = () => {
     const newParams = new URLSearchParams(searchParams.toString())
     newParams.delete("action")
-    newParams.delete("sourceId")
+    newParams.delete("sourceIds")
     router.replace(createUrl(pathname, newParams))
   }
 

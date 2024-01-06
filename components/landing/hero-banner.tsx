@@ -26,7 +26,7 @@ export const HeroBanner = () => {
                 {desc_v5}
               </p>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+            <div className="flex flex-wrap gap-2">
               <Link href="/tutorial">
                 <Button variant="outline">See Tutorial</Button>
               </Link>
