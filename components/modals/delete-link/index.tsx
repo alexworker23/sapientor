@@ -21,16 +21,18 @@ import { useToast } from "../../ui/use-toast"
 
 export interface DeleteModalProps {
   isOpen: boolean
-  source: Pick<SourceEntity, "id" | "title" | "icon"> | null
+  sources: Pick<SourceEntity, "id" | "title" | "icon">[] | null
 }
 
-export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
+export const DeleteModal = ({ isOpen, sources }: DeleteModalProps) => {
   const [submitting, setSubmitting] = useState(false)
 
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { toast } = useToast()
+
+  const isMultipleSources = sources?.length && sources.length > 1
 
   const handleClose = () => {
     const newParams = new URLSearchParams(searchParams.toString())
@@ -42,7 +44,7 @@ export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
   const supabase = createClientComponentClient<Database>()
 
   const handleDelete = async () => {
-    if (!source) return
+    if (!sources) return
 
     try {
       setSubmitting(true)
@@ -50,14 +52,25 @@ export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
       const { error } = await supabase
         .from("sources")
         .delete()
-        .match({ id: source.id })
+        .in(
+          "id",
+          sources.map((source) => source.id)
+        )
       if (error) throw new Error(error.message)
+
+      const title = isMultipleSources
+        ? "Sources deleted"
+        : "Source deleted"
+
+      const description = isMultipleSources
+        ? `${sources.length} sources have been deleted successfully.`
+        : "The source has been deleted successfully."
 
       handleClose()
       router.refresh()
       toast({
-        title: "Source deleted",
-        description: "The source has been deleted successfully.",
+        title,
+        description,
       })
     } catch (error) {
       console.error(error)
@@ -76,17 +89,24 @@ export const DeleteModal = ({ isOpen, source }: DeleteModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
-        <DialogHeader>Delete source</DialogHeader>
+        <DialogHeader>Delete source{isMultipleSources ? "s" : ""}</DialogHeader>
         <DialogDescription>
-          Are you sure you want to delete this source?
+          Are you sure you want to delete{" "}
+          {isMultipleSources ? "these sources?" : "this source?"}
         </DialogDescription>
-        <div className="flex gap-2 items-center w-full">
-          {source?.icon && (
-            <img src={source.icon} className="max-h-6" alt="website favicon" />
-          )}
-          <p className="font-semibold block whitespace-normal w-full">
-            {decodeHtmlEntities(source?.title ?? "")}
-          </p>
+        <div className="grid gap-2.5">
+          {sources?.map((source) => (
+            <div key={source?.id} className="flex gap-2 items-center w-full">
+              <img
+                src={source?.icon || "/icon.png"}
+                className="max-h-6"
+                alt="website favicon"
+              />
+              <p className="font-semibold block whitespace-normal w-full">
+                {decodeHtmlEntities(source?.title ?? "")}
+              </p>
+            </div>
+          ))}
         </div>
         <DialogFooter className="mt-5 flex-row space-x-2 justify-end">
           <Button

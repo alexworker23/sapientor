@@ -15,36 +15,47 @@ const createServerSupabaseClient = cache(() => {
 })
 
 interface Props {
-  sourceId: string | undefined
+  sourceIds: string | undefined
   action: string | undefined
 }
 
-export const HubModals = async ({ sourceId, action }: Props) => {
+export const HubModals = async ({ sourceIds, action }: Props) => {
   const supabase = createServerSupabaseClient()
-  const { data: source } = sourceId
+  const ids = sourceIds?.split(",")
+
+  const { data: sources } = ids
     ? await supabase
         .from("sources")
         .select("id,title,icon,reason")
-        .eq("id", sourceId)
-        .single()
+        .in("id", ids)
     : { data: null }
+
   const { data: summaries } =
-    action === "summary" && sourceId
+    action === "summary" && sources?.at(0)?.id
       ? await supabase
           .from("summaries")
           .select("content")
-          .eq("metadata->>source_id", sourceId)
+          .eq("metadata->>source_id", sources.at(0)?.id!)
       : { data: null }
   return (
     <>
-      <DeleteModal isOpen={action === "delete" && !!source} source={source} />
-      <ReasonModal isOpen={action === "reason" && !!source} source={source} />
+      <DeleteModal
+        isOpen={action === "delete" && !!sources?.length}
+        sources={sources}
+      />
+      <ReasonModal
+        isOpen={action === "reason" && !!sources?.length}
+        source={sources?.at(0) || null}
+      />
       <ViewSummaryModal
-        isOpen={action === "summary" && !!source && !!summaries?.length}
-        title={source?.title ?? ""}
+        isOpen={action === "summary" && !!sources && !!summaries?.length}
+        title={sources?.at(0)?.title ?? ""}
         summaries={summaries?.map((summary) => summary.content) ?? null}
       />
-      <EditSourceModal isOpen={action === "edit" && !!source} source={source} />
+      <EditSourceModal
+        isOpen={action === "edit" && !!sources?.length}
+        source={sources?.at(0) || null}
+      />
     </>
   )
 }

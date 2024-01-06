@@ -8,7 +8,7 @@ import { FetchedHubTable } from "@/components/hub/table/fetched"
 interface Props {
   searchParams: {
     action: string | undefined
-    sourceId: string | undefined
+    sourceIds: string | undefined
     page: string | undefined
   }
 }
@@ -31,11 +31,11 @@ const Page = async ({ searchParams }: Props) => {
         </Suspense>
       </div>
       <Suspense
-        key={`${searchParams.action}-${searchParams.sourceId}`}
+        key={`${searchParams.action}-${searchParams.sourceIds}`}
         fallback={<></>}
       >
         <HubModals
-          sourceId={searchParams.sourceId}
+          sourceIds={searchParams.sourceIds}
           action={searchParams.action}
         />
       </Suspense>

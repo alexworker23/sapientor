@@ -14,10 +14,10 @@ import { useToast } from "../ui/use-toast"
 import { FilesDisplay } from "./files-display"
 import { MetadataDisplay } from "./metadata-display"
 import { PasteButton } from "./paste-button"
+import { SubmitButton } from "./submit-button"
 import { SuccessMessage } from "./success-message"
 import { TextareaInput } from "./textarea-input"
 import { UploadButton } from "./upload-button"
-import { SubmitButton } from "./submit-button"
 
 export const SourceInput = () => {
   const {
@@ -210,8 +210,6 @@ export const SourceInput = () => {
         }
       }
 
-      setSuccess(true)
-
       const successMessage = `Saved ${
         files?.length ? `${files.length} files${!!value ? " and " : ""}` : ""
       } ${
@@ -220,12 +218,16 @@ export const SourceInput = () => {
       setSuccessMessage(successMessage)
 
       setTimeout(() => {
+        setSuccess(true)
+      }, 250)
+
+      setTimeout(() => {
         setSuccess(false)
-      }, 3000)
+      }, 3250)
 
       setTimeout(() => {
         setSuccessMessage(null)
-      }, 3500)
+      }, 3750)
     } catch (error) {
       console.error(error)
       toast({

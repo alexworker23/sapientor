@@ -81,6 +81,21 @@ export function DataTable<TData, TValue>({
     initialState: { pagination: { pageSize: defaultPageSize } },
   })
 
+  const handleDeleteClick = () => {
+    const sources = table
+      .getFilteredSelectedRowModel()
+      .rows.map((row) => row.original)
+    const ids = sources.map((source) => (source as any).id as string)
+
+    const deleteParams = new URLSearchParams(searchParams.toString())
+    deleteParams.set("sourceIds", ids.join(","))
+    deleteParams.set("action", "delete")
+    const deleteUrl = createUrl(pathname, deleteParams)
+
+    router.push(deleteUrl, { scroll: false })
+    table.resetRowSelection()
+  }
+
   return (
     <div>
       <div className="rounded-md border">
@@ -139,6 +154,11 @@ export function DataTable<TData, TValue>({
           selected.
         </div>
         <div className="space-x-2">
+          {!!table.getFilteredSelectedRowModel().rows.length && (
+            <Button variant="destructive" size="sm" onClick={handleDeleteClick}>
+              Delete {table.getFilteredSelectedRowModel().rows.length} row(s)
+            </Button>
+          )}
           <Button
             variant="outline"
             size="sm"

@@ -1,8 +1,9 @@
+import { Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
-import { AuthModal } from "../auth/dynamic-modal"
 import { Button } from "../ui/button"
+import { GetStartedButton } from "./get-started-button"
 
 export const HeroBanner = () => {
   return (
@@ -29,12 +30,13 @@ export const HeroBanner = () => {
               <Link href="/tutorial">
                 <Button variant="outline">See Tutorial</Button>
               </Link>
-              <AuthModal
-                buttonLabel="Get Started"
-                variant="default"
-                className="text-sm"
-                size="default"
-              />
+              <Suspense
+                fallback={
+                  <div className="h-9 rounded-md w-20 bg-primary animate-pulse" />
+                }
+              >
+                <GetStartedButton />
+              </Suspense>
             </div>
           </div>
         </div>
