@@ -102,7 +102,7 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
             )}
             {isLinkPending && <DropdownMenuSeparator />}
             {isLinkPending && (
-              <Link href={`/admin/hub/${source.id}/add-summary`}>
+              <Link prefetch href={`/admin/hub/${source.id}/add-summary`}>
                 <DropdownMenuItem className="text-green-600">
                   Add summary
                 </DropdownMenuItem>
@@ -117,12 +117,12 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
               </DropdownMenuItem>
             )}
             {source.status === "COMPLETED" ? (
-              <Link href={summaryUrl} scroll={false}>
+              <Link prefetch href={summaryUrl} scroll={false}>
                 <DropdownMenuItem>View summary</DropdownMenuItem>
               </Link>
             ) : null}
             {isLinkPending && (
-              <Link href={rejectUrl}>
+              <Link prefetch href={rejectUrl}>
                 <DropdownMenuItem className="text-red-600">
                   Reject
                 </DropdownMenuItem>

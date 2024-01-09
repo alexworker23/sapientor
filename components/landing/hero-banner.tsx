@@ -28,7 +28,7 @@ export const HeroBanner = () => {
               <Link href="/tutorial">
                 <Button variant="outline">See Tutorial</Button>
               </Link>
-              <Link href="/add">
+              <Link prefetch href="/add">
                 <Button className="text-sm">Get Started</Button>
               </Link>
             </div>

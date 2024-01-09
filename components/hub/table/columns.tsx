@@ -60,7 +60,7 @@ export const columns: ColumnDef<SourceEntity>[] = [
           alt="website favicon"
         />
         {row.original.url?.startsWith("http") ? (
-          <Link href={row.original.url} className="max-w-md truncate">
+          <Link prefetch href={row.original.url} className="max-w-md truncate">
             {decodeHtmlEntities(row.getValue("title"))}
           </Link>
         ) : (
@@ -137,10 +137,10 @@ export const columns: ColumnDef<SourceEntity>[] = [
                 Process
               </DropdownMenuItem>
             ) : null}
-            <Link href={editUrl} scroll={false}>
+            <Link prefetch href={editUrl} scroll={false}>
               <DropdownMenuItem>Edit</DropdownMenuItem>
             </Link>
-            <Link href={deleteUrl} scroll={false}>
+            <Link prefetch href={deleteUrl} scroll={false}>
               <DropdownMenuItem className="text-red-600">
                 Delete
               </DropdownMenuItem>
