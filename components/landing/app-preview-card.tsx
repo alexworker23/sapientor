@@ -30,7 +30,7 @@ export function AppPreviewCard() {
       >
         {playVideo ? (
           <video
-            src="/website-demo-hq.mp4"
+            src="/website-demo.mp4"
             height="1000"
             width="1000"
             className="h-96 w-full object-cover rounded-xl group-hover/card:shadow-xl"
