@@ -9,17 +9,17 @@ export const HeroBanner = () => {
       <div className="container px-4 md:px-6">
         <AppPreviewCard />
         <div className="mx-auto max-w-2xl flex flex-col items-center">
-        <p className="max-w-xl text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 mb-5 text-center">
-          {desc_v5}
-        </p>
-        <div className="flex flex-wrap gap-2 justify-center">
-          <Link href="/tutorial">
-            <Button variant="outline">Open Tutorial</Button>
-          </Link>
-          <Link prefetch href="/add">
-            <Button className="text-sm">Get Started</Button>
-          </Link>
-        </div>
+          <p className="max-w-xl text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 mb-5 text-center">
+            {desc_v5}
+          </p>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Link href="/tutorial">
+              <Button variant="outline">Open Tutorial</Button>
+            </Link>
+            <Link prefetch href="/add">
+              <Button className="text-sm">Get Started</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

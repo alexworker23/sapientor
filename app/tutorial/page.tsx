@@ -46,62 +46,48 @@ export default function Page() {
             Populating your Knowledge Hub
           </h2>
           <p>
-            After successful authorisation you will be redirected to the home
-            screen. It will now look differently. Now you will have to select
-            what will be the source for your data:
+            After successful authorisation you will be redirected to the Add Sources
+            page. Here you can insert one of the following types of data into the input:
           </p>
-          <Image
-            src="/tutorial/tabs.png"
-            alt="Parsing tabs options"
-            width={400}
-            height={300}
-            className="mx-auto rounded-md"
-          />
           <ol className="list-decimal list-inside mb-5">
             <li>
               <b>Link.</b> Provide a URL to an article, essay, news, youtube
               video, etc.
             </li>
             <li>
-              <b>File.</b> You can upload a file with text content. Currently we
-              support PDF, CSV, DOCX, XLSX, TXT formats.
+              <b>File.</b> You can upload a file with text content. Currently the following formats are supported: <b>.pdf, .csv, .docx, .xlsx, .txt</b>.
             </li>
             <li>
-              <b>Note.</b> Paste any text note into the textarea.
+              <b>Note.</b> Type or paste any text note into the input.
             </li>
           </ol>
+          <Image 
+          src="/tutorial/add-input.png"
+          alt="Add sources input"
+          width={500}
+          height={300}
+          className="mx-auto rounded-md"
+          /> 
           <p>
-            After you input your data into Link or File tab you will see 2 new
-            blocks appearing:
+            To add link just type it into the input or click paste button:
           </p>
-          <div>
-            <Image
-              src="/tutorial/link-blocks.png"
-              alt="Link parsing additional blocks"
+          <Image
+              src="/tutorial/link-input.png"
+              alt="Adding link into the input"
               width={400}
               height={300}
               className="mx-auto rounded-md"
             />
-            <Image
-              src="/tutorial/file-blocks.png"
-              alt="File upload additional blocks"
+            <p>
+            To add file click upload button and select files from your storage:
+          </p>
+          <Image
+              src="/tutorial/upload-input.png"
+              alt="Uploading files"
               width={400}
               height={300}
               className="mx-auto rounded-md"
             />
-          </div>
-          <ul className="list-disc list-inside">
-            <li>First block is a preview of the content you provided.</li>
-            <li>Second one is an estimation block with a Submit button.</li>
-          </ul>
-          <p>
-            Estimation gives you an idea of how much time at maximum it will
-            take to parse the content you provided and add into your Knowledge
-            Hub. Normally it should happen below that threshold but it&apos;s
-            good to know how much time it will take at worst, in case the
-            website you provided is restrictive or the content is not a text,
-            but a video, for example.
-          </p>
         </section>
         <section className="mb-5 border-b">
           <h2 className="text-xl sm:text-2xl font-semibold mb-2.5">
@@ -113,7 +99,7 @@ export default function Page() {
           </p>
           <Image
             src="/tutorial/navigation.png"
-            alt="File upload additional blocks"
+            alt="Application navigation"
             width={800}
             height={500}
             className="mx-auto rounded-md"
@@ -161,20 +147,6 @@ export default function Page() {
           </p>
           <Image
             src="/tutorial/entry-actions.png"
-            alt="Knowledge Hub view"
-            width={300}
-            height={200}
-            className="mx-auto rounded-md"
-          />
-          <p>
-            Also, you can download your Knowledge Hub in JSON format at any time
-            by clicking on &quot;Download Knowledge Hub&quot; button. Please,
-            note that the button appear once you have at least 1 entry which was
-            successfully processed, added to your Knowledge Hub and has a
-            Completed status.
-          </p>
-          <Image
-            src="/tutorial/download-button.png"
             alt="Knowledge Hub view"
             width={300}
             height={200}
