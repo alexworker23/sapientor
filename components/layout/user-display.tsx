@@ -41,19 +41,19 @@ export const UserDisplay = ({ user }: Props) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <Link href="/add">
+        <Link prefetch={true} href="/add">
           <DropdownMenuItem className="flex justify-between">
             <span>Add Source</span>
             <Plus size={16} className="ml-4" />
           </DropdownMenuItem>
         </Link>
-        <Link href="/hub">
+        <Link prefetch={true} href="/hub">
           <DropdownMenuItem className="flex justify-between">
             <span>Knowledge Hub</span>
             <BookMarked size={16} className="ml-4" />
           </DropdownMenuItem>
         </Link>
-        <Link href="/connect-gpt">
+        <Link prefetch={true} href="/connect-gpt">
           <DropdownMenuItem className="flex justify-between">
             <span>Connect GPT</span>
             <svg
@@ -68,7 +68,7 @@ export const UserDisplay = ({ user }: Props) => {
             </svg>
           </DropdownMenuItem>
         </Link>
-        <Link href="/chat">
+        <Link prefetch={true} href="/chat">
           <DropdownMenuItem className="flex justify-between">
             <span>Chat</span>
             <MessagesSquare size={16} className="ml-4" />
