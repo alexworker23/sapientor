@@ -26,6 +26,9 @@ module.exports = {
       transitionDelay: {
         '250': '250ms',
       },
+      transitionDuration: {
+        '250': '250ms',
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },

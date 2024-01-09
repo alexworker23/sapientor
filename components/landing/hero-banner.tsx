@@ -1,9 +1,7 @@
-import { Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
 import { Button } from "../ui/button"
-import { GetStartedButton } from "./get-started-button"
 
 export const HeroBanner = () => {
   return (
@@ -30,13 +28,9 @@ export const HeroBanner = () => {
               <Link href="/tutorial">
                 <Button variant="outline">See Tutorial</Button>
               </Link>
-              <Suspense
-                fallback={
-                  <div className="h-9 rounded-md w-20 bg-primary animate-pulse" />
-                }
-              >
-                <GetStartedButton />
-              </Suspense>
+              <Link href="/add">
+                <Button className="text-sm">Get Started</Button>
+              </Link>
             </div>
           </div>
         </div>

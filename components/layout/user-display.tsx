@@ -35,7 +35,7 @@ export const UserDisplay = ({ user }: Props) => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer inset-shadow-over-img hover:scale-110 transition-all ease-linear duration-[250ms]">
+        <Avatar className="cursor-pointer inset-shadow-over-img hover:scale-110 transition-all ease-linear duration-250">
           <AvatarImage src={user.user_metadata.avatar_url ?? ""} />
           <AvatarFallback>{fallback || "U"}</AvatarFallback>
         </Avatar>
