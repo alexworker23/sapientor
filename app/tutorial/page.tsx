@@ -46,8 +46,9 @@ export default function Page() {
             Populating your Knowledge Hub
           </h2>
           <p>
-            After successful authorisation you will be redirected to the Add Sources
-            page. Here you can insert one of the following types of data into the input:
+            After successful authorisation you will be redirected to the Add
+            Sources page. Here you can insert one of the following types of data
+            into the input:
           </p>
           <ol className="list-decimal list-inside mb-5">
             <li>
@@ -55,39 +56,39 @@ export default function Page() {
               video, etc.
             </li>
             <li>
-              <b>File.</b> You can upload a file with text content. Currently the following formats are supported: <b>.pdf, .csv, .docx, .xlsx, .txt</b>.
+              <b>File.</b> You can upload a file with text content. Currently
+              the following formats are supported:{" "}
+              <b>.pdf, .csv, .docx, .xlsx, .txt</b>.
             </li>
             <li>
               <b>Note.</b> Type or paste any text note into the input.
             </li>
           </ol>
-          <Image 
-          src="/tutorial/add-input.png"
-          alt="Add sources input"
-          width={500}
-          height={300}
-          className="mx-auto rounded-md"
-          /> 
-          <p>
-            To add link just type it into the input or click paste button:
-          </p>
           <Image
-              src="/tutorial/link-input.png"
-              alt="Adding link into the input"
-              width={400}
-              height={300}
-              className="mx-auto rounded-md"
-            />
-            <p>
+            src="/tutorial/add-input.png"
+            alt="Add sources input"
+            width={500}
+            height={300}
+            className="mx-auto rounded-md"
+          />
+          <p>To add link just type it into the input or click paste button:</p>
+          <Image
+            src="/tutorial/link-input.png"
+            alt="Adding link into the input"
+            width={400}
+            height={300}
+            className="mx-auto rounded-md"
+          />
+          <p>
             To add file click upload button and select files from your storage:
           </p>
           <Image
-              src="/tutorial/upload-input.png"
-              alt="Uploading files"
-              width={400}
-              height={300}
-              className="mx-auto rounded-md"
-            />
+            src="/tutorial/upload-input.png"
+            alt="Uploading files"
+            width={400}
+            height={300}
+            className="mx-auto rounded-md"
+          />
         </section>
         <section className="mb-5 border-b">
           <h2 className="text-xl sm:text-2xl font-semibold mb-2.5">
