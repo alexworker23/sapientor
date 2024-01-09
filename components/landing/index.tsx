@@ -1,4 +1,4 @@
-import { Benefits } from "./benefits"
+// import { Benefits } from "./benefits"
 // import { DataSources } from "./data-sources"
 import { HeroBanner } from "./hero-banner"
 
@@ -9,7 +9,7 @@ export const Landing = () => {
     <div className="grid gap-24">
       <HeroBanner />
       {/* <DataSources /> */}
-      <Benefits />
+      {/* <Benefits /> */}
       {/* <Pricing /> */}
     </div>
   )

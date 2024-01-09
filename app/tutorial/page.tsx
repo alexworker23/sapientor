@@ -200,7 +200,11 @@ export default function Page() {
             created inside the ChatGPT. So if you are a paid ChatGPT user - you
             can use ChatGPT with connection to your Knowledge Hub. All the
             necessary steps for setup are described in{" "}
-            <Link prefetch href="/connect-gpt" className="font-semibold hover:underline">
+            <Link
+              prefetch
+              href="/connect-gpt"
+              className="font-semibold hover:underline"
+            >
               this page
             </Link>
             . When using our Custom GPT you can be sure that you are connected

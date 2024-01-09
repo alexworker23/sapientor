@@ -32,6 +32,7 @@
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
     "domhandler": "^5.0.3",
+    "framer-motion": "^10.17.9",
     "gpt-tokenizer": "^2.1.2",
     "htmlparser2": "^9.0.0",
     "jsonwebtoken": "^9.0.2",
