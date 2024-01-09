@@ -40,16 +40,23 @@ export const AuthModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={() => setIsOpen(false)}>
-      <Button
-        onClick={() => setIsOpen(true)}
-        type="button"
-        variant="secondary"
-        className="text-sm"
-        size="sm"
-        {...props}
-      >
-        {buttonLabel}
-      </Button>
+      <div className="relative group">
+        <div className="absolute inset-0 transition-opacity opacity-0 group-hover:opacity-100">
+          <div className="shadow-lg h-full w-full rounded-full"></div>
+        </div>
+        <div className="relative transition-transform transform group-hover:scale-105">
+          <Button
+            onClick={() => setIsOpen(true)}
+            type="button"
+            variant="secondary"
+            className="text-sm rounded-full px-5 shadow-inner hover:shadow-md transition-all hover:bg-secondary"
+            size="sm"
+            {...props}
+          >
+            {buttonLabel}
+          </Button>
+        </div>
+      </div>
       <DialogContent
         className="gap-5"
         onOpenAutoFocus={(e) => e.preventDefault()}
@@ -58,8 +65,7 @@ export const AuthModal = ({
           <DialogTitle>Log in</DialogTitle>
           <DialogDescription>
             <Balancer>
-              In order to store your personal data permanently you need to log
-              in.
+              In order to use sapientor you need to authorise first.
             </Balancer>
           </DialogDescription>
         </DialogHeader>
