@@ -34,7 +34,7 @@ export default function Page() {
             which data will be a part of our AI augmented life and which not.
           </p>
           <p>
-            With our app you don't have to be a developer or spend your time in
+            With our app you don&apos;t have to be a developer or spend your time in
             order to gather the data you need into some file. You can just
             insert the link for an article, or a video, or a podcast and be sure
             that this data will added into your Knowledge Hub automatically.
