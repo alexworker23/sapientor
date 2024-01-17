@@ -67,7 +67,7 @@ const getJsonDocument = async (file: Blob) => {
 
 const populateDocsWithMetadata = (
   docs: Document<Record<string, any>>[],
-  source: SourceEntity
+  source: Pick<SourceEntity, "id" | "user_id" | "url" | "title">
 ) => {
   return docs.map((doc) => ({
     ...doc,
@@ -83,7 +83,7 @@ const populateDocsWithMetadata = (
 
 export const parseFileToDocuments = async (
   file: Blob,
-  source: SourceEntity
+  source: Pick<SourceEntity, "id" | "user_id" | "url" | "title">
 ) => {
   let documents: Document<Record<string, any>>[] = []
 

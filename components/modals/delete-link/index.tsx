@@ -38,7 +38,7 @@ export const DeleteModal = ({ isOpen, sources }: DeleteModalProps) => {
     const newParams = new URLSearchParams(searchParams.toString())
     newParams.delete("action")
     newParams.delete("sourceIds")
-    router.replace(createUrl(pathname, newParams))
+    router.replace(createUrl(pathname, newParams), { scroll: false })
   }
 
   const supabase = createClientComponentClient<Database>()

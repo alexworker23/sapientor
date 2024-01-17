@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       user_id,
       type: "LINK",
     })
-    .select("*")
+    .select("id, url, title, user_id")
     .single()
 
   if (error) {

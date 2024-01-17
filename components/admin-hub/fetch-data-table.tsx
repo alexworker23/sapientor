@@ -27,7 +27,9 @@ export const FetchAdminDataTable = async ({ page }: Props) => {
 
   const { data, error, count } = await supabase
     .from("sources")
-    .select("*", { count: "exact" })
+    .select("id, title, status, created_at, url, icon, type", {
+      count: "exact",
+    })
     .order("created_at", { ascending: false })
     .range(from, till)
 

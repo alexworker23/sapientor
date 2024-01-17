@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   const supabase = createServerSupabaseClient()
   const { data: source } = await supabase
     .from("sources")
-    .select("*")
+    .select("id, url, title, user_id")
     .eq("id", source_id)
     .single()
 

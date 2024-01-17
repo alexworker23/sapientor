@@ -13,7 +13,10 @@ import { Textarea } from "../ui/textarea"
 import { useToast } from "../ui/use-toast"
 
 interface Props {
-  source: SourceEntity
+  source: Pick<
+    SourceEntity,
+    "id" | "user_id" | "title" | "description" | "icon" | "url"
+  >
 }
 
 export const SummaryForm = ({ source }: Props) => {

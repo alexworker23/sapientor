@@ -28,7 +28,12 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { StatusBadge } from "@/components/common/status-badge"
 
-export const columns: ColumnDef<SourceEntity>[] = [
+export type HubEntity = Pick<
+  SourceEntity,
+  "id" | "title" | "status" | "created_at" | "icon" | "url" | "type" | "reason"
+>
+
+export const columns: ColumnDef<HubEntity>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -152,7 +157,7 @@ export const columns: ColumnDef<SourceEntity>[] = [
   },
 ]
 
-const getStatusTooltip = (source: SourceEntity) => {
+const getStatusTooltip = (source: HubEntity) => {
   switch (source.status) {
     case "REJECTED":
       return source.reason
@@ -169,7 +174,7 @@ const getStatusTooltip = (source: SourceEntity) => {
   }
 }
 
-const StatusBadgeWithTooltip = ({ source }: { source: SourceEntity }) => {
+const StatusBadgeWithTooltip = ({ source }: { source: HubEntity }) => {
   const tooltip = getStatusTooltip(source)
   return (
     <Popover open={tooltip ? undefined : false}>
@@ -188,7 +193,7 @@ const StatusBadgeWithTooltip = ({ source }: { source: SourceEntity }) => {
   )
 }
 
-const getShowStatusForProcessButton = (source: SourceEntity) => {
+const getShowStatusForProcessButton = (source: HubEntity) => {
   if (source.type === "LINK" && source.status === "PAUSED") {
     return true
   }
@@ -204,7 +209,7 @@ const getShowStatusForProcessButton = (source: SourceEntity) => {
   return false
 }
 
-const changeSourceStatus = async (source: SourceEntity) => {
+const changeSourceStatus = async (source: HubEntity) => {
   const supabase = createClientComponentClient<Database>()
 
   try {

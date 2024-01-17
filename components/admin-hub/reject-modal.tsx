@@ -21,7 +21,7 @@ import { useToast } from "../ui/use-toast"
 
 interface Props {
   isOpen: boolean
-  source: SourceEntity | null
+  source: Pick<SourceEntity, "id"> | null
 }
 
 export const RejectModal = ({ isOpen, source }: Props) => {

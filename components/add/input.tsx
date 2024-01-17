@@ -111,7 +111,7 @@ export const SourceInput = () => {
     const { data: createdEntities, error: creationError } = await supabase
       .from("sources")
       .insert(sources_to_insert)
-      .select("*")
+      .select("id")
 
     if (createdEntities?.length) {
       for (const source of createdEntities) {
@@ -137,7 +137,7 @@ export const SourceInput = () => {
         status: "PENDING",
         type: "LINK",
       })
-      .select("*")
+      .select("id")
       .single()
 
     if (creationError) throw new Error(creationError.message)
@@ -157,7 +157,7 @@ export const SourceInput = () => {
         description: value,
         type: "NOTE",
       })
-      .select("*")
+      .select("id, title, description, user_id")
       .single()
 
     if (creationError) throw new Error(creationError.message)

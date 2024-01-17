@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const SubmitButton = ({ handleSubmit }: Props) => {
-  const { submitting, value } = useInputStore()
+  const { submitting, value, files } = useInputStore()
   return (
     <TooltipProvider>
       <Tooltip>
@@ -26,7 +26,7 @@ export const SubmitButton = ({ handleSubmit }: Props) => {
             onClick={handleSubmit}
             className={cn(
               "rounded-full hover:bg-slate-100 transition-colors flex justify-center items-center w-7 h-7",
-              Boolean(value.trim())
+              Boolean(value.trim()) || !!files?.length
                 ? "cursor-pointer"
                 : "hover:bg-transparent text-primary/40"
             )}

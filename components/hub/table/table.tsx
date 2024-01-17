@@ -1,12 +1,11 @@
 "use client"
 
-import type { SourceEntity } from "@/lib/types"
 import { DataTable } from "@/components/common/data-table"
 
-import { columns } from "./columns"
+import { columns, type HubEntity } from "./columns"
 
 export interface HubTableProps {
-  data: SourceEntity[]
+  data: HubEntity[]
   total: number
   defaultPageSize?: number
 }

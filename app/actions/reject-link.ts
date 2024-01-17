@@ -50,7 +50,7 @@ export const rejectLink = async (data: FormData) => {
     .from("sources")
     .update({ status: "REJECTED", reason })
     .eq("id", id)
-    .select("*")
+    .select("title, user_id")
     .single()
 
   if (error) {

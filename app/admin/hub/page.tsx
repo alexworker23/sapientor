@@ -31,7 +31,7 @@ const Page = async ({ searchParams }: Props) => {
   const { data: targetSource } = searchParams.sourceId
     ? await supabase
         .from("sources")
-        .select("*")
+        .select("id")
         .eq("id", searchParams.sourceId)
         .single()
     : { data: null }

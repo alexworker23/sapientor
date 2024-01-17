@@ -6,7 +6,8 @@ import { StatusBadge } from "@/components/common/status-badge"
 import { Footer } from "@/components/layout/footer"
 
 const gpt_link =
-  process.env.GPT_URL ?? "https://chat.openai.com/g/g-rGJvqSptw-knowledge-base-gpt"
+  process.env.GPT_URL ??
+  "https://chat.openai.com/g/g-rGJvqSptw-knowledge-base-gpt"
 
 export default function Page() {
   return (

@@ -26,7 +26,7 @@ const Page = async ({ params }: Props) => {
   const supabase = createServerSupabaseClient()
   const { data, error } = await supabase
     .from("sources")
-    .select("*")
+    .select("id, user_id, url, title, description, icon")
     .eq("id", params.id)
     .single()
 

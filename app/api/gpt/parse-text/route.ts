@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
       full_text: true,
       type: "NOTE",
     })
-    .select("*")
+    .select("id")
     .single()
 
   if (error) {

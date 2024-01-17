@@ -21,7 +21,12 @@ import { StatusBadge } from "@/components/common/status-badge"
 
 import { toast } from "../ui/use-toast"
 
-export const admin_columns: ColumnDef<SourceEntity>[] = [
+type Entity = Pick<
+  SourceEntity,
+  "id" | "title" | "status" | "created_at" | "icon" | "url" | "type"
+>
+
+export const admin_columns: ColumnDef<Entity>[] = [
   {
     accessorKey: "title",
     header: "Title",
@@ -135,7 +140,7 @@ export const admin_columns: ColumnDef<SourceEntity>[] = [
   },
 ]
 
-const parseSource = async (source: SourceEntity) => {
+const parseSource = async (source: Entity) => {
   try {
     if (source.type === "LINK") {
       fetch("/api/parse/link", {
