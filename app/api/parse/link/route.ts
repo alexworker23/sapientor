@@ -11,7 +11,7 @@ import type { Database } from "@/lib/database.types"
 import { handleComplexLinkEmailSend } from "@/lib/resend"
 import { fetchAndParseURL, isYouTubeURL, splitDocuments } from "@/lib/utils"
 
-export const maxDuration = 60
+export const maxDuration = 10
 
 const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies()
